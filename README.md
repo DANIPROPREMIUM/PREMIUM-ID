@@ -34,8 +34,8 @@
 
 ## 💎 Cuentas Premium Gratis por Código ID 💎
 
- ### 🤍 AtresPlayer        🧡 Crunchyroll   💜 Rakuten Viki  
- ### 💙 Prime video    💗 PornHub          💙 Paramount+   ❤️‍🔥 Netflix   
+ ### 🤍 AtresPlayer    🧡 Crunchyroll      💜 Rakuten Viki  
+ ### 💙 Prime video    💙 Paramount+       ❤️‍🔥 Netflix   
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
 
@@ -74,7 +74,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 1. **Abre Mises browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:
 2. **Click aquí**: <p align="center">
-  <a href="https://codeload.github.com/DANIPROPREMIUM/CRUNCHYROLL-ACCESS-FREEDOM/zip/refs/heads/main">
+  <a href="https://github.com/DANIPROPREMIUM/PREMIUM-ID/archive/refs/heads/main.zip">
     <img src="https://img.shields.io/badge/Descargar-Extensión-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="Descargar para Android">
   </a>
 
@@ -89,8 +89,8 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 1. **Descarga el archivo ZIP** de este repositorio y pones la carpeta fuera del ZIP en el escritorio:
 2. **Click aquí**: <p align="center">
-  <a href="https://codeload.github.com/DANIPROPREMIUM/CRUNCHYROLL-ACCESS-FREEDOM/zip/refs/heads/main">
-    <img src="https://img.shields.io/badge/Descargar-Extensión-blue?style=for-the-badge&logo=google-chrome" alt="Descargar Extensión">
+  <a href="https://github.com/DANIPROPREMIUM/PREMIUM-ID/archive/refs/heads/main.zip">
+    <img src="https://img.shields.io/badge/Descargar-Extensión-blue?style=for-the-badge&logo=google-chrome" alt="Descargar Extensión"> 
   </a>
 
 3. **Abre Chrome u otro navegador basado en él**, copia y pega en la barra de búsqueda: `chrome://extensions/`
