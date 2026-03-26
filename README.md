@@ -8,7 +8,7 @@
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2285bace-2105-4b08-993f-1a059d13e2bc" width="70%" alt="Screenshot de la extensión Crunchyroll Access Freedom">
+  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/9944394a-107b-481c-8914-241bbc26e588" />
 </p>
 
 <p align="center">
