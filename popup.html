@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PREMIUM ID</title>
+<link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="royal-bg"></div>
+<div class="crown-container">
+    
+    <!-- Logo con aura solo en ID -->
+    <div class="logo-crown">
+        <div class="logo-main">
+            <span class="premium-crown">PREMIUM</span>
+            <span id="draggable-id" class="id-crown" draggable="true">ID</span>
+        </div>
+    </div>
+    
+    <!-- Panel Usuario -->
+    <div id="user-panel" class="panel-crown">
+        <div class="instruction-area">
+            <div class="instruction-text">COPIA UN CÓDIGO ID PARA ACCEDER</div>
+            <div class="instruction-glow"></div>
+        </div>
+        
+        <!-- Logos de plataformas -->
+        <div class="platforms-row">
+            <span class="platform-text netflix" data-platform="netflix" title="Netflix">NETFLIX</span>
+            <span class="platform-text crunchyroll" data-platform="crunchyroll" title="Crunchyroll">CRUNCHYROLL</span>
+            <span class="platform-text prime" data-platform="prime" title="Prime Video">PRIME</span>
+            <span class="platform-text paramount" data-platform="paramount" title="Paramount+">PARAMOUNT+</span>
+            <span class="platform-text viki" data-platform="viki" title="Rakuten Viki">VIKI</span>
+            <span class="platform-text atresplayer" data-platform="atresplayer" title="AtresPlayer">ATRES</span>
+        </div>
+        
+        <div id="status-message" class="status-crown"></div>
+    </div>
+    
+    <!-- Panel Creador -->
+    <div id="creator-panel" class="panel-crown" style="display: none;">
+        <div class="creator-throne">
+            <div class="throne-header">
+                <div class="throne-crystal"></div>
+                <div class="throne-title">MODO CREADOR</div>
+            </div>
+            <div class="throne-body">
+                <select id="creator-platform" class="select-crown">
+                    <option value="netflix">NETFLIX</option>
+                    <option value="crunchyroll">CRUNCHYROLL</option>
+                    <option value="prime">PRIME VIDEO</option>
+                    <option value="paramount">PARAMOUNT+</option>
+                    <option value="viki">RAKUTEN VIKI</option>
+                    <option value="atresplayer">ATRESPLAYER</option>
+                </select>
+                <button id="generate-btn" class="btn-throne">
+                    <span>GENERAR CÓDIGO</span>
+                </button>
+                <div id="generated-code" class="code-crown"></div>
+                <div class="throne-note">El código se copia automáticamente</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-crown">
+        <div class="footer-links">
+            <a href="https://t.me/cuentaspremiumid" target="_blank" class="footer-link telegram-link">
+                <i class="fab fa-telegram"></i>
+                <span>GRUPO TELEGRAM</span>
+            </a>
+            <a href="https://premium-id.jimdosite.com" target="_blank" class="footer-link web-link">
+                <i class="fas fa-globe"></i>
+                <span>WEB PREMIUM ID</span>
+            </a>
+        </div>
+        <span class="version-crown">v1.0</span>
+    </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
