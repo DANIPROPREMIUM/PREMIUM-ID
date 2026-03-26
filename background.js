@@ -1,1 +1,370 @@
-var _0x2207ff=(237161^237160)+(568178^568176);const PLATFORMS={'\u006E\u0065\u0074\u0066\u006C\u0069\u0078':{"name":"\u004E\u0065\u0074\u0066\u006C\u0069\u0078","domain":'.netflix.com',"url":"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u006E\u0065\u0074\u0066\u006C\u0069\u0078\u002E\u0063\u006F\u006D",'\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u006E\u0065\u0074\u0066\u006C\u0069\u0078\u002E\u0063\u006F\u006D\u002F\u0062\u0072\u006F\u0077\u0073\u0065"},'\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C':{'\u006E\u0061\u006D\u0065':"\u0043\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C","domain":"\u002E\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C\u002E\u0063\u006F\u006D",'\u0075\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C\u002E\u0063\u006F\u006D",'\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C\u002E\u0063\u006F\u006D"},'\u0070\u0072\u0069\u006D\u0065':{'\u006E\u0061\u006D\u0065':'Prime Video',"domain":"\u002E\u0061\u006D\u0061\u007A\u006F\u006E\u002E\u0063\u006F\u006D",'\u0061\u006C\u0074\u0044\u006F\u006D\u0061\u0069\u006E\u0073':["moc.oedivemirp.".split("").reverse().join("")],'\u0075\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D",'\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D"},'\u0070\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074':{'\u006E\u0061\u006D\u0065':"\u0050\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074\u002B",'\u0064\u006F\u006D\u0061\u0069\u006E':'.paramountplus.com','\u0075\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074\u0070\u006C\u0075\u0073\u002E\u0063\u006F\u006D",'\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074\u0070\u006C\u0075\u0073\u002E\u0063\u006F\u006D"},"viki":{"name":"\u0052\u0061\u006B\u0075\u0074\u0065\u006E\u0020\u0056\u0069\u006B\u0069",'\u0064\u006F\u006D\u0061\u0069\u006E':'.viki.com','\u0075\u0072\u006C':'https://www.viki.com','\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C':'https://www.viki.com'},'\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072':{"name":"\u0041\u0074\u0072\u0065\u0073\u0050\u006C\u0061\u0079\u0065\u0072","domain":'.atresplayer.com','\u0075\u0072\u006C':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072\u002E\u0063\u006F\u006D","checkUrl":"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072\u002E\u0063\u006F\u006D"}};_0x2207ff=614596^614599;async function generateSessionCode(platformKey){try{var _0x90b=(644751^644744)+(420740^420743);const _0xa2e=PLATFORMS[platformKey];_0x90b=(722633^722638)+(215602^215601);if(!_0xa2e)throw new Error("adatropos on amrofatalP".split("").reverse().join(""));let _0x91g52b=[];var _0x4164c=(774722^774726)+(751993^751992);const _0x849c6b=await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0067\u0065\u0074\u0041\u006C\u006C']({'\u0064\u006F\u006D\u0061\u0069\u006E':_0xa2e['\u0064\u006F\u006D\u0061\u0069\u006E']});_0x4164c=(824720^824729)+(887448^887448);_0x91g52b['\u0070\u0075\u0073\u0068'](..._0x849c6b);if(_0xa2e['\u0061\u006C\u0074\u0044\u006F\u006D\u0061\u0069\u006E\u0073']){for(let _0xc26b4a of _0xa2e['\u0061\u006C\u0074\u0044\u006F\u006D\u0061\u0069\u006E\u0073']){const _0xc1d=await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0067\u0065\u0074\u0041\u006C\u006C']({'\u0064\u006F\u006D\u0061\u0069\u006E':_0xc26b4a});_0x91g52b['\u0070\u0075\u0073\u0068'](..._0xc1d);}}if(!_0x91g52b||_0x91g52b['\u006C\u0065\u006E\u0067\u0074\u0068']===(976051^976051)){throw new Error(`No hay sesión activa en ${_0xa2e['\u006E\u0061\u006D\u0065']}`);}const _0x34265f=_0x91g52b['\u006D\u0061\u0070'](c=>`${c['\u006E\u0061\u006D\u0065']}=${c['\u0076\u0061\u006C\u0075\u0065']}`)['\u006A\u006F\u0069\u006E']("\u003B\u0020");let _0xb84fcc;const _0xgaedc={"platform":platformKey,"cookies":_0x34265f,'\u0076\u0065\u0072\u0073\u0069\u006F\u006E':"\u0031\u002E\u0030",'\u0063\u0072\u0065\u0061\u0074\u0065\u0064\u0041\u0074':Date['\u006E\u006F\u0077']()};_0xb84fcc=454379^454380;const _0xc36df=btoa(JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](_0xgaedc));var _0x52ba8a=(156173^156169)+(804563^804563);const _0xf03ec=Math['\u0072\u0061\u006E\u0064\u006F\u006D']()['\u0074\u006F\u0053\u0074\u0072\u0069\u006E\u0067'](679024^678996)['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](594950^594948,257824^257832);_0x52ba8a=(110986^110986)+(624376^624368);var _0xc4fe4a=(103814^103822)+(248402^248406);const _0xd2d=Math['\u0072\u0061\u006E\u0064\u006F\u006D']()['\u0074\u006F\u0053\u0074\u0072\u0069\u006E\u0067'](558752^558724)['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](893167^893165,147526^147534);_0xc4fe4a=(297024^297033)+(305104^305106);const _0xfga43b=`premium_id:${platformKey}:${_0xf03ec}:${_0xd2d}:${_0xc36df}`;return _0xfga43b;}catch(e){throw e;}}async function verifySessionReal(platformKey,encryptedData){var _0x6881a=(719541^719540)+(375123^375120);let _0xfddb=null;_0x6881a=(600713^600716)+(971084^971077);try{var _0xf31gb=(966720^966726)+(115556^115554);const _0x90ff=PLATFORMS[platformKey];_0xf31gb="gagjpj".split("").reverse().join("");if(!_0x90ff)return false;const _0x4_0x4g9=atob(encryptedData);const _0x44b=JSON['\u0070\u0061\u0072\u0073\u0065'](_0x4_0x4g9);const _0x6644f=_0x44b['\u0063\u006F\u006F\u006B\u0069\u0065\u0073'];var _0xagff=(679128^679131)+(830892^830892);const _0xd54cbc=_0x6644f['\u0073\u0070\u006C\u0069\u0074']("\u003B\u0020");_0xagff=(499757^499752)+(658150^658151);for(let _0x4a_0xd78 of _0xd54cbc){const _0xa2d07g=_0x4a_0xd78['\u0069\u006E\u0064\u0065\u0078\u004F\u0066']("\u003D");if(_0xa2d07g===-(381354^381355))continue;var _0x12a5e=(782327^782323)+(868891^868895);const _0x38df=_0x4a_0xd78['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](861303^861303,_0xa2d07g);_0x12a5e='\u006F\u0064\u0067\u006E\u0064\u006E';const _0xfg0b3b=_0x4a_0xd78['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](_0xa2d07g+(995489^995488));if(!_0x38df||!_0xfg0b3b)continue;if(platformKey==="emirp".split("").reverse().join("")){await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({'\u0075\u0072\u006C':'https://www.amazon.com','\u006E\u0061\u006D\u0065':_0x38df,'\u0076\u0061\u006C\u0075\u0065':_0xfg0b3b,'\u0064\u006F\u006D\u0061\u0069\u006E':"\u002E\u0061\u006D\u0061\u007A\u006F\u006E\u002E\u0063\u006F\u006D",'\u0070\u0061\u0074\u0068':"\u002F","secure":!![],"sameSite":'no_restriction','\u0065\u0078\u0070\u0069\u0072\u0061\u0074\u0069\u006F\u006E\u0044\u0061\u0074\u0065':Date['\u006E\u006F\u0077']()/(734027^733347)+2592000});await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({"url":"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D",'\u006E\u0061\u006D\u0065':_0x38df,'\u0076\u0061\u006C\u0075\u0065':_0xfg0b3b,'\u0064\u006F\u006D\u0061\u0069\u006E':'.primevideo.com',"path":"\u002F",'\u0073\u0065\u0063\u0075\u0072\u0065':!![],'\u0073\u0061\u006D\u0065\u0053\u0069\u0074\u0065':"\u006E\u006F\u005F\u0072\u0065\u0073\u0074\u0072\u0069\u0063\u0074\u0069\u006F\u006E",'\u0065\u0078\u0070\u0069\u0072\u0061\u0074\u0069\u006F\u006E\u0044\u0061\u0074\u0065':Date['\u006E\u006F\u0077']()/(227776^227880)+2592000});}else{await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({"url":_0x90ff['\u0075\u0072\u006C'],"name":_0x38df,"value":_0xfg0b3b,"domain":_0x90ff['\u0064\u006F\u006D\u0061\u0069\u006E'],'\u0070\u0061\u0074\u0068':"\u002F",'\u0073\u0065\u0063\u0075\u0072\u0065':!![],"expirationDate":Date['\u006E\u006F\u0077']()/(410381^409829)+2592000});}}let _0x29d4b;const _0x0988g=await chrome['\u0077\u0069\u006E\u0064\u006F\u0077\u0073']['\u0063\u0072\u0065\u0061\u0074\u0065']({"url":_0x90ff['\u0063\u0068\u0065\u0063\u006B\u0055\u0072\u006C'],"type":"\u0070\u006F\u0070\u0075\u0070",'\u0077\u0069\u0064\u0074\u0068':1,"height":1,'\u006C\u0065\u0066\u0074':-(544724^551108),"top":-(936156^946124),'\u0066\u006F\u0063\u0075\u0073\u0065\u0064':false});_0x29d4b=(289157^289157)+(357905^357913);_0xfddb=_0x0988g['\u0069\u0064'];var _0x72agac=(465111^465109)+(984938^984942);const _0x5_0xfcg=_0x0988g['\u0074\u0061\u0062\u0073'][685206^685206]['\u0069\u0064'];_0x72agac=950675^950682;await new Promise(resolve=>setTimeout(resolve,319548^324532));var _0x056a=(392207^392199)+(504259^504267);const _0x520de=await chrome['\u0073\u0063\u0072\u0069\u0070\u0074\u0069\u006E\u0067']['\u0065\u0078\u0065\u0063\u0075\u0074\u0065\u0053\u0063\u0072\u0069\u0070\u0074']({"target":{'\u0074\u0061\u0062\u0049\u0064':_0x5_0xfcg},'\u0066\u0075\u006E\u0063':platformKey=>{let _0x90e49a;const _0xd59fb=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u0072\u0065\u0066']['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']();_0x90e49a=(642833^642837)+(626757^626754);const _0xb339d=document['\u0062\u006F\u0064\u0079']?.innerText?.toLowerCase()||'';let _0x82895b;const _0x44f=document['\u0074\u0069\u0074\u006C\u0065']?.toLowerCase()||'';_0x82895b=(662272^662274)+(307822^307823);var _0x_0xf4c=(788519^788527)+(943904^943904);const _0x6768b={"crunchyroll":["\u006C\u006F\u0067\u0069\u006E","\u0073\u0069\u0067\u006E\u0020\u0069\u006E","n\xF3ises raicini".split("").reverse().join(""),"ningis".split("").reverse().join("")],"netflix":["\u006C\u006F\u0067\u0069\u006E","ni ngis".split("").reverse().join(""),"n\xF3ises raicini".split("").reverse().join("")],"prime":["\u0073\u0069\u0067\u006E\u0069\u006E","\u006C\u006F\u0067\u0069\u006E","ningis/pa".split("").reverse().join(""),"\u0061\u0075\u0074\u0068","egapemohemirpnon".split("").reverse().join(""),"egapemohemirpnon/sreffo".split("").reverse().join(""),"nalp".split("").reverse().join(""),"nalptceles".split("").reverse().join(""),"toor_ecrof".split("").reverse().join(""),"\u006F\u0066\u0066\u0065\u0072\u0073","\u006E\u006F\u006E\u0070\u0072\u0069\u006D\u0065"],"paramount":["\u006C\u006F\u0067\u0069\u006E","\u0073\u0069\u0067\u006E\u0020\u0069\u006E"],'\u0076\u0069\u006B\u0069':["\u006C\u006F\u0067\u0069\u006E","\u0073\u0069\u0067\u006E\u0020\u0069\u006E"],'\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072':["noises-raicini".split("").reverse().join(""),"nigol".split("").reverse().join("")]};_0x_0xf4c=(693687^693682)+(682036^682034);var _0xf41a2d=(487116^487114)+(666086^666080);const _0xe1f51c=_0x6768b[platformKey]||["\u006C\u006F\u0067\u0069\u006E","\u0073\u0069\u0067\u006E\u0069\u006E"];_0xf41a2d=(680071^680071)+(175732^175729);const _0x965g6d=_0xe1f51c['\u0073\u006F\u006D\u0065'](i=>_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](i)||_0xb339d['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](i)||_0x44f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](i));var _0xd729dg=(864444^864436)+(705432^705424);const _0xdd91fg=["\u0073\u0065\u0073\u0073\u0069\u006F\u006E\u0020\u0065\u0078\u0070\u0069\u0072\u0065\u0064","\u0073\u0065\u0073\u0069\u00F3\u006E\u0020\u0065\u0078\u0070\u0069\u0072\u0061\u0064\u0061","tuo deggol".split("").reverse().join(""),"\u0063\u0065\u0072\u0072\u0061\u0073\u0074\u0065\u0020\u0073\u0065\u0073\u0069\u00F3\u006E","eunitnoc ot ni ngis".split("").reverse().join(""),"\u0069\u006E\u0069\u0063\u0069\u0061\u0020\u0073\u0065\u0073\u0069\u00F3\u006E\u0020\u0070\u0061\u0072\u0061\u0020\u0063\u006F\u006E\u0074\u0069\u006E\u0075\u0061\u0072"];_0xd729dg='\u0067\u0069\u0067\u0063\u0069\u006A';const _0xcbcef=_0xdd91fg['\u0073\u006F\u006D\u0065'](i=>_0xb339d['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](i));if(platformKey==="emirp".split("").reverse().join("")){if(_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("egapemohemirpnon".split("").reverse().join(""))||_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("/sreffo/".split("").reverse().join(""))||_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("emirpnon".split("").reverse().join(""))){return{'\u0069\u0073\u0056\u0061\u006C\u0069\u0064':false};}const _0x7a83b=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072'](" ,]i \"tnuocca\"=*lebal-aira[ ,]i \"atneuc\"=*lebal-aira[".split("").reverse().join("")+"\u002E\u006E\u0061\u0076\u002D\u0061\u0063\u0063\u006F\u0075\u006E\u0074\u002C\u0020\u0023\u006E\u0061\u0076\u002D\u006C\u0069\u006E\u006B\u002D\u0061\u0063\u0063\u006F\u0075\u006E\u0074\u004C\u0069\u0073\u0074\u002C\u0020"+" ,nottub-eliforp. ,]\"unem-resu\"=ditset-atad[".split("").reverse().join("")+"ratava-van. ,resu-van.".split("").reverse().join(""));let _0x1a_0xea3;const _0xc2e4bb=_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0077\u0061\u0074\u0063\u0068")||_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0064\u0065\u0074\u0061\u0069\u006C")||_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("vt/".split("").reverse().join(""))||_0xd59fb['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0076\u0069\u0064\u0065\u006F");_0x1a_0xea3=766047^766045;if(!_0x7a83b&&!_0xc2e4bb){return{"isValid":false};}if(_0x7a83b){return{"isValid":!![]};}}if(_0x965g6d||_0xcbcef){return{"isValid":false};}return{'\u0069\u0073\u0056\u0061\u006C\u0069\u0064':!![]};},'\u0061\u0072\u0067\u0073':[platformKey]});_0x056a=107526^107526;let _0x6b8f3b;const _0x649ec=_0x520de[300517^300517]?.result?.isValid===!![];_0x6b8f3b=(171799^171795)+(739112^739116);return _0x649ec;}catch(e){return false;}finally{if(_0xfddb){try{await chrome['\u0077\u0069\u006E\u0064\u006F\u0077\u0073']['\u0072\u0065\u006D\u006F\u0076\u0065'](_0xfddb);}catch(e){}}}}async function restoreSession(platformKey,encryptedData){try{const _0xf5g19e=PLATFORMS[platformKey];if(!_0xf5g19e)throw new Error("adatropos on amrofatalP".split("").reverse().join(""));const _0x99egf=atob(encryptedData);const _0xdb6c5a=JSON['\u0070\u0061\u0072\u0073\u0065'](_0x99egf);const _0x9c2fdd=_0xdb6c5a['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0070\u006C\u0069\u0074']("\u003B\u0020");for(let _0xgcac6f of _0x9c2fdd){const _0x3a39c=_0xgcac6f['\u0069\u006E\u0064\u0065\u0078\u004F\u0066']("\u003D");if(_0x3a39c===-(989998^989999))continue;var _0x92aec=(216132^216135)+(865834^865839);const _0xae9ebd=_0xgcac6f['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](496655^496655,_0x3a39c);_0x92aec="kmanlm".split("").reverse().join("");const _0x6_0xf9b=_0xgcac6f['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](_0x3a39c+(973209^973208));if(!_0xae9ebd||!_0x6_0xf9b)continue;if(platformKey==="emirp".split("").reverse().join("")){await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({"url":'https://www.amazon.com','\u006E\u0061\u006D\u0065':_0xae9ebd,"value":_0x6_0xf9b,'\u0064\u006F\u006D\u0061\u0069\u006E':"\u002E\u0061\u006D\u0061\u007A\u006F\u006E\u002E\u0063\u006F\u006D","path":"\u002F",'\u0073\u0065\u0063\u0075\u0072\u0065':!![],'\u0073\u0061\u006D\u0065\u0053\u0069\u0074\u0065':'no_restriction',"expirationDate":Date['\u006E\u006F\u0077']()/(730456^730800)+2592000});await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({"url":'https://www.primevideo.com',"name":_0xae9ebd,'\u0076\u0061\u006C\u0075\u0065':_0x6_0xf9b,'\u0064\u006F\u006D\u0061\u0069\u006E':'.primevideo.com',"path":"\u002F",'\u0073\u0065\u0063\u0075\u0072\u0065':!![],'\u0073\u0061\u006D\u0065\u0053\u0069\u0074\u0065':"\u006E\u006F\u005F\u0072\u0065\u0073\u0074\u0072\u0069\u0063\u0074\u0069\u006F\u006E",'\u0065\u0078\u0070\u0069\u0072\u0061\u0074\u0069\u006F\u006E\u0044\u0061\u0074\u0065':Date['\u006E\u006F\u0077']()/(988405^988957)+2592000});}else{await chrome['\u0063\u006F\u006F\u006B\u0069\u0065\u0073']['\u0073\u0065\u0074']({"url":_0xf5g19e['\u0075\u0072\u006C'],'\u006E\u0061\u006D\u0065':_0xae9ebd,"value":_0x6_0xf9b,'\u0064\u006F\u006D\u0061\u0069\u006E':_0xf5g19e['\u0064\u006F\u006D\u0061\u0069\u006E'],"path":"\u002F",'\u0073\u0065\u0063\u0075\u0072\u0065':!![],"expirationDate":Date['\u006E\u006F\u0077']()/(157111^157279)+2592000});}}await new Promise(resolve=>setTimeout(resolve,206272^206376));await chrome['\u0074\u0061\u0062\u0073']['\u0063\u0072\u0065\u0061\u0074\u0065']({'\u0075\u0072\u006C':_0xf5g19e['\u0075\u0072\u006C'],'\u0061\u0063\u0074\u0069\u0076\u0065':!![]});return!![];}catch(e){throw new Error("\u0043\u00F3\u0064\u0069\u0067\u006F\u0020\u0069\u006E\u0076\u00E1\u006C\u0069\u0064\u006F");}}var _0x585f=(340153^340152)+(735679^735676);let sessionPasteDetected=false;_0x585f=(989420^989416)+(177589^177588);async function checkClipboardForSessionPaste(){if(sessionPasteDetected)return;try{const _0x8aeg5a=await navigator['\u0063\u006C\u0069\u0070\u0062\u006F\u0061\u0072\u0064']['\u0072\u0065\u0061\u0064\u0054\u0065\u0078\u0074']();if(_0x8aeg5a&&_0x8aeg5a['\u0073\u0074\u0061\u0072\u0074\u0073\u0057\u0069\u0074\u0068']("\u0073\u0065\u0073\u0073\u0069\u006F\u006E\u005F\u0070\u0061\u0073\u0074\u0065")){sessionPasteDetected=!![];const _0xb68e4c=await chrome['\u0074\u0061\u0062\u0073']['\u0071\u0075\u0065\u0072\u0079']({});for(let _0x63g6g of _0xb68e4c){try{await chrome['\u0074\u0061\u0062\u0073']['\u0073\u0065\u006E\u0064\u004D\u0065\u0073\u0073\u0061\u0067\u0065'](_0x63g6g['\u0069\u0064'],{'\u0061\u0063\u0074\u0069\u006F\u006E':'kill_session'});}catch(e){}}chrome['\u006E\u006F\u0074\u0069\u0066\u0069\u0063\u0061\u0074\u0069\u006F\u006E\u0073']?.create({'\u0074\u0079\u0070\u0065':"\u0062\u0061\u0073\u0069\u0063","iconUrl":'icons/icon128.png',"title":"\u0050\u0052\u0045\u004D\u0049\u0055\u004D\u0020\u0049\u0044","message":'⚠️ Se detectó un intento de copiar la sesión.'});setTimeout(()=>{sessionPasteDetected=false;},204180^211588);}}catch(e){}}setInterval(checkClipboardForSessionPaste,659037^657805);setInterval(async()=>{const tabs=await chrome['\u0074\u0061\u0062\u0073']['\u0071\u0075\u0065\u0072\u0079']({});for(let tab of tabs){try{await chrome['\u0074\u0061\u0062\u0073']['\u0073\u0065\u006E\u0064\u004D\u0065\u0073\u0073\u0061\u0067\u0065'](tab['\u0069\u0064'],{"action":'heartbeat'});}catch(e){}}},667293^665933);chrome['\u0072\u0075\u006E\u0074\u0069\u006D\u0065']['\u006F\u006E\u004D\u0065\u0073\u0073\u0061\u0067\u0065']['\u0061\u0064\u0064\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']((request,sender,sendResponse)=>{if(request['\u0061\u0063\u0074\u0069\u006F\u006E']==="\u0067\u0065\u006E\u0065\u0072\u0061\u0074\u0065\u0043\u006F\u0064\u0065"){generateSessionCode(request['\u0070\u006C\u0061\u0074\u0066\u006F\u0072\u006D'])['\u0074\u0068\u0065\u006E'](code=>sendResponse({'\u0073\u0075\u0063\u0063\u0065\u0073\u0073':!![],"code":code}))['\u0063\u0061\u0074\u0063\u0068'](err=>sendResponse({"success":false,"error":err['\u006D\u0065\u0073\u0073\u0061\u0067\u0065']}));return!![];}if(request['\u0061\u0063\u0074\u0069\u006F\u006E']==="noisseSyfirev".split("").reverse().join("")){verifySessionReal(request['\u0070\u006C\u0061\u0074\u0066\u006F\u0072\u006D'],request['\u0065\u006E\u0063\u0072\u0079\u0070\u0074\u0065\u0064\u0044\u0061\u0074\u0061'])['\u0074\u0068\u0065\u006E'](isValid=>sendResponse({'\u0069\u0073\u0056\u0061\u006C\u0069\u0064':isValid}))['\u0063\u0061\u0074\u0063\u0068'](()=>sendResponse({"isValid":false}));return!![];}if(request['\u0061\u0063\u0074\u0069\u006F\u006E']==="\u0072\u0065\u0073\u0074\u006F\u0072\u0065\u0053\u0065\u0073\u0073\u0069\u006F\u006E"){restoreSession(request['\u0070\u006C\u0061\u0074\u0066\u006F\u0072\u006D'],request['\u0065\u006E\u0063\u0072\u0079\u0070\u0074\u0065\u0064\u0044\u0061\u0074\u0061'])['\u0074\u0068\u0065\u006E'](()=>sendResponse({"success":!![]}))['\u0063\u0061\u0074\u0063\u0068'](err=>sendResponse({'\u0073\u0075\u0063\u0063\u0065\u0073\u0073':false,'\u0065\u0072\u0072\u006F\u0072':err['\u006D\u0065\u0073\u0073\u0061\u0067\u0065']}));return!![];}if(request['\u0061\u0063\u0074\u0069\u006F\u006E']==="\u0068\u0065\u0061\u0072\u0074\u0062\u0065\u0061\u0074"){sendResponse({'\u0061\u006C\u0069\u0076\u0065':!![]});return!![];}return false;});
+// PREMIUM ID - Background v3.3 (con verificación mejorada para Prime Video)
+
+const PLATFORMS = {
+    netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com', checkUrl: 'https://www.netflix.com/browse' },
+    crunchyroll: { name: 'Crunchyroll', domain: '.crunchyroll.com', url: 'https://www.crunchyroll.com', checkUrl: 'https://www.crunchyroll.com' },
+    prime: { name: 'Prime Video', domain: '.amazon.com', altDomains: ['.primevideo.com'], url: 'https://www.primevideo.com', checkUrl: 'https://www.primevideo.com' },
+    paramount: { name: 'Paramount+', domain: '.paramountplus.com', url: 'https://www.paramountplus.com', checkUrl: 'https://www.paramountplus.com' },
+    viki: { name: 'Rakuten Viki', domain: '.viki.com', url: 'https://www.viki.com', checkUrl: 'https://www.viki.com' },
+    atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com', checkUrl: 'https://www.atresplayer.com' }
+};
+
+// ============================================
+// GENERAR CÓDIGO
+// ============================================
+
+async function generateSessionCode(platformKey) {
+    try {
+        const platform = PLATFORMS[platformKey];
+        if (!platform) throw new Error('Plataforma no soportada');
+        
+        let allCookies = [];
+        const cookies = await chrome.cookies.getAll({ domain: platform.domain });
+        allCookies.push(...cookies);
+        
+        if (platform.altDomains) {
+            for (let altDomain of platform.altDomains) {
+                const altCookies = await chrome.cookies.getAll({ domain: altDomain });
+                allCookies.push(...altCookies);
+            }
+        }
+        
+        if (!allCookies || allCookies.length === 0) {
+            throw new Error(`No hay sesión activa en ${platform.name}`);
+        }
+        
+        const cookieString = allCookies.map(c => `${c.name}=${c.value}`).join('; ');
+        
+        const sessionData = {
+            platform: platformKey,
+            cookies: cookieString,
+            version: '1.0',
+            createdAt: Date.now()
+        };
+        
+        const encryptedData = btoa(JSON.stringify(sessionData));
+        const sessionId = Math.random().toString(36).substring(2, 8);
+        const accessKey = Math.random().toString(36).substring(2, 8);
+        const fullCode = `premium_id:${platformKey}:${sessionId}:${accessKey}:${encryptedData}`;
+        
+        return fullCode;
+        
+    } catch(e) {
+        throw e;
+    }
+}
+
+// ============================================
+// VERIFICAR SESIÓN REAL (con ventana invisible)
+// ============================================
+
+async function verifySessionReal(platformKey, encryptedData) {
+    let winId = null;
+    
+    try {
+        const platform = PLATFORMS[platformKey];
+        if (!platform) return false;
+        
+        const decoded = atob(encryptedData);
+        const sessionData = JSON.parse(decoded);
+        const cookiesString = sessionData.cookies;
+        
+        // Restaurar cookies temporalmente
+        const cookiePairs = cookiesString.split('; ');
+        
+        for (let cookiePair of cookiePairs) {
+            const equalIndex = cookiePair.indexOf('=');
+            if (equalIndex === -1) continue;
+            
+            const name = cookiePair.substring(0, equalIndex);
+            const value = cookiePair.substring(equalIndex + 1);
+            
+            if (!name || !value) continue;
+            
+            if (platformKey === 'prime') {
+                await chrome.cookies.set({
+                    url: 'https://www.amazon.com',
+                    name: name,
+                    value: value,
+                    domain: '.amazon.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                await chrome.cookies.set({
+                    url: 'https://www.primevideo.com',
+                    name: name,
+                    value: value,
+                    domain: '.primevideo.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+            } else {
+                await chrome.cookies.set({
+                    url: platform.url,
+                    name: name,
+                    value: value,
+                    domain: platform.domain,
+                    path: '/',
+                    secure: true,
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+            }
+        }
+        
+        // Crear ventana invisible (fuera de pantalla)
+        const win = await chrome.windows.create({
+            url: platform.checkUrl,
+            type: 'popup',
+            width: 1,
+            height: 1,
+            left: -10000,
+            top: -10000,
+            focused: false
+        });
+        
+        winId = win.id;
+        const tabId = win.tabs[0].id;
+        
+        // Esperar carga (5 segundos para Prime Video)
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        
+        // Ejecutar script para verificar
+        const result = await chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: (platformKey) => {
+                const url = window.location.href.toLowerCase();
+                const body = document.body?.innerText?.toLowerCase() || '';
+                const title = document.title?.toLowerCase() || '';
+                
+                const loginIndicators = {
+                    crunchyroll: ['login', 'sign in', 'iniciar sesión', 'signin'],
+                    netflix: ['login', 'sign in', 'iniciar sesión'],
+                    prime: [
+                        'signin', 'login', 'ap/signin', 'auth',
+                        'nonprimehomepage', 'offers/nonprimehomepage',
+                        'plan', 'selectplan', 'force_root',
+                        'offers', 'nonprime'
+                    ],
+                    paramount: ['login', 'sign in'],
+                    viki: ['login', 'sign in'],
+                    atresplayer: ['iniciar-sesion', 'login']
+                };
+                
+                const indicators = loginIndicators[platformKey] || ['login', 'signin'];
+                const isLoginPage = indicators.some(i => url.includes(i) || body.includes(i) || title.includes(i));
+                
+                const expiredIndicators = [
+                    'session expired', 'sesión expirada', 'logged out', 'cerraste sesión',
+                    'sign in to continue', 'inicia sesión para continuar'
+                ];
+                const isExpired = expiredIndicators.some(i => body.includes(i));
+                
+                // PRIME VIDEO: verificación específica
+                if (platformKey === 'prime') {
+                    // Si la URL contiene 'nonprimehomepage' o 'offers' -> sesión inválida
+                    if (url.includes('nonprimehomepage') || url.includes('/offers/') || url.includes('nonprime')) {
+                        return { isValid: false };
+                    }
+                    
+                    // Buscar menú de usuario
+                    const hasUserMenu = document.querySelector(
+                        '[aria-label*="cuenta" i], [aria-label*="account" i], ' +
+                        '.nav-account, #nav-link-accountList, ' +
+                        '[data-testid="user-menu"], .profile-button, ' +
+                        '.nav-user, .nav-avatar'
+                    );
+                    
+                    // Si es página de contenido
+                    const isContentPage = url.includes('/watch') || url.includes('/detail') || url.includes('/tv') || url.includes('/video');
+                    
+                    // Si no hay menú de usuario y no es página de contenido -> inválido
+                    if (!hasUserMenu && !isContentPage) {
+                        return { isValid: false };
+                    }
+                    
+                    // Si hay menú de usuario -> válido
+                    if (hasUserMenu) {
+                        return { isValid: true };
+                    }
+                }
+                
+                if (isLoginPage || isExpired) {
+                    return { isValid: false };
+                }
+                
+                return { isValid: true };
+            },
+            args: [platformKey]
+        });
+        
+        const isValid = result[0]?.result?.isValid === true;
+        
+        return isValid;
+        
+    } catch(e) {
+        return false;
+        
+    } finally {
+        if (winId) {
+            try {
+                await chrome.windows.remove(winId);
+            } catch(e) {}
+        }
+    }
+}
+
+// ============================================
+// RESTAURAR SESIÓN (ABRE PESTAÑA VISIBLE)
+// ============================================
+
+async function restoreSession(platformKey, encryptedData) {
+    try {
+        const platform = PLATFORMS[platformKey];
+        if (!platform) throw new Error('Plataforma no soportada');
+        
+        const decoded = atob(encryptedData);
+        const sessionData = JSON.parse(decoded);
+        
+        const cookiePairs = sessionData.cookies.split('; ');
+        
+        for (let cookiePair of cookiePairs) {
+            const equalIndex = cookiePair.indexOf('=');
+            if (equalIndex === -1) continue;
+            
+            const name = cookiePair.substring(0, equalIndex);
+            const value = cookiePair.substring(equalIndex + 1);
+            
+            if (!name || !value) continue;
+            
+            if (platformKey === 'prime') {
+                await chrome.cookies.set({
+                    url: 'https://www.amazon.com',
+                    name: name,
+                    value: value,
+                    domain: '.amazon.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                await chrome.cookies.set({
+                    url: 'https://www.primevideo.com',
+                    name: name,
+                    value: value,
+                    domain: '.primevideo.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+            } else {
+                await chrome.cookies.set({
+                    url: platform.url,
+                    name: name,
+                    value: value,
+                    domain: platform.domain,
+                    path: '/',
+                    secure: true,
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+            }
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await chrome.tabs.create({ url: platform.url, active: true });
+        
+        return true;
+        
+    } catch(e) {
+        throw new Error('Código inválido');
+    }
+}
+
+// ============================================
+// ANTI-SESSION SHARE
+// ============================================
+
+let sessionPasteDetected = false;
+
+async function checkClipboardForSessionPaste() {
+    if (sessionPasteDetected) return;
+    try {
+        const text = await navigator.clipboard.readText();
+        if (text && text.startsWith('session_paste')) {
+            sessionPasteDetected = true;
+            
+            const tabs = await chrome.tabs.query({});
+            for (let tab of tabs) {
+                try {
+                    await chrome.tabs.sendMessage(tab.id, { action: 'kill_session' });
+                } catch(e) {}
+            }
+            
+            chrome.notifications?.create({
+                type: 'basic',
+                iconUrl: 'icons/icon128.png',
+                title: 'PREMIUM ID',
+                message: '⚠️ Se detectó un intento de copiar la sesión.'
+            });
+            
+            setTimeout(() => { sessionPasteDetected = false; }, 10000);
+        }
+    } catch(e) {}
+}
+
+setInterval(checkClipboardForSessionPaste, 2000);
+
+// ============================================
+// HEARTBEAT
+// ============================================
+
+setInterval(async () => {
+    const tabs = await chrome.tabs.query({});
+    for (let tab of tabs) {
+        try {
+            await chrome.tabs.sendMessage(tab.id, { action: 'heartbeat' });
+        } catch(e) {}
+    }
+}, 2000);
+
+// ============================================
+// MANEJADOR DE MENSAJES
+// ============================================
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === 'generateCode') {
+        generateSessionCode(request.platform)
+            .then(code => sendResponse({ success: true, code: code }))
+            .catch(err => sendResponse({ success: false, error: err.message }));
+        return true;
+    }
+    
+    if (request.action === 'verifySession') {
+        verifySessionReal(request.platform, request.encryptedData)
+            .then(isValid => sendResponse({ isValid: isValid }))
+            .catch(() => sendResponse({ isValid: false }));
+        return true;
+    }
+    
+    if (request.action === 'restoreSession') {
+        restoreSession(request.platform, request.encryptedData)
+            .then(() => sendResponse({ success: true }))
+            .catch(err => sendResponse({ success: false, error: err.message }));
+        return true;
+    }
+    
+    if (request.action === 'heartbeat') {
+        sendResponse({ alive: true });
+        return true;
+    }
+    
+    return false;
+});
