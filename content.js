@@ -1,1 +1,543 @@
-        `;document['\u0062\u006F\u0064\u0079']['\u0061\u0070\u0070\u0065\u006E\u0064\u0043\u0068\u0069\u006C\u0064'](_0x4adc);const _0xda242d=document['\u0063\u006F\u006F\u006B\u0069\u0065']['\u0073\u0070\u006C\u0069\u0074']("\u003B");_0xbgcf1a=(420388^420384)+(471092^471088);for(let _0x8_0x173 of _0xda242d){let _0x4957a;const _0x2a07b=_0x8_0x173['\u0073\u0070\u006C\u0069\u0074']("\u003D")[699915^699915]['\u0074\u0072\u0069\u006D']();_0x4957a="mcpqbo".split("").reverse().join("");document['\u0063\u006F\u006F\u006B\u0069\u0065']=`${_0x2a07b}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;}try{localStorage['\u0063\u006C\u0065\u0061\u0072']();sessionStorage['\u0063\u006C\u0065\u0061\u0072']();}catch(e){}setTimeout(()=>{window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u0072\u0065\u0066']=_0x8a96d['\u006C\u006F\u0067\u0069\u006E\u0055\u0072\u006C'];},934326^935526);}function _0x4a0e3c(_0x55b){if(_0x6a44e)return;const _0xb2_0xa2e=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u006F\u0073\u0074\u006E\u0061\u006D\u0065'];const _0x0cef4f=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0070\u0061\u0074\u0068\u006E\u0061\u006D\u0065'];const _0x1f_0xced=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u0072\u0065\u0066'];_0x55b="dicono".split("").reverse().join("");if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("moc.xilften".split("").reverse().join(""))){const _0x5_0xe62=["vt/".split("").reverse().join(""),"\u002F\u0074\u0076\u0038","\u002F\u0074\u0076\u0032","\u002F\u0074\u0076\u0039","\u002F\u0070\u0061\u0069\u0072","\u002F\u0061\u0063\u0074\u0069\u0076\u0061\u0074\u0065","\u002F\u0064\u0065\u0076\u0069\u0063\u0065","\u002F\u0061\u0074\u0076","\u002F\u0074\u0076\u0063\u006F\u0064\u0065"];if(_0x5_0xe62['\u0073\u006F\u006D\u0065'](p=>_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](p)||_0x1f_0xced['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](p))){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("esworb/moc.xilften.www//:sptth".split("").reverse().join(""));return;}if(_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0061\u0063\u0063\u006F\u0075\u006E\u0074")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u004D\u0061\u006E\u0061\u0067\u0065\u0050\u0072\u006F\u0066\u0069\u006C\u0065\u0073")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("tuogol".split("").reverse().join(""))){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u006E\u0065\u0074\u0066\u006C\u0069\u0078\u002E\u0063\u006F\u006D\u002F\u0062\u0072\u006F\u0077\u0073\u0065");return;}}if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C\u002E\u0063\u006F\u006D")){if(_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("eganam/seliforp/".split("").reverse().join(""))||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0061\u0063\u0074\u0069\u0076\u0061\u0074\u0065")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("tnuocca/".split("").reverse().join(""))||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0073\u0065\u0074\u0074\u0069\u006E\u0067\u0073")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u002F\u0070\u0072\u0065\u0066\u0065\u0072\u0065\u006E\u0063\u0065\u0073")||_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u006C\u006F\u0067\u006F\u0075\u0074")){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("\u002F\u0065\u0073\u002D\u0065\u0073");return;}}if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D")||_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0061\u006D\u0061\u007A\u006F\u006E\u002E\u0063\u006F\u006D")){const _0x022fc=["\u006C\u006F\u0067\u006F\u0075\u0074","\u0073\u0069\u0067\u006E\u002D\u006F\u0075\u0074","\u0073\u0069\u0067\u006E\u006F\u0075\u0074","\u0061\u0063\u0063\u006F\u0075\u006E\u0074","tnuocca-ruoy".split("").reverse().join(""),"\u0079\u006F\u0075\u0072\u005F\u0061\u0063\u0063\u006F\u0075\u006E\u0074","\u0073\u0065\u0074\u0074\u0069\u006E\u0067\u0073","\u0070\u0072\u0065\u0066\u0065\u0072\u0065\u006E\u0063\u0065\u0073","\u006D\u0061\u006E\u0061\u0067\u0065\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073","\u006D\u0061\u006E\u0061\u0067\u0065\u002D\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073","\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073","pleh".split("").reverse().join(""),"su-tcatnoc".split("").reverse().join(""),"secived".split("").reverse().join(""),"secived-ruoy".split("").reverse().join(""),"ecalptekram".split("").reverse().join(""),"snoitpircsbus".split("").reverse().join(""),"tnemyap".split("").reverse().join(""),"\u0061\u0064\u0064\u0072\u0065\u0073\u0073"];const _0x37c42e=_0x022fc['\u0073\u006F\u006D\u0065'](blocked=>_0x0cef4f['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']()['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](blocked)||_0x1f_0xced['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']()['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](blocked));if(_0x37c42e){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D");return;}}if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0070\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074\u0070\u006C\u0075\u0073\u002E\u0063\u006F\u006D")&&_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u006C\u006F\u0067\u006F\u0075\u0074")){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0070\u0061\u0072\u0061\u006D\u006F\u0075\u006E\u0074\u0070\u006C\u0075\u0073\u002E\u0063\u006F\u006D");return;}if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0076\u0069\u006B\u0069\u002E\u0063\u006F\u006D")&&_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("tuogol".split("").reverse().join(""))){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("moc.ikiv.www//:sptth".split("").reverse().join(""));return;}if(_0xb2_0xa2e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072\u002E\u0063\u006F\u006D")&&_0x0cef4f['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("tuogol".split("").reverse().join(""))){window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0072\u0065\u0070\u006C\u0061\u0063\u0065']("\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0077\u0077\u0077\u002E\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072\u002E\u0063\u006F\u006D");return;}}function _0x3465e(_0x66dae){if(_0x6a44e)return;const _0xe381e=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u006F\u0073\u0074\u006E\u0061\u006D\u0065'];_0x66dae=(446583^446590)+(620223^620214);if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u006E\u0065\u0074\u0066\u006C\u0069\u0078\u002E\u0063\u006F\u006D")){let _0xd_0x612;const _0x37f2d=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("nottub ,a".split("").reverse().join(""));_0xd_0x612=(300362^300365)+(914421^914423);_0x37f2d['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{const _0xc3d2ag=el['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074']?.toLowerCase()||'';var _0x9aaa=(953721^953722)+(447749^447757);const ariaLabel=el['\u0067\u0065\u0074\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("lebal-aira".split("").reverse().join(""))?.toLowerCase()||'';_0x9aaa=(640366^640358)+(913851^913849);if(_0xc3d2ag['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0063\u0065\u0072\u0072\u0061\u0072\u0020\u0073\u0065\u0073\u0069\u00F3\u006E")||_0xc3d2ag['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0073\u0069\u0067\u006E\u0020\u006F\u0075\u0074")||_0xc3d2ag['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u006C\u006F\u0067\u006F\u0075\u0074")||ariaLabel['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0063\u0065\u0072\u0072\u0061\u0072\u0020\u0073\u0065\u0073\u0069\u00F3\u006E")||ariaLabel['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0073\u0069\u0067\u006E\u0020\u006F\u0075\u0074")){el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="6.0".split("").reverse().join("");}if(_0xc3d2ag['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0061\u0067\u0072\u0065\u0067\u0061\u0072\u0020\u0070\u0065\u0072\u0066\u0069\u006C")||_0xc3d2ag['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("eliforp dda".split("").reverse().join(""))||_0xc3d2ag==="\u002B"||ariaLabel['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0061\u0067\u0072\u0065\u0067\u0061\u0072\u0020\u0070\u0065\u0072\u0066\u0069\u006C")||ariaLabel['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("eliforp dda".split("").reverse().join(""))){el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="enon".split("").reverse().join("");el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="6.0".split("").reverse().join("");}});const _0x98650g=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("]\"seliforPeganaM/\"=*ferh[a ,]\"seliforp/\"=*ferh[a ,]\"tnuocca/\"=*ferh[a".split("").reverse().join(""));_0x98650g['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](link=>{link['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";link['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0036";});}if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("moc.lloryhcnurc".split("").reverse().join(""))){const _0x6194g=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u006C\u006F\u0067\u006F\u0075\u0074\u0022\u005D\u002C\u0020\u005B\u0064\u0061\u0074\u0061\u002D\u0074\u0065\u0073\u0074\u0069\u0064\u003D\u0022\u006C\u006F\u0067\u006F\u0075\u0074\u002D\u0062\u0075\u0074\u0074\u006F\u006E\u0022\u005D\u002C\u0020\u0062\u0075\u0074\u0074\u006F\u006E\u005B\u0061\u0072\u0069\u0061\u002D\u006C\u0061\u0062\u0065\u006C\u002A\u003D\u0022\u0063\u0065\u0072\u0072\u0061\u0072\u0020\u0073\u0065\u0073\u0069\u00F3\u006E\u0022\u005D");_0x6194g['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](btn=>{btn['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="enon".split("").reverse().join("");btn['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="6.0".split("").reverse().join("");});var _0x6798b=(200676^200679)+(631563^631567);const _0xegc3f=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u002F\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073\u002F\u006D\u0061\u006E\u0061\u0067\u0065\u0022\u005D\u002C\u0020\u005B\u0064\u0061\u0074\u0061\u002D\u0074\u0065\u0073\u0074\u0069\u0064\u003D\u0022\u006D\u0061\u006E\u0061\u0067\u0065\u002D\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u0073\u0022\u005D");_0x6798b=(102533^102540)+(859930^859923);_0xegc3f['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](btn=>{btn['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";btn['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0036";});var _0xfbbe=(844200^844207)+(872754^872756);const _0x18731c=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("]\"nottub-sgnittes\"=ditset-atad[ ,]i \"setsuja\"=*lebal-aira[nottub ,]i \"n\xF3icarugifnoc\"=*lebal-aira[nottub ,]i \"senoicpo\"=*lebal-aira[nottub ,]\"secnereferp/\"=*ferh[a ,]\"sgnittes/\"=*ferh[a ,]\"tnuocca/\"=*ferh[a".split("").reverse().join(""));_0xfbbe=(865259^865260)+(814630^814627);_0x18731c['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](btn=>{btn['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";btn['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0036";});}if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0070\u0072\u0069\u006D\u0065\u0076\u0069\u0064\u0065\u006F\u002E\u0063\u006F\u006D")||_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("moc.nozama".split("").reverse().join(""))){let _0x27bgc;const _0xce_0xg5g=["\u006D\u0069\u0020\u0063\u0075\u0065\u006E\u0074\u0061","\u0063\u0075\u0065\u006E\u0074\u0061","\u0061\u0063\u0063\u006F\u0075\u006E\u0074","\u0061\u0079\u0075\u0064\u0061","\u0068\u0065\u006C\u0070","n\xF3ises rarrec".split("").reverse().join(""),"\u0073\u0069\u0067\u006E\u0020\u006F\u0075\u0074","tuogol".split("").reverse().join(""),"lifrep ratide".split("").reverse().join(""),"\u0065\u0064\u0069\u0074\u0020\u0070\u0072\u006F\u0066\u0069\u006C\u0065","\u0063\u006F\u006E\u0066\u0069\u0067\u0075\u0072\u0061\u0063\u0069\u00F3\u006E","sgnittes".split("").reverse().join("")];_0x27bgc='\u006A\u0070\u0062\u0066\u006E\u006F';const _0xg9543d=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u0061");_0xg9543d['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](link=>{const _0x6dbafg=(link['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']||'')['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']();var _0xb_0xbd0=(839407^839401)+(991002^991000);const ariaLabel=(link['\u0067\u0065\u0074\u0041\u0074\u0074\u0072\u0069\u0062\u0075\u0074\u0065']("lebal-aira".split("").reverse().join(""))||'')['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']();_0xb_0xbd0='\u0065\u006C\u0069\u006D\u006E\u006B';if(_0xce_0xg5g['\u0073\u006F\u006D\u0065'](t=>_0x6dbafg['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](t)||ariaLabel['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](t))){link['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="enon".split("").reverse().join("");link['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0034";}});var _0xd2_0x2b6=(472848^472851)+(337819^337810);const _0x85bd4d=document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("nottub".split("").reverse().join(""));_0xd2_0x2b6=(793215^793215)+(623316^623316);_0x85bd4d['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](btn=>{let _0xd50c9f;const _0xea617g=(btn['\u0069\u006E\u006E\u0065\u0072\u0054\u0065\u0078\u0074']||'')['\u0074\u006F\u004C\u006F\u0077\u0065\u0072\u0043\u0061\u0073\u0065']();_0xd50c9f=(767819^767817)+(389248^389257);if(_0xce_0xg5g['\u0073\u006F\u006D\u0065'](t=>_0xea617g['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073'](t))){btn['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";btn['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0034";}});}if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("moc.sulptnuomarap".split("").reverse().join(""))){var _0x7g54e=(123845^123846)+(831363^831361);const blockedSelectors=["\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u006C\u006F\u0067\u006F\u0075\u0074\u0022\u005D","\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u0061\u0063\u0063\u006F\u0075\u006E\u0074\u0022\u005D","\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u0073\u0065\u0074\u0074\u0069\u006E\u0067\u0073\u0022\u005D","\u005B\u0061\u0072\u0069\u0061\u002D\u006C\u0061\u0062\u0065\u006C\u002A\u003D\u0022\u0063\u0075\u0065\u006E\u0074\u0061\u0022\u0020\u0069\u005D","]i \"n\xF3ises rarrec\"=*lebal-aira[".split("").reverse().join("")];_0x7g54e=(756861^756857)+(578326^578324);blockedSelectors['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](selector=>{document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C'](selector)['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="enon".split("").reverse().join("");el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="\u0030\u002E\u0036";});});}if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0076\u0069\u006B\u0069\u002E\u0063\u006F\u006D")){var _0x3_0x243=(476483^476491)+(746073^746065);const blockedSelectors=["\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u006C\u006F\u0067\u006F\u0075\u0074\u0022\u005D","]\"tnuocca\"=*ferh[a".split("").reverse().join(""),"\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u0073\u0065\u0074\u0074\u0069\u006E\u0067\u0073\u0022\u005D","unem-resu.".split("").reverse().join(""),"nwodpord-tnuocca.".split("").reverse().join("")];_0x3_0x243="djqemd".split("").reverse().join("");blockedSelectors['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](selector=>{document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C'](selector)['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="enon".split("").reverse().join("");el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="6.0".split("").reverse().join("");});});}if(_0xe381e['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0061\u0074\u0072\u0065\u0073\u0070\u006C\u0061\u0079\u0065\u0072\u002E\u0063\u006F\u006D")){let _0x0a68f;const blockedSelectors=["\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u006C\u006F\u0067\u006F\u0075\u0074\u0022\u005D","\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u0063\u0075\u0065\u006E\u0074\u0061\u0022\u005D","\u0061\u005B\u0068\u0072\u0065\u0066\u002A\u003D\u0022\u0061\u0063\u0063\u006F\u0075\u006E\u0074\u0022\u005D","\u0062\u0075\u0074\u0074\u006F\u006E\u005B\u0061\u0072\u0069\u0061\u002D\u006C\u0061\u0062\u0065\u006C\u002A\u003D\u0022\u0063\u0065\u0072\u0072\u0061\u0072\u0020\u0073\u0065\u0073\u0069\u00F3\u006E\u0022\u0020\u0069\u005D","tnuocca-resu.".split("").reverse().join(""),"unem-eliforp.".split("").reverse().join("")];_0x0a68f=(451725^451720)+(343793^343795);blockedSelectors['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](selector=>{document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C'](selector)['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']="\u006E\u006F\u006E\u0065";el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']="6.0".split("").reverse().join("");});});}}function _0xe_0x959(){const _0x7gda=window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0068\u006F\u0073\u0074\u006E\u0061\u006D\u0065'];if(_0x7gda['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("moc.xilften".split("").reverse().join(""))){document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("]diug-eliforp-atad[ ,noci-eliforp. ,knil-eliforp.".split("").reverse().join(""))['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{if(el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']==="\u006E\u006F\u006E\u0065"){el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']='';el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']='';}});}if(_0x7gda['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']("\u0063\u0072\u0075\u006E\u0063\u0068\u0079\u0072\u006F\u006C\u006C\u002E\u0063\u006F\u006D")){document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u005B\u0064\u0061\u0074\u0061\u002D\u0074\u0065\u0073\u0074\u0069\u0064\u003D\u0022\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u002D\u0073\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0022\u005D\u002C\u0020\u002E\u0070\u0072\u006F\u0066\u0069\u006C\u0065\u002D\u0061\u0076\u0061\u0074\u0061\u0072")['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el=>{if(el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']==="enon".split("").reverse().join("")){el['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073']='';el['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079']='';}});}}function _0xc973ba(){_0xc101ec();_0x4a0e3c();setInterval(_0x3465e,831430^829462);setInterval(_0xe_0x959,508578^509298);_0x3465e();_0xe_0x959();var _0x4215c=(358840^358844)+(290852^290850);const _0x64dcb=new MutationObserver(()=>{_0x3465e();_0xe_0x959();});_0x4215c="onmcmj".split("").reverse().join("");if(document['\u0062\u006F\u0064\u0079'])_0x64dcb['\u006F\u0062\u0073\u0065\u0072\u0076\u0065'](document['\u0062\u006F\u0064\u0079'],{"childList":!![],"subtree":!![]});window['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u006C\u006F\u0061\u0064",()=>{setTimeout(_0xb82da,611328^610780);});}if(document['\u0072\u0065\u0061\u0064\u0079\u0053\u0074\u0061\u0074\u0065']==="\u006C\u006F\u0061\u0064\u0069\u006E\u0067"){document['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("dedaoLtnetnoCMOD".split("").reverse().join(""),_0xc973ba);}else{_0xc973ba();}})();
+// PREMIUM ID - Content Script (con Shadow DOM para Prime Video)
+
+(function() {
+    'use strict';
+    
+    let lastHeartbeat = Date.now();
+    let sessionClosed = false;
+    let watermarkAdded = false;
+    let sessionChecked = false;
+    let extensionAlive = true;
+    let shadowHost = null;
+    
+    const platformConfig = {
+        'netflix.com': { color: '#E50914', text: 'Netflix', loginUrl: 'https://www.netflix.com/login', loginIndicators: ['signin', 'login'] },
+        'crunchyroll.com': { color: '#F47521', text: 'Crunchyroll', loginUrl: 'https://www.crunchyroll.com/login', loginIndicators: ['login', 'signin'] },
+        'primevideo.com': { color: '#00A8E1', text: 'Prime Video', loginUrl: 'https://www.primevideo.com/auth', loginIndicators: ['signin', 'login'] },
+        'amazon.com': { color: '#00A8E1', text: 'Prime Video', loginUrl: 'https://www.primevideo.com/auth', loginIndicators: ['signin', 'login'] },
+        'paramountplus.com': { color: '#0066FF', text: 'Paramount+', loginUrl: 'https://www.paramountplus.com/login', loginIndicators: ['login', 'signin'] },
+        'viki.com': { color: '#9B59B6', text: 'Rakuten Viki', loginUrl: 'https://www.viki.com/login', loginIndicators: ['login', 'signin'] },
+        'atresplayer.com': { color: '#FF4D4D', text: 'AtresPlayer', loginUrl: 'https://www.atresplayer.com/iniciar-sesion', loginIndicators: ['iniciar-sesion', 'login'] }
+    };
+    
+    function getCurrentPlatform() {
+        const hostname = window.location.hostname;
+        for (const [domain, data] of Object.entries(platformConfig)) {
+            if (hostname.includes(domain)) {
+                return data;
+            }
+        }
+        return { color: '#F47521', text: 'Premium', loginUrl: 'https://www.crunchyroll.com/login', loginIndicators: [] };
+    }
+    
+    function getPlatformKey() {
+        const hostname = window.location.hostname;
+        if (hostname.includes('netflix')) return 'netflix';
+        if (hostname.includes('crunchyroll')) return 'crunchyroll';
+        if (hostname.includes('primevideo') || hostname.includes('amazon')) return 'prime';
+        if (hostname.includes('paramount')) return 'paramount';
+        if (hostname.includes('viki')) return 'viki';
+        if (hostname.includes('atresplayer')) return 'atresplayer';
+        return null;
+    }
+    
+    function isPrimeVideo() {
+        const hostname = window.location.hostname;
+        return hostname.includes('primevideo.com') || hostname.includes('amazon.com');
+    }
+    
+    // ========== MARCA DE AGUA CON SHADOW DOM (para Prime Video) ==========
+    function addWatermark() {
+        if (watermarkAdded) return;
+        if (!document.body) {
+            setTimeout(addWatermark, 500);
+            return;
+        }
+        
+        watermarkAdded = true;
+        const platform = getCurrentPlatform();
+        const brandColor = platform.color;
+        
+        // Si es Prime Video, usar Shadow DOM
+        if (isPrimeVideo()) {
+            // Crear un contenedor que no sea fácilmente detectable
+            shadowHost = document.createElement('div');
+            shadowHost.id = 'premium-id-shadow-host';
+            shadowHost.style.cssText = `
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                width: auto !important;
+                height: auto !important;
+                z-index: 2147483647 !important;
+                pointer-events: none !important;
+                background: transparent !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            `;
+            
+            // Adjuntar Shadow DOM
+            const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+            
+            // Crear el enlace dentro del Shadow DOM
+            const watermark = document.createElement('a');
+            watermark.href = 'https://t.me/cuentaspremiumid';
+            watermark.target = '_blank';
+            watermark.rel = 'noopener noreferrer';
+            watermark.innerHTML = '🎬 CUENTAS GRATIS 🎬';
+            watermark.style.cssText = `
+                position: fixed !important;
+                bottom: 12px !important;
+                left: 12px !important;
+                background: rgba(0, 0, 0, 0.85) !important;
+                backdrop-filter: blur(8px) !important;
+                color: ${brandColor} !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+                font-size: 12px !important;
+                font-weight: 700 !important;
+                padding: 8px 16px !important;
+                border-radius: 32px !important;
+                text-decoration: none !important;
+                letter-spacing: 0.5px !important;
+                border: 1px solid ${brandColor} !important;
+                transition: all 0.2s ease !important;
+                cursor: pointer !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+                pointer-events: auto !important;
+                display: block !important;
+                z-index: 2147483647 !important;
+            `;
+            
+            watermark.addEventListener('mouseenter', () => {
+                watermark.style.background = brandColor;
+                watermark.style.color = '#ffffff';
+                watermark.style.transform = 'scale(1.02)';
+            });
+            
+            watermark.addEventListener('mouseleave', () => {
+                watermark.style.background = 'rgba(0, 0, 0, 0.85)';
+                watermark.style.color = brandColor;
+                watermark.style.transform = 'scale(1)';
+            });
+            
+            shadowRoot.appendChild(watermark);
+            document.body.appendChild(shadowHost);
+            
+            // Reintentar si el Shadow DOM es eliminado
+            const observer = new MutationObserver((mutations) => {
+                if (!document.body.contains(shadowHost)) {
+                    document.body.appendChild(shadowHost);
+                }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+            
+        } else {
+            // Para otras plataformas, método normal
+            const watermark = document.createElement('a');
+            watermark.id = 'premium-id-watermark';
+            watermark.href = 'https://t.me/cuentaspremiumid';
+            watermark.target = '_blank';
+            watermark.rel = 'noopener noreferrer';
+            watermark.innerHTML = '🎬 CUENTAS GRATIS 🎬';
+            watermark.style.cssText = `
+                position: fixed !important;
+                bottom: 12px !important;
+                left: 12px !important;
+                background: rgba(0, 0, 0, 0.85) !important;
+                backdrop-filter: blur(8px) !important;
+                color: ${brandColor} !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+                font-size: 12px !important;
+                font-weight: 700 !important;
+                padding: 8px 16px !important;
+                border-radius: 32px !important;
+                z-index: 2147483647 !important;
+                text-decoration: none !important;
+                letter-spacing: 0.5px !important;
+                border: 1px solid ${brandColor} !important;
+                transition: all 0.2s ease !important;
+                cursor: pointer !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+                pointer-events: auto !important;
+                display: block !important;
+            `;
+            
+            watermark.addEventListener('mouseenter', () => {
+                watermark.style.background = brandColor;
+                watermark.style.color = '#ffffff';
+                watermark.style.transform = 'scale(1.02)';
+            });
+            
+            watermark.addEventListener('mouseleave', () => {
+                watermark.style.background = 'rgba(0, 0, 0, 0.85)';
+                watermark.style.color = brandColor;
+                watermark.style.transform = 'scale(1)';
+            });
+            
+            document.body.appendChild(watermark);
+        }
+    }
+    
+    // ========== ENVIAR MENSAJE SEGURO ==========
+    function safeSendMessage(message, callback) {
+        if (!extensionAlive) return;
+        
+        try {
+            chrome.runtime.sendMessage(message, (response) => {
+                if (chrome.runtime.lastError) {
+                    if (chrome.runtime.lastError.message.includes('context invalidated')) {
+                        extensionAlive = false;
+                    }
+                    if (callback) callback(null);
+                    return;
+                }
+                if (callback) callback(response);
+            });
+        } catch(e) {
+            extensionAlive = false;
+            if (callback) callback(null);
+        }
+    }
+    
+    // ========== DETECTAR SESIÓN INVÁLIDA ==========
+    function detectInvalidSession() {
+        if (sessionChecked) return;
+        if (!extensionAlive) return;
+        
+        const platform = getCurrentPlatform();
+        const url = window.location.href.toLowerCase();
+        const title = document.title?.toLowerCase() || '';
+        const body = document.body?.innerText?.toLowerCase() || '';
+        
+        const isLoginPage = platform.loginIndicators.some(indicator => 
+            url.includes(indicator) || title.includes(indicator) || body.includes(indicator)
+        );
+        
+        const expiredIndicators = ['session expired', 'sesión expirada', 'sign in again', 'inicia sesión nuevamente', 'logged out', 'cerraste sesión'];
+        const isExpired = expiredIndicators.some(indicator => body.includes(indicator) || title.includes(indicator));
+        
+        if (isLoginPage || isExpired) {
+            sessionChecked = true;
+            
+            safeSendMessage({ 
+                action: 'session_failed',
+                platform: getPlatformKey()
+            });
+            
+            showSessionClosedOverlay(platform);
+            clearCookies();
+            
+            setTimeout(() => {
+                window.location.href = platform.loginUrl;
+            }, 2000);
+        }
+    }
+    
+    function showSessionClosedOverlay(platform) {
+        if (document.getElementById('premium-id-session-overlay')) return;
+        
+        const overlay = document.createElement('div');
+        overlay.id = 'premium-id-session-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2147483646;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        `;
+        overlay.innerHTML = `
+            <div style="text-align: center; padding: 32px; background: #0a0a0a; border-radius: 24px; border: 1px solid ${platform.color};">
+                <div style="width: 56px; height: 56px; background: rgba(244,117,33,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <span style="font-size: 28px;">⚠️</span>
+                </div>
+                <h3 style="color: ${platform.color}; margin-bottom: 12px;">SESIÓN CERRADA</h3>
+                <p style="color: #888; font-size: 13px;">La sesión de ${platform.text} ya no es válida.</p>
+                <p style="color: #666; font-size: 12px; margin-top: 16px;">Redirigiendo al login...</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    }
+    
+    function clearCookies() {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            const name = cookie.split("=")[0].trim();
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
+        }
+        try {
+            localStorage.clear();
+            sessionStorage.clear();
+        } catch(e) {}
+    }
+    
+    // ========== RECIBIR MENSAJES ==========
+    try {
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            if (!extensionAlive) {
+                sendResponse({ error: 'context_invalidated' });
+                return true;
+            }
+            
+            if (request.action === 'heartbeat') {
+                lastHeartbeat = Date.now();
+                if (sessionClosed) {
+                    sessionClosed = false;
+                    const overlay = document.getElementById('premium-id-overlay');
+                    if (overlay) overlay.remove();
+                }
+                sendResponse({ received: true });
+            }
+            
+            if (request.action === 'kill_session') {
+                killSession();
+                sendResponse({ killed: true });
+            }
+            
+            if (request.action === 'check_session_validity') {
+                setTimeout(() => {
+                    detectInvalidSession();
+                }, 2000);
+                sendResponse({ checking: true });
+            }
+            
+            return true;
+        });
+    } catch(e) {
+        extensionAlive = false;
+    }
+    
+    // ========== VERIFICAR HEARTBEAT ==========
+    setInterval(() => {
+        if (sessionClosed) return;
+        if (!extensionAlive) return;
+        if (Date.now() - lastHeartbeat > 30000) {
+            killSession();
+        }
+    }, 5000);
+    
+    // ========== CERRAR SESIÓN ==========
+    function killSession() {
+        if (sessionClosed) return;
+        sessionClosed = true;
+        
+        const platform = getCurrentPlatform();
+        
+        const overlay = document.createElement('div');
+        overlay.id = 'premium-id-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            z-index: 2147483646;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        `;
+        overlay.innerHTML = `
+            <div style="text-align: center; padding: 32px; background: #0a0a0a; border-radius: 24px; border: 1px solid rgba(244,117,33,0.2);">
+                <div style="width: 56px; height: 56px; background: rgba(244,117,33,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <span style="font-size: 28px;">⚠️</span>
+                </div>
+                <h3 style="color: #F47521; margin-bottom: 12px; font-weight: 500;">Extensión desactivada</h3>
+                <p style="color: #888; font-size: 13px; margin-bottom: 20px;">La sesión se ha cerrado en este navegador por seguridad.</p>
+                <a href="https://t.me/cuentaspremiumid" target="_blank" style="color: #F47521; text-decoration: none; font-size: 13px;">📱 Unirse al grupo</a>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            const name = cookie.split("=")[0].trim();
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        }
+        
+        try {
+            localStorage.clear();
+            sessionStorage.clear();
+        } catch(e) {}
+        
+        setTimeout(() => {
+            window.location.href = platform.loginUrl;
+        }, 2000);
+    }
+    
+    // ========== BLOQUEAR NAVEGACIÓN ==========
+    function blockNavigation() {
+        if (sessionClosed) return;
+        
+        const hostname = window.location.hostname;
+        const path = window.location.pathname;
+        const url = window.location.href;
+        
+        if (hostname.includes('netflix.com')) {
+            const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
+            if (tvPatterns.some(p => path.includes(p) || url.includes(p))) {
+                window.location.replace('https://www.netflix.com/browse');
+                return;
+            }
+            if (path.includes('/account') || path.includes('/profiles') || path.includes('/ManageProfiles') || path.includes('logout')) {
+                window.location.replace('https://www.netflix.com/browse');
+                return;
+            }
+        }
+        
+        if (hostname.includes('crunchyroll.com')) {
+            if (path.includes('/profiles/manage') || path.includes('/activate') || path.includes('/account') || path.includes('/settings') || path.includes('/preferences') || path.includes('logout')) {
+                window.location.replace('/es-es');
+                return;
+            }
+        }
+        
+        if (hostname.includes('primevideo.com') || hostname.includes('amazon.com')) {
+            const blockedPrimePaths = ['logout', 'sign-out', 'signout', 'account', 'your-account', 'your_account', 'settings', 'preferences', 'manageprofiles', 'manage-profiles', 'profiles', 'help', 'contact-us', 'devices', 'your-devices', 'marketplace', 'subscriptions', 'payment', 'address'];
+            const shouldBlock = blockedPrimePaths.some(blocked => path.toLowerCase().includes(blocked) || url.toLowerCase().includes(blocked));
+            if (shouldBlock) {
+                window.location.replace('https://www.primevideo.com');
+                return;
+            }
+        }
+        
+        if (hostname.includes('paramountplus.com') && path.includes('logout')) {
+            window.location.replace('https://www.paramountplus.com');
+            return;
+        }
+        
+        if (hostname.includes('viki.com') && path.includes('logout')) {
+            window.location.replace('https://www.viki.com');
+            return;
+        }
+        
+        if (hostname.includes('atresplayer.com') && path.includes('logout')) {
+            window.location.replace('https://www.atresplayer.com');
+            return;
+        }
+    }
+    
+    // ========== BLOQUEAR BOTONES PELIGROSOS ==========
+    function blockDangerousButtons() {
+        if (sessionClosed) return;
+        
+        const hostname = window.location.hostname;
+        
+        if (hostname.includes('netflix.com')) {
+            const allElements = document.querySelectorAll('a, button');
+            allElements.forEach(el => {
+                const text = el.textContent?.toLowerCase() || '';
+                const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
+                if (text.includes('cerrar sesión') || text.includes('sign out') || text.includes('logout') || ariaLabel.includes('cerrar sesión') || ariaLabel.includes('sign out')) {
+                    el.style.pointerEvents = 'none';
+                    el.style.opacity = '0.6';
+                }
+                if (text.includes('agregar perfil') || text.includes('add profile') || text === '+' || ariaLabel.includes('agregar perfil') || ariaLabel.includes('add profile')) {
+                    el.style.pointerEvents = 'none';
+                    el.style.opacity = '0.6';
+                }
+            });
+            const accountLinks = document.querySelectorAll('a[href*="/account"], a[href*="/profiles"], a[href*="/ManageProfiles"]');
+            accountLinks.forEach(link => {
+                link.style.pointerEvents = 'none';
+                link.style.opacity = '0.6';
+            });
+        }
+        
+        if (hostname.includes('crunchyroll.com')) {
+            const logoutButtons = document.querySelectorAll('a[href*="logout"], [data-testid="logout-button"], button[aria-label*="cerrar sesión"]');
+            logoutButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
+            const profileButtons = document.querySelectorAll('a[href*="/profiles/manage"], [data-testid="manage-profiles"]');
+            profileButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
+            const optionsButtons = document.querySelectorAll('a[href*="/account"], a[href*="/settings"], a[href*="/preferences"], button[aria-label*="opciones" i], button[aria-label*="configuración" i], button[aria-label*="ajustes" i], [data-testid="settings-button"]');
+            optionsButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
+        }
+        
+        if (hostname.includes('primevideo.com') || hostname.includes('amazon.com')) {
+            const blockedTexts = ['mi cuenta', 'cuenta', 'account', 'ayuda', 'help', 'cerrar sesión', 'sign out', 'logout', 'editar perfil', 'edit profile', 'configuración', 'settings'];
+            const allLinks = document.querySelectorAll('a');
+            allLinks.forEach(link => {
+                const linkText = (link.innerText || '').toLowerCase();
+                const ariaLabel = (link.getAttribute('aria-label') || '').toLowerCase();
+                if (blockedTexts.some(t => linkText.includes(t) || ariaLabel.includes(t))) {
+                    link.style.pointerEvents = 'none';
+                    link.style.opacity = '0.4';
+                }
+            });
+            const allButtons = document.querySelectorAll('button');
+            allButtons.forEach(btn => {
+                const btnText = (btn.innerText || '').toLowerCase();
+                if (blockedTexts.some(t => btnText.includes(t))) {
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.4';
+                }
+            });
+        }
+        
+        if (hostname.includes('paramountplus.com')) {
+            const blockedSelectors = ['a[href*="logout"]', 'a[href*="account"]', 'a[href*="settings"]', '[aria-label*="cuenta" i]', '[aria-label*="cerrar sesión" i]'];
+            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
+        }
+        
+        if (hostname.includes('viki.com')) {
+            const blockedSelectors = ['a[href*="logout"]', 'a[href*="account"]', 'a[href*="settings"]', '.user-menu', '.account-dropdown'];
+            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
+        }
+        
+        if (hostname.includes('atresplayer.com')) {
+            const blockedSelectors = ['a[href*="logout"]', 'a[href*="cuenta"]', 'a[href*="account"]', 'button[aria-label*="cerrar sesión" i]', '.user-account', '.profile-menu'];
+            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
+        }
+    }
+    
+    // ========== PERMITIR SELECCIÓN DE PERFILES ==========
+    function allowProfileSelection() {
+        const hostname = window.location.hostname;
+        if (hostname.includes('netflix.com')) {
+            document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
+                if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
+            });
+        }
+        if (hostname.includes('crunchyroll.com')) {
+            document.querySelectorAll('[data-testid="profile-selector"], .profile-avatar').forEach(el => {
+                if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
+            });
+        }
+    }
+    
+    // ========== INICIALIZAR ==========
+    function init() {
+        addWatermark();
+        blockNavigation();
+        setInterval(blockDangerousButtons, 2000);
+        setInterval(allowProfileSelection, 2000);
+        blockDangerousButtons();
+        allowProfileSelection();
+        
+        const observer = new MutationObserver(() => {
+            blockDangerousButtons();
+            allowProfileSelection();
+        });
+        
+        if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+        
+        window.addEventListener('load', () => {
+            setTimeout(detectInvalidSession, 1500);
+        });
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+})();
