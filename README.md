@@ -32,10 +32,10 @@
 </p>  
 
 
-## 💎 Cuentas Premium Gratis por Código ID 💎
+### 💎 Cuentas Premium Gratis por Código ID 💎
 
- ### 🤍 AtresPlayer    🧡 Crunchyroll      💜 Rakuten Viki  
- ### 💙 Prime video    💙 Paramount+       ❤️‍🔥 Netflix   
+**❤️‍🔥 NETFLIX &nbsp;&nbsp;|&nbsp;&nbsp; 🧡 CRUNCHYROLL &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PRIME &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PARAMOUNT+ &nbsp;&nbsp;|&nbsp;&nbsp; 💜 VIKI &nbsp;&nbsp;|&nbsp;&nbsp; 🤍 ATRES**
+
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
 
@@ -80,7 +80,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 3. **Dirígete a Extensiones/ y selecciona el botón:`+ (from .zip/.crx/.user.js)**
 4. **Selecciona fotos y vídeos/ en la esquina superior izquierda seleccione las 3 líneas/ reciente**
-5. **Haz clic en el archivo: Crunchyroll Access Freedom**
+5. **Haz clic en el archivo: PREMIUM ID**
 6. ¡Listo! La extensión está instalada y lista para usar
    
 
@@ -96,7 +96,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 3. **Abre Chrome u otro navegador basado en él**, copia y pega en la barra de búsqueda: `chrome://extensions/`
 4. **Activa el "Modo de desarrollador"** (esquina superior derecha en el caso de Chrome)
 5. **Haz clic en "Cargar descomprimida"**
-6. **Selecciona la carpeta** en el escritorio
+6. **Selecciona la carpeta PREMIUM ID** en el escritorio
 7. ¡Listo! La extensión está instalada y lista para usar
 
 
