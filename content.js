@@ -6,7 +6,6 @@
     let lastHeartbeat = Date.now();
     let sessionClosed = false;
     let watermarkAdded = false;
-    let sessionChecked = false;
     let extensionAlive = true;
     let shadowHost = null;
     
@@ -39,6 +38,10 @@
         if (hostname.includes('viki')) return 'viki';
         if (hostname.includes('atresplayer')) return 'atresplayer';
         return null;
+    }
+    
+    function isNetflix() {
+        return window.location.hostname.includes('netflix.com');
     }
     
     function isPrimeVideo() {
@@ -200,10 +203,10 @@
         }
     }
     
-    // ========== DETECTAR SESIÓN INVÁLIDA ==========
+    // ========== DETECTAR SESIÓN INVÁLIDA (SOLO NETFLIX) ==========
     function detectInvalidSession() {
-        if (sessionChecked) return;
-        if (!extensionAlive) return;
+        // SOLO para Netflix, mantener protección
+        if (!isNetflix()) return;
         
         const platform = getCurrentPlatform();
         const url = window.location.href.toLowerCase();
@@ -218,8 +221,6 @@
         const isExpired = expiredIndicators.some(indicator => body.includes(indicator) || title.includes(indicator));
         
         if (isLoginPage || isExpired) {
-            sessionChecked = true;
-            
             safeSendMessage({ 
                 action: 'session_failed',
                 platform: getPlatformKey()
@@ -258,7 +259,7 @@
                     <span style="font-size: 28px;">⚠️</span>
                 </div>
                 <h3 style="color: ${platform.color}; margin-bottom: 12px;">SESIÓN CERRADA</h3>
-                <p style="color: #888; font-size: 13px;">La sesión de ${platform.text} ya no es válida.</p>
+                <p style="color: #888; font-size: 13px;">La sesión de Netflix ya no es válida.</p>
                 <p style="color: #666; font-size: 12px; margin-top: 16px;">Redirigiendo al login...</p>
             </div>
         `;
@@ -297,8 +298,9 @@
             }
             
             if (request.action === 'kill_session') {
-                killSession();
-                sendResponse({ killed: true });
+                // ELIMINADO: Ya no se mata la sesión por falsas notificaciones
+                // killSession();
+                sendResponse({ killed: false, message: 'Kill session disabled' });
             }
             
             if (request.action === 'check_session_validity') {
@@ -315,67 +317,18 @@
     }
     
     // ========== VERIFICAR HEARTBEAT ==========
-    setInterval(() => {
-        if (sessionClosed) return;
-        if (!extensionAlive) return;
-        if (Date.now() - lastHeartbeat > 30000) {
-            killSession();
-        }
-    }, 5000);
+    // ELIMINADO: El heartbeat ya no mata sesiones automáticamente
+    // Solo mantenemos el heartbeat para mantener la conexión pero sin kill
     
-    // ========== CERRAR SESIÓN ==========
+    // ========== CERRAR SESIÓN (DESACTIVADO) ==========
     function killSession() {
-        if (sessionClosed) return;
-        sessionClosed = true;
-        
-        const platform = getCurrentPlatform();
-        
-        const overlay = document.createElement('div');
-        overlay.id = 'premium-id-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.96);
-            z-index: 2147483646;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        `;
-        overlay.innerHTML = `
-            <div style="text-align: center; padding: 32px; background: #0a0a0a; border-radius: 24px; border: 1px solid rgba(244,117,33,0.2);">
-                <div style="width: 56px; height: 56px; background: rgba(244,117,33,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                    <span style="font-size: 28px;">⚠️</span>
-                </div>
-                <h3 style="color: #F47521; margin-bottom: 12px; font-weight: 500;">Extensión desactivada</h3>
-                <p style="color: #888; font-size: 13px; margin-bottom: 20px;">La sesión se ha cerrado en este navegador por seguridad.</p>
-                <a href="https://t.me/cuentaspremiumid" target="_blank" style="color: #F47521; text-decoration: none; font-size: 13px;">📱 Unirse al grupo</a>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-        
-        const cookies = document.cookie.split(";");
-        for (let cookie of cookies) {
-            const name = cookie.split("=")[0].trim();
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        }
-        
-        try {
-            localStorage.clear();
-            sessionStorage.clear();
-        } catch(e) {}
-        
-        setTimeout(() => {
-            window.location.href = platform.loginUrl;
-        }, 2000);
+        // Función desactivada - ya no se cierra la sesión automáticamente
+        console.log('Kill session desactivado - no se cerrará la sesión');
     }
     
-    // ========== BLOQUEAR NAVEGACIÓN ==========
+    // ========== BLOQUEAR NAVEGACIÓN (SOLO NETFLIX) ==========
     function blockNavigation() {
-        if (sessionClosed) return;
+        if (!isNetflix()) return; // Solo Netflix mantiene bloqueos
         
         const hostname = window.location.hostname;
         const path = window.location.pathname;
@@ -392,42 +345,11 @@
                 return;
             }
         }
-        
-        if (hostname.includes('crunchyroll.com')) {
-            if (path.includes('/profiles/manage') || path.includes('/activate') || path.includes('/account') || path.includes('/settings') || path.includes('/preferences') || path.includes('logout')) {
-                window.location.replace('/es-es');
-                return;
-            }
-        }
-        
-        if (hostname.includes('primevideo.com') || hostname.includes('amazon.com')) {
-            const blockedPrimePaths = ['logout', 'sign-out', 'signout', 'account', 'your-account', 'your_account', 'settings', 'preferences', 'manageprofiles', 'manage-profiles', 'profiles', 'help', 'contact-us', 'devices', 'your-devices', 'marketplace', 'subscriptions', 'payment', 'address'];
-            const shouldBlock = blockedPrimePaths.some(blocked => path.toLowerCase().includes(blocked) || url.toLowerCase().includes(blocked));
-            if (shouldBlock) {
-                window.location.replace('https://www.primevideo.com');
-                return;
-            }
-        }
-        
-        if (hostname.includes('paramountplus.com') && path.includes('logout')) {
-            window.location.replace('https://www.paramountplus.com');
-            return;
-        }
-        
-        if (hostname.includes('viki.com') && path.includes('logout')) {
-            window.location.replace('https://www.viki.com');
-            return;
-        }
-        
-        if (hostname.includes('atresplayer.com') && path.includes('logout')) {
-            window.location.replace('https://www.atresplayer.com');
-            return;
-        }
     }
     
-    // ========== BLOQUEAR BOTONES PELIGROSOS ==========
+    // ========== BLOQUEAR BOTONES PELIGROSOS (SOLO NETFLIX) ==========
     function blockDangerousButtons() {
-        if (sessionClosed) return;
+        if (!isNetflix()) return; // Solo Netflix mantiene bloqueos
         
         const hostname = window.location.hostname;
         
@@ -451,86 +373,116 @@
                 link.style.opacity = '0.6';
             });
         }
-        
-        if (hostname.includes('crunchyroll.com')) {
-            const logoutButtons = document.querySelectorAll('a[href*="logout"], [data-testid="logout-button"], button[aria-label*="cerrar sesión"]');
-            logoutButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
-            const profileButtons = document.querySelectorAll('a[href*="/profiles/manage"], [data-testid="manage-profiles"]');
-            profileButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
-            const optionsButtons = document.querySelectorAll('a[href*="/account"], a[href*="/settings"], a[href*="/preferences"], button[aria-label*="opciones" i], button[aria-label*="configuración" i], button[aria-label*="ajustes" i], [data-testid="settings-button"]');
-            optionsButtons.forEach(btn => { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; });
-        }
-        
-        if (hostname.includes('primevideo.com') || hostname.includes('amazon.com')) {
-            const blockedTexts = ['mi cuenta', 'cuenta', 'account', 'ayuda', 'help', 'cerrar sesión', 'sign out', 'logout', 'editar perfil', 'edit profile', 'configuración', 'settings'];
-            const allLinks = document.querySelectorAll('a');
-            allLinks.forEach(link => {
-                const linkText = (link.innerText || '').toLowerCase();
-                const ariaLabel = (link.getAttribute('aria-label') || '').toLowerCase();
-                if (blockedTexts.some(t => linkText.includes(t) || ariaLabel.includes(t))) {
-                    link.style.pointerEvents = 'none';
-                    link.style.opacity = '0.4';
-                }
-            });
-            const allButtons = document.querySelectorAll('button');
-            allButtons.forEach(btn => {
-                const btnText = (btn.innerText || '').toLowerCase();
-                if (blockedTexts.some(t => btnText.includes(t))) {
-                    btn.style.pointerEvents = 'none';
-                    btn.style.opacity = '0.4';
-                }
-            });
-        }
-        
-        if (hostname.includes('paramountplus.com')) {
-            const blockedSelectors = ['a[href*="logout"]', 'a[href*="account"]', 'a[href*="settings"]', '[aria-label*="cuenta" i]', '[aria-label*="cerrar sesión" i]'];
-            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
-        }
-        
-        if (hostname.includes('viki.com')) {
-            const blockedSelectors = ['a[href*="logout"]', 'a[href*="account"]', 'a[href*="settings"]', '.user-menu', '.account-dropdown'];
-            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
-        }
-        
-        if (hostname.includes('atresplayer.com')) {
-            const blockedSelectors = ['a[href*="logout"]', 'a[href*="cuenta"]', 'a[href*="account"]', 'button[aria-label*="cerrar sesión" i]', '.user-account', '.profile-menu'];
-            blockedSelectors.forEach(selector => { document.querySelectorAll(selector).forEach(el => { el.style.pointerEvents = 'none'; el.style.opacity = '0.6'; }); });
-        }
     }
     
-    // ========== PERMITIR SELECCIÓN DE PERFILES ==========
+    // ========== PERMITIR SELECCIÓN DE PERFILES (SOLO NETFLIX) ==========
     function allowProfileSelection() {
+        if (!isNetflix()) return;
+        
         const hostname = window.location.hostname;
         if (hostname.includes('netflix.com')) {
             document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
                 if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
             });
         }
-        if (hostname.includes('crunchyroll.com')) {
-            document.querySelectorAll('[data-testid="profile-selector"], .profile-avatar').forEach(el => {
-                if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
-            });
-        }
+    }
+    
+    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR ==========
+    function unblockLanguageSelector() {
+        // Eliminar cualquier restricción que pueda afectar al selector de idioma
+        const style = document.createElement('style');
+        style.id = 'premium-id-language-unlock';
+        style.textContent = `
+            /* Desbloquear selectores de idioma en todos los reproductores */
+            [data-testid="audio-track-selector"],
+            [data-testid="subtitle-track-selector"],
+            [aria-label*="idioma" i],
+            [aria-label*="language" i],
+            .language-selector,
+            .audio-selector,
+            .subtitle-selector,
+            select[aria-label*="idioma"],
+            select[aria-label*="language"],
+            button[aria-label*="audio"],
+            button[aria-label*="subtítulo"],
+            button[aria-label*="subtitle"] {
+                pointer-events: auto !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: flex !important;
+                cursor: pointer !important;
+            }
+            
+            /* Desbloquear cualquier elemento que pueda estar bloqueado */
+            * {
+                pointer-events: auto !important;
+            }
+            
+            /* Restaurar solo los elementos de idioma, no todos */
+            .player-controls button,
+            .player-controls select,
+            .control-button {
+                pointer-events: auto !important;
+            }
+        `;
+        
+        // Remover si ya existe
+        const existingStyle = document.getElementById('premium-id-language-unlock');
+        if (existingStyle) existingStyle.remove();
+        
+        document.head.appendChild(style);
+        
+        // También remover cualquier atributo de bloqueo en elementos relacionados con idioma
+        const languageElements = document.querySelectorAll(
+            '[data-testid="audio-track-selector"], ' +
+            '[data-testid="subtitle-track-selector"], ' +
+            '[aria-label*="idioma" i], ' +
+            '[aria-label*="language" i], ' +
+            '.language-selector, ' +
+            '.audio-selector, ' +
+            '.subtitle-selector'
+        );
+        
+        languageElements.forEach(el => {
+            el.style.pointerEvents = 'auto';
+            el.style.opacity = '1';
+            el.removeAttribute('disabled');
+            el.removeAttribute('aria-disabled');
+        });
     }
     
     // ========== INICIALIZAR ==========
     function init() {
         addWatermark();
-        blockNavigation();
-        setInterval(blockDangerousButtons, 2000);
-        setInterval(allowProfileSelection, 2000);
-        blockDangerousButtons();
-        allowProfileSelection();
         
-        const observer = new MutationObserver(() => {
+        // Solo Netflix mantiene bloqueos de navegación y botones
+        if (isNetflix()) {
+            blockNavigation();
+            setInterval(blockDangerousButtons, 2000);
+            setInterval(allowProfileSelection, 2000);
             blockDangerousButtons();
             allowProfileSelection();
+        }
+        
+        // Desbloquear selector de idioma en todas las plataformas
+        unblockLanguageSelector();
+        setInterval(unblockLanguageSelector, 3000);
+        
+        const observer = new MutationObserver(() => {
+            if (isNetflix()) {
+                blockDangerousButtons();
+                allowProfileSelection();
+            }
+            // Siempre intentar desbloquear selector de idioma
+            unblockLanguageSelector();
         });
         
         if (document.body) observer.observe(document.body, { childList: true, subtree: true });
         
         window.addEventListener('load', () => {
-            setTimeout(detectInvalidSession, 1500);
+            if (isNetflix()) {
+                setTimeout(detectInvalidSession, 1500);
+            }
         });
     }
     

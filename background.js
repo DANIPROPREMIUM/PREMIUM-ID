@@ -1,4 +1,4 @@
-// PREMIUM ID - Background v3.3 (con verificación mejorada para Prime Video)
+// PREMIUM ID - Background v3.3 (modificado - sin falsas notificaciones)
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com', checkUrl: 'https://www.netflix.com/browse' },
@@ -289,7 +289,7 @@ async function restoreSession(platformKey, encryptedData) {
 }
 
 // ============================================
-// ANTI-SESSION SHARE
+// ANTI-SESSION SHARE (MANTENIDO)
 // ============================================
 
 let sessionPasteDetected = false;
@@ -323,7 +323,7 @@ async function checkClipboardForSessionPaste() {
 setInterval(checkClipboardForSessionPaste, 2000);
 
 // ============================================
-// HEARTBEAT
+// HEARTBEAT (SIN KILL SESSION)
 // ============================================
 
 setInterval(async () => {
