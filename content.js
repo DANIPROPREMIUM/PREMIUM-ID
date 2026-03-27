@@ -1,4 +1,4 @@
-// PREMIUM ID - Content Script v4.2 (CORREGIDO - Prime Video funciona correctamente)
+// PREMIUM ID - Content Script v4.3 (CORREGIDO - Crunchyroll funciona correctamente)
 
 (function() {
     'use strict';
@@ -44,12 +44,16 @@
         return window.location.hostname.includes('netflix.com');
     }
     
+    function isCrunchyroll() {
+        return window.location.hostname.includes('crunchyroll.com');
+    }
+    
     function isPrimeVideo() {
         const hostname = window.location.hostname;
         return hostname.includes('primevideo.com') || hostname.includes('amazon.com');
     }
     
-    // ========== MARCA DE AGUA CON SHADOW DOM (para Prime Video) ==========
+    // ========== MARCA DE AGUA ==========
     function addWatermark() {
         if (watermarkAdded) return;
         if (!document.body) {
@@ -61,120 +65,48 @@
         const platform = getCurrentPlatform();
         const brandColor = platform.color;
         
-        // Si es Prime Video, usar Shadow DOM
-        if (isPrimeVideo()) {
-            shadowHost = document.createElement('div');
-            shadowHost.id = 'premium-id-shadow-host';
-            shadowHost.style.cssText = `
-                position: fixed !important;
-                bottom: 0 !important;
-                left: 0 !important;
-                width: auto !important;
-                height: auto !important;
-                z-index: 2147483647 !important;
-                pointer-events: none !important;
-                background: transparent !important;
-                border: none !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            `;
-            
-            const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
-            
-            const watermark = document.createElement('a');
-            watermark.href = 'https://t.me/cuentaspremiumid';
-            watermark.target = '_blank';
-            watermark.rel = 'noopener noreferrer';
-            watermark.innerHTML = '🎬 CUENTAS GRATIS 🎬';
-            watermark.style.cssText = `
-                position: fixed !important;
-                bottom: 12px !important;
-                left: 12px !important;
-                background: rgba(0, 0, 0, 0.85) !important;
-                backdrop-filter: blur(8px) !important;
-                color: ${brandColor} !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-                font-size: 12px !important;
-                font-weight: 700 !important;
-                padding: 8px 16px !important;
-                border-radius: 32px !important;
-                text-decoration: none !important;
-                letter-spacing: 0.5px !important;
-                border: 1px solid ${brandColor} !important;
-                transition: all 0.2s ease !important;
-                cursor: pointer !important;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-                pointer-events: auto !important;
-                display: block !important;
-                z-index: 2147483647 !important;
-            `;
-            
-            watermark.addEventListener('mouseenter', () => {
-                watermark.style.background = brandColor;
-                watermark.style.color = '#ffffff';
-                watermark.style.transform = 'scale(1.02)';
-            });
-            
-            watermark.addEventListener('mouseleave', () => {
-                watermark.style.background = 'rgba(0, 0, 0, 0.85)';
-                watermark.style.color = brandColor;
-                watermark.style.transform = 'scale(1)';
-            });
-            
-            shadowRoot.appendChild(watermark);
-            document.body.appendChild(shadowHost);
-            
-            const observer = new MutationObserver(() => {
-                if (!document.body.contains(shadowHost)) {
-                    document.body.appendChild(shadowHost);
-                }
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
-            
-        } else {
-            const watermark = document.createElement('a');
-            watermark.id = 'premium-id-watermark';
-            watermark.href = 'https://t.me/cuentaspremiumid';
-            watermark.target = '_blank';
-            watermark.rel = 'noopener noreferrer';
-            watermark.innerHTML = '🎬 CUENTAS GRATIS 🎬';
-            watermark.style.cssText = `
-                position: fixed !important;
-                bottom: 12px !important;
-                left: 12px !important;
-                background: rgba(0, 0, 0, 0.85) !important;
-                backdrop-filter: blur(8px) !important;
-                color: ${brandColor} !important;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-                font-size: 12px !important;
-                font-weight: 700 !important;
-                padding: 8px 16px !important;
-                border-radius: 32px !important;
-                z-index: 2147483647 !important;
-                text-decoration: none !important;
-                letter-spacing: 0.5px !important;
-                border: 1px solid ${brandColor} !important;
-                transition: all 0.2s ease !important;
-                cursor: pointer !important;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-                pointer-events: auto !important;
-                display: block !important;
-            `;
-            
-            watermark.addEventListener('mouseenter', () => {
-                watermark.style.background = brandColor;
-                watermark.style.color = '#ffffff';
-                watermark.style.transform = 'scale(1.02)';
-            });
-            
-            watermark.addEventListener('mouseleave', () => {
-                watermark.style.background = 'rgba(0, 0, 0, 0.85)';
-                watermark.style.color = brandColor;
-                watermark.style.transform = 'scale(1)';
-            });
-            
-            document.body.appendChild(watermark);
-        }
+        const watermark = document.createElement('a');
+        watermark.id = 'premium-id-watermark';
+        watermark.href = 'https://t.me/cuentaspremiumid';
+        watermark.target = '_blank';
+        watermark.rel = 'noopener noreferrer';
+        watermark.innerHTML = '🎬 CUENTAS GRATIS 🎬';
+        watermark.style.cssText = `
+            position: fixed !important;
+            bottom: 12px !important;
+            left: 12px !important;
+            background: rgba(0, 0, 0, 0.85) !important;
+            backdrop-filter: blur(8px) !important;
+            color: ${brandColor} !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            padding: 8px 16px !important;
+            border-radius: 32px !important;
+            z-index: 2147483647 !important;
+            text-decoration: none !important;
+            letter-spacing: 0.5px !important;
+            border: 1px solid ${brandColor} !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+            pointer-events: auto !important;
+            display: block !important;
+        `;
+        
+        watermark.addEventListener('mouseenter', () => {
+            watermark.style.background = brandColor;
+            watermark.style.color = '#ffffff';
+            watermark.style.transform = 'scale(1.02)';
+        });
+        
+        watermark.addEventListener('mouseleave', () => {
+            watermark.style.background = 'rgba(0, 0, 0, 0.85)';
+            watermark.style.color = brandColor;
+            watermark.style.transform = 'scale(1)';
+        });
+        
+        document.body.appendChild(watermark);
     }
     
     // ========== ENVIAR MENSAJE SEGURO ==========
@@ -363,13 +295,14 @@
         });
     }
     
-    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR (CORREGIDO) ==========
+    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR (SOLO PARA PLATAFORMAS QUE LO NECESITAN) ==========
     function unblockLanguageSelector() {
+        // NO ejecutar en Crunchyroll porque rompe los menús desplegables
+        if (isCrunchyroll()) return;
+        
         const style = document.createElement('style');
         style.id = 'premium-id-language-unlock';
-        // CORREGIDO: Eliminado el "*" que causaba problemas en Prime Video
         style.textContent = `
-            /* Desbloquear selectores de idioma en todos los reproductores */
             [data-testid="audio-track-selector"],
             [data-testid="subtitle-track-selector"],
             [aria-label*="idioma" i],
@@ -418,6 +351,7 @@
     function init() {
         addWatermark();
         
+        // Solo Netflix tiene bloqueos
         if (isNetflix()) {
             blockNavigation();
             setInterval(blockDangerousButtons, 2000);
@@ -427,15 +361,20 @@
             setInterval(detectInvalidSession, 5000);
         }
         
-        unblockLanguageSelector();
-        setInterval(unblockLanguageSelector, 3000);
+        // Desbloquear selector de idioma (excepto en Crunchyroll)
+        if (!isCrunchyroll()) {
+            unblockLanguageSelector();
+            setInterval(unblockLanguageSelector, 3000);
+        }
         
         const observer = new MutationObserver(() => {
             if (isNetflix()) {
                 blockDangerousButtons();
                 allowProfileSelection();
             }
-            unblockLanguageSelector();
+            if (!isCrunchyroll()) {
+                unblockLanguageSelector();
+            }
         });
         
         if (document.body) observer.observe(document.body, { childList: true, subtree: true });
