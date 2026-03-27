@@ -1,4 +1,4 @@
-// PREMIUM ID - Content Script (con Shadow DOM para Prime Video)
+// PREMIUM ID - Content Script v4.2 (CORREGIDO - Prime Video funciona correctamente)
 
 (function() {
     'use strict';
@@ -63,7 +63,6 @@
         
         // Si es Prime Video, usar Shadow DOM
         if (isPrimeVideo()) {
-            // Crear un contenedor que no sea fácilmente detectable
             shadowHost = document.createElement('div');
             shadowHost.id = 'premium-id-shadow-host';
             shadowHost.style.cssText = `
@@ -80,10 +79,8 @@
                 padding: 0 !important;
             `;
             
-            // Adjuntar Shadow DOM
             const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
             
-            // Crear el enlace dentro del Shadow DOM
             const watermark = document.createElement('a');
             watermark.href = 'https://t.me/cuentaspremiumid';
             watermark.target = '_blank';
@@ -127,8 +124,7 @@
             shadowRoot.appendChild(watermark);
             document.body.appendChild(shadowHost);
             
-            // Reintentar si el Shadow DOM es eliminado
-            const observer = new MutationObserver((mutations) => {
+            const observer = new MutationObserver(() => {
                 if (!document.body.contains(shadowHost)) {
                     document.body.appendChild(shadowHost);
                 }
@@ -136,7 +132,6 @@
             observer.observe(document.body, { childList: true, subtree: true });
             
         } else {
-            // Para otras plataformas, método normal
             const watermark = document.createElement('a');
             watermark.id = 'premium-id-watermark';
             watermark.href = 'https://t.me/cuentaspremiumid';
@@ -205,7 +200,6 @@
     
     // ========== DETECTAR SESIÓN INVÁLIDA (SOLO NETFLIX) ==========
     function detectInvalidSession() {
-        // SOLO para Netflix, mantener protección
         if (!isNetflix()) return;
         
         const platform = getCurrentPlatform();
@@ -298,8 +292,6 @@
             }
             
             if (request.action === 'kill_session') {
-                // ELIMINADO: Ya no se mata la sesión por falsas notificaciones
-                // killSession();
                 sendResponse({ killed: false, message: 'Kill session disabled' });
             }
             
@@ -316,82 +308,66 @@
         extensionAlive = false;
     }
     
-    // ========== VERIFICAR HEARTBEAT ==========
-    // ELIMINADO: El heartbeat ya no mata sesiones automáticamente
-    // Solo mantenemos el heartbeat para mantener la conexión pero sin kill
-    
-    // ========== CERRAR SESIÓN (DESACTIVADO) ==========
     function killSession() {
-        // Función desactivada - ya no se cierra la sesión automáticamente
         console.log('Kill session desactivado - no se cerrará la sesión');
     }
     
     // ========== BLOQUEAR NAVEGACIÓN (SOLO NETFLIX) ==========
     function blockNavigation() {
-        if (!isNetflix()) return; // Solo Netflix mantiene bloqueos
+        if (!isNetflix()) return;
         
-        const hostname = window.location.hostname;
         const path = window.location.pathname;
         const url = window.location.href;
         
-        if (hostname.includes('netflix.com')) {
-            const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
-            if (tvPatterns.some(p => path.includes(p) || url.includes(p))) {
-                window.location.replace('https://www.netflix.com/browse');
-                return;
-            }
-            if (path.includes('/account') || path.includes('/profiles') || path.includes('/ManageProfiles') || path.includes('logout')) {
-                window.location.replace('https://www.netflix.com/browse');
-                return;
-            }
+        const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
+        if (tvPatterns.some(p => path.includes(p) || url.includes(p))) {
+            window.location.replace('https://www.netflix.com/browse');
+            return;
+        }
+        if (path.includes('/account') || path.includes('/profiles') || path.includes('/ManageProfiles') || path.includes('logout')) {
+            window.location.replace('https://www.netflix.com/browse');
+            return;
         }
     }
     
     // ========== BLOQUEAR BOTONES PELIGROSOS (SOLO NETFLIX) ==========
     function blockDangerousButtons() {
-        if (!isNetflix()) return; // Solo Netflix mantiene bloqueos
+        if (!isNetflix()) return;
         
-        const hostname = window.location.hostname;
-        
-        if (hostname.includes('netflix.com')) {
-            const allElements = document.querySelectorAll('a, button');
-            allElements.forEach(el => {
-                const text = el.textContent?.toLowerCase() || '';
-                const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
-                if (text.includes('cerrar sesión') || text.includes('sign out') || text.includes('logout') || ariaLabel.includes('cerrar sesión') || ariaLabel.includes('sign out')) {
-                    el.style.pointerEvents = 'none';
-                    el.style.opacity = '0.6';
-                }
-                if (text.includes('agregar perfil') || text.includes('add profile') || text === '+' || ariaLabel.includes('agregar perfil') || ariaLabel.includes('add profile')) {
-                    el.style.pointerEvents = 'none';
-                    el.style.opacity = '0.6';
-                }
-            });
-            const accountLinks = document.querySelectorAll('a[href*="/account"], a[href*="/profiles"], a[href*="/ManageProfiles"]');
-            accountLinks.forEach(link => {
-                link.style.pointerEvents = 'none';
-                link.style.opacity = '0.6';
-            });
-        }
+        const allElements = document.querySelectorAll('a, button');
+        allElements.forEach(el => {
+            const text = el.textContent?.toLowerCase() || '';
+            const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
+            if (text.includes('cerrar sesión') || text.includes('sign out') || text.includes('logout') || ariaLabel.includes('cerrar sesión') || ariaLabel.includes('sign out')) {
+                el.style.pointerEvents = 'none';
+                el.style.opacity = '0.6';
+            }
+            if (text.includes('agregar perfil') || text.includes('add profile') || text === '+' || ariaLabel.includes('agregar perfil') || ariaLabel.includes('add profile')) {
+                el.style.pointerEvents = 'none';
+                el.style.opacity = '0.6';
+            }
+        });
+        const accountLinks = document.querySelectorAll('a[href*="/account"], a[href*="/profiles"], a[href*="/ManageProfiles"]');
+        accountLinks.forEach(link => {
+            link.style.pointerEvents = 'none';
+            link.style.opacity = '0.6';
+        });
     }
     
     // ========== PERMITIR SELECCIÓN DE PERFILES (SOLO NETFLIX) ==========
     function allowProfileSelection() {
         if (!isNetflix()) return;
         
-        const hostname = window.location.hostname;
-        if (hostname.includes('netflix.com')) {
-            document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
-                if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
-            });
-        }
+        document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
+            if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
+        });
     }
     
-    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR ==========
+    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR (CORREGIDO) ==========
     function unblockLanguageSelector() {
-        // Eliminar cualquier restricción que pueda afectar al selector de idioma
         const style = document.createElement('style');
         style.id = 'premium-id-language-unlock';
+        // CORREGIDO: Eliminado el "*" que causaba problemas en Prime Video
         style.textContent = `
             /* Desbloquear selectores de idioma en todos los reproductores */
             [data-testid="audio-track-selector"],
@@ -409,30 +385,16 @@
                 pointer-events: auto !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                display: flex !important;
+                display: inline-flex !important;
                 cursor: pointer !important;
-            }
-            
-            /* Desbloquear cualquier elemento que pueda estar bloqueado */
-            * {
-                pointer-events: auto !important;
-            }
-            
-            /* Restaurar solo los elementos de idioma, no todos */
-            .player-controls button,
-            .player-controls select,
-            .control-button {
-                pointer-events: auto !important;
             }
         `;
         
-        // Remover si ya existe
         const existingStyle = document.getElementById('premium-id-language-unlock');
         if (existingStyle) existingStyle.remove();
         
         document.head.appendChild(style);
         
-        // También remover cualquier atributo de bloqueo en elementos relacionados con idioma
         const languageElements = document.querySelectorAll(
             '[data-testid="audio-track-selector"], ' +
             '[data-testid="subtitle-track-selector"], ' +
@@ -446,6 +408,7 @@
         languageElements.forEach(el => {
             el.style.pointerEvents = 'auto';
             el.style.opacity = '1';
+            el.style.visibility = 'visible';
             el.removeAttribute('disabled');
             el.removeAttribute('aria-disabled');
         });
@@ -455,16 +418,15 @@
     function init() {
         addWatermark();
         
-        // Solo Netflix mantiene bloqueos de navegación y botones
         if (isNetflix()) {
             blockNavigation();
             setInterval(blockDangerousButtons, 2000);
             setInterval(allowProfileSelection, 2000);
             blockDangerousButtons();
             allowProfileSelection();
+            setInterval(detectInvalidSession, 5000);
         }
         
-        // Desbloquear selector de idioma en todas las plataformas
         unblockLanguageSelector();
         setInterval(unblockLanguageSelector, 3000);
         
@@ -473,7 +435,6 @@
                 blockDangerousButtons();
                 allowProfileSelection();
             }
-            // Siempre intentar desbloquear selector de idioma
             unblockLanguageSelector();
         });
         
