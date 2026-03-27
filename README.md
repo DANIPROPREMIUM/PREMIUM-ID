@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 2.0</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/9944394a-107b-481c-8914-241bbc26e588" />
+  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/37949c26-9946-4637-9373-b3aca45410de" />
 </p>
 
 <p align="center">
