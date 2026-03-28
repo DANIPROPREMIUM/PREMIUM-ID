@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 2.2</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 2.3</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/8c9db021-d95d-40b5-9b79-0b50420b726a" />
+  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/ca762588-e0b2-4c12-bb57-7449a3f5bc8d" />
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
   <img src="https://img.shields.io/badge/PARA%20MISES%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA MISES BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-2.2-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-2.3-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 
