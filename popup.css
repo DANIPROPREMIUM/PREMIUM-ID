@@ -189,7 +189,7 @@ body {
     100% { opacity: 1; text-shadow: 0 0 0px #FF0000; }
 }
 
-/* ===== PLATAFORMAS (ESTILO ANTERIOR) ===== */
+/* ===== PLATAFORMAS ===== */
 .platforms-row {
     display: flex;
     justify-content: center;
@@ -295,96 +295,6 @@ body {
     100% { border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
 }
 
-/* ===== MODO CREADOR ===== */
-.creator-throne {
-    background: rgba(12, 8, 22, 0.9);
-    backdrop-filter: blur(16px);
-    border-radius: 32px;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    overflow: hidden;
-    margin-top: 16px;
-}
-
-.throne-header {
-    padding: 14px 18px;
-    background: rgba(212, 175, 55, 0.08);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.throne-crystal {
-    width: 10px;
-    height: 10px;
-    background: #D4AF37;
-    transform: rotate(45deg);
-    box-shadow: 0 0 10px #D4AF37;
-    animation: crystalPulse 1.5s infinite;
-}
-
-.throne-title {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    color: #F5E6B3;
-}
-
-.throne-body {
-    padding: 22px;
-}
-
-.select-crown {
-    width: 100%;
-    padding: 14px;
-    background: #0C0820;
-    border: 1px solid rgba(212, 175, 55, 0.5);
-    border-radius: 48px;
-    color: #F5E6B3;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 18px;
-    outline: none;
-    cursor: pointer;
-}
-
-.btn-throne {
-    width: 100%;
-    padding: 14px;
-    background: #1E1A30;
-    border: 1px solid #D4AF37;
-    border-radius: 48px;
-    color: #F5E6B3;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-throne:hover {
-    background: #2F2860;
-    border-color: #F5E6B3;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-}
-
-.code-crown {
-    margin-top: 18px;
-    background: #050310;
-    border-radius: 24px;
-    padding: 14px;
-    font-family: monospace;
-    font-size: 10px;
-    word-break: break-all;
-    color: #F5E6B3;
-    display: none;
-}
-
-.throne-note {
-    font-size: 11px;
-    color: #8A7A5A;
-    text-align: center;
-    margin-top: 14px;
-}
-
 /* ===== STATUS ===== */
 .status-crown {
     font-size: 13px;
@@ -453,9 +363,4 @@ body {
     cursor: default;
     font-weight: 500;
     font-size: 12px;
-}
-
-@keyframes crystalPulse {
-    0% { opacity: 0.4; transform: rotate(45deg) scale(0.8); }
-    100% { opacity: 1; transform: rotate(45deg) scale(1.2); }
 }
