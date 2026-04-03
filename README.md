@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 2.3</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 3.0</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/ca762588-e0b2-4c12-bb57-7449a3f5bc8d" />
+  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/bcd09832-2fe2-45c5-a0cd-6f7c7d9f3e68" />
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 
 <!-- Insignia para Android -->
 <p align="center">
-  <img src="https://badgen.net/badge/PARA%20MISES%20BROWSER/ANDROID?icon=android&color=3DDC84&scale=2" alt="PARA ANDROID">
+  <img src="https://badgen.net/badge/PARA%20QUETTA%20BROWSER/ANDROID?icon=android&color=3DDC84&scale=2" alt="PARA ANDROID">
 </p>
 
 <br>
@@ -25,10 +25,10 @@
 
 <!-- Badges de Información del Proyecto -->
 <p align="center">
-  <img src="https://img.shields.io/badge/PARA%20MISES%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA MISES BROWSER EN ANDROID">
+  <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-2.3-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-3.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 
