@@ -72,7 +72,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 ---
 ## 🚀 Instalación Android
 
-1. **Abre Mises browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:
+1. **Abre Quetta browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:
 2. **Click aquí**: <p align="center">
   <a href="https://github.com/DANIPROPREMIUM/PREMIUM-ID/archive/refs/heads/main.zip">
     <img src="https://img.shields.io/badge/Descargar-Extensión-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="Descargar para Android">
