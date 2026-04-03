@@ -5,74 +5,91 @@
 <title>PREMIUM ID</title>
 <link rel="stylesheet" href="popup.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="royal-bg"></div>
-<div class="crown-container">
+<div class="premium-container">
     
-    <!-- Logo -->
-    <div class="logo-crown">
-        <div class="logo-main">
-            <span class="premium-crown">PREMIUM</span>
-            <span class="id-crown">ID</span>
+    <!-- Botón de versión en esquina inferior derecha -->
+    <div class="version-badge">v3.0</div>
+    
+    <!-- Header con PREMIUM ID TÍTULO TOP -->
+    <div class="premium-header">
+        <div class="premium-title">
+            <span class="premium-text">PREMIUM</span>
+            <span class="id-text">ID</span>
+        </div>
+        <div class="title-glow"></div>
+    </div>
+    
+    <!-- Instrucción -->
+    <div class="instruction-box">
+        <i class="fas fa-key"></i>
+        <span>COPIA EL CÓDIGO ID</span>
+    </div>
+    
+    <!-- Grid de plataformas (2 filas de 3) -->
+    <div class="platforms-grid">
+        <div class="platform-card netflix" data-platform="netflix" title="Netflix">
+            <div class="platform-icon">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="Netflix">
+            </div>
+            <span>NETFLIX</span>
+        </div>
+        
+        <div class="platform-card crunchyroll" data-platform="crunchyroll" title="Crunchyroll">
+            <div class="platform-icon">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/crunchyroll.svg" alt="Crunchyroll">
+            </div>
+            <span>CRUNCHYROLL</span>
+        </div>
+        
+        <div class="platform-card prime" data-platform="prime" title="Prime Video">
+            <div class="platform-icon prime-logo">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/primevideo.svg" alt="Prime Video">
+            </div>
+            <span>PRIME VIDEO</span>
+        </div>
+        
+        <div class="platform-card paramount" data-platform="paramount" title="Paramount+">
+            <div class="platform-icon">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paramountplus.svg" alt="Paramount+">
+            </div>
+            <span>PARAMOUNT+</span>
+        </div>
+        
+        <div class="platform-card viki" data-platform="viki" title="Rakuten Viki">
+            <div class="platform-icon">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/rakuten.svg" alt="Viki">
+            </div>
+            <span>VIKI</span>
+        </div>
+        
+        <div class="platform-card atresplayer" data-platform="atresplayer" title="AtresPlayer">
+            <div class="platform-icon atres-text-logo">
+                <span class="atres-red">ATRES</span><span class="player-gray">player</span>
+            </div>
+            <span>ATRESPLAYER</span>
         </div>
     </div>
     
-    <!-- Panel Usuario (único panel) -->
-    <div id="user-panel" class="panel-crown">
-        <!-- Texto principal -->
-        <div class="instruction-area">
-            <div class="instruction-text">🔑 Copia el código ID y abre la extensión</div>
-            <div class="instruction-glow"></div>
-        </div>
-        
-        <!-- 3 PASOS -->
-        <div class="steps-container">
-            <div class="step-item">
-                <div class="step-circle">1</div>
-                <div class="step-icon"><i class="fas fa-copy"></i></div>
-                <div class="step-label">COPIA</div>
-            </div>
-            <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="step-item">
-                <div class="step-circle">2</div>
-                <div class="step-icon"><i class="fas fa-window-maximize"></i></div>
-                <div class="step-label">ABRE</div>
-            </div>
-            <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="step-item">             
-                <div class="step-icon"><i class="fas fa-rocket"></i></div>
-                <div class="step-label">ACCESO AUTOMÁTICO</div>
-            </div>
-        </div>
-        
-        <!-- Logos de plataformas -->
-        <div class="platforms-row">
-            <span class="platform-text netflix" data-platform="netflix" title="Netflix">NETFLIX</span>
-            <span class="platform-text crunchyroll" data-platform="crunchyroll" title="Crunchyroll">CRUNCHYROLL</span>
-            <span class="platform-text prime" data-platform="prime" title="Prime Video">PRIME</span>
-            <span class="platform-text paramount" data-platform="paramount" title="Paramount+">PARAMOUNT+</span>
-            <span class="platform-text viki" data-platform="viki" title="Rakuten Viki">VIKI</span>
-            <span class="platform-text atresplayer" data-platform="atresplayer" title="AtresPlayer">ATRES</span>
-        </div>
-        
-        <div id="status-message" class="status-crown"></div>
+    <!-- Botones grandes de Telegram y Web -->
+    <div class="channels-buttons">
+        <a href="https://t.me/cuentaspremiumid" target="_blank" class="channel-btn-large telegram">
+            <i class="fab fa-telegram"></i>
+            <span>TELEGRAM</span>
+        </a>
+        <a href="https://premium-id.jimdosite.com" target="_blank" class="channel-btn-large web">
+            <i class="fas fa-globe"></i>
+            <span>SITIO WEB</span>
+        </a>
     </div>
     
-    <div class="footer-crown">
-        <div class="footer-links">
-            <a href="https://t.me/cuentaspremiumid" target="_blank" class="footer-link telegram-link">
-                <i class="fab fa-telegram"></i>
-                <span>GRUPO TELEGRAM</span>
-            </a>
-            <a href="https://premium-id.jimdosite.com" target="_blank" class="footer-link web-link">
-                <i class="fas fa-globe"></i>
-                <span>WEB PREMIUM ID</span>
-            </a>
-        </div>
-        <span class="version-crown">v2.3</span>
-    </div>
+    <!-- Status -->
+    <div id="status-message" class="status-message"></div>
+    
+    <!-- Footer -->
+    <div class="premium-footer"></div>
 </div>
 <script src="popup.js"></script>
 </body>
