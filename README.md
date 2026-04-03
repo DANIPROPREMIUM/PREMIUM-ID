@@ -43,7 +43,7 @@
 ---
 
 ## 📖 Sobre el Proyecto
-*  **PREMIUM ID** es compatible para Windows/ PC de Chrome/ navegadores Chromium y en Android con Mises Browser
+*  **PREMIUM ID** es compatible para Windows/ PC de Chrome/ navegadores Chromium y en Android con Quetta Browser
 ---
 
 ## 🚀 LA EXTENSIÓN DEFINITIVA PARA CUENTAS PREMIUM
