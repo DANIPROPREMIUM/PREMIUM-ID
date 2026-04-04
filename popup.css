@@ -416,8 +416,8 @@ body {
 }
 
 .platform-card.prime .platform-icon img {
-    width: 56px;
-    height: 56px;
+    width: 110px;
+    height: 110px;
     transform: scale(1.08);
     filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
 }
