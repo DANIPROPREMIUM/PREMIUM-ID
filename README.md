@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 3.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 4.0</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="822" height="860" alt="Image" src="https://github.com/user-attachments/assets/9808919d-1c07-4967-8b5f-0c685d102cae" />
+  <img width="822" height="860" alt="Image" src="https://github.com/user-attachments/assets/e5255817-e13c-4a09-b117-cefc2d60803b" />
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-3.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-4.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 
