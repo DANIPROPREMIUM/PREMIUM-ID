@@ -1,37 +1,21 @@
-// PREMIUM ID - Background v4.0 PÚBLICO (Anti-TV/Android exclusivo Netflix)
+// PREMIUM ID - Background v4.0
 
-// ============================================
-// ANTI-TV/ANDROID — Exclusivo para Netflix
-// Solo permite Windows (Chrome/Edge/etc.)
-// Bloquea: Android, Smart TV, iOS
-// ============================================
 function isNetflixAllowed() {
     const ua = navigator.userAgent;
-
-    // Patrones de Smart TV / Android TV / dispositivos de streaming
     const tvPatterns = [
         /SmartTV/i, /Smart-TV/i, /SMART_TV/i,
-        /Tizen/i,                  // Samsung Smart TV
-        /WebOS/i, /Web0S/i,        // LG Smart TV
-        /HbbTV/i,                  // TV híbrida europeo
-        /CrKey/i,                  // Chromecast
-        /VIDAA/i,                  // Hisense TV
-        /Viera/i, /NetCast/i,      // Panasonic / LG
-        /NETTV/i, /DLNADOC/i,      // Philips TV
-        /AppleTV/i,
+        /Tizen/i, /WebOS/i, /Web0S/i,
+        /HbbTV/i, /CrKey/i, /VIDAA/i,
+        /Viera/i, /NetCast/i, /NETTV/i,
+        /DLNADOC/i, /AppleTV/i,
         /googletv/i, /AndroidTV/i,
-        /Android.*TV/i,
-        /Roku/i,
-        /Opera TV/i,
-        /AFT/i                     // Amazon Fire TV
+        /Android.*TV/i, /Roku/i,
+        /Opera TV/i, /AFT/i
     ];
-
-    const isTV      = tvPatterns.some(p => p.test(ua));
+    const isTV = tvPatterns.some(p => p.test(ua));
     const isAndroid = /Android/i.test(ua);
-    const isIOS     = /iPhone|iPad|iPod/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
     const isWindows = /Windows NT/i.test(ua);
-
-    // Solo pasar si es Windows Y no es TV ni Android ni iOS
     return isWindows && !isTV && !isAndroid && !isIOS;
 }
 
@@ -44,9 +28,6 @@ const PLATFORMS = {
     atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com', checkUrl: 'https://www.atresplayer.com' }
 };
 
-// ============================================
-// VERIFICAR VERSIÓN DEL CÓDIGO
-// ============================================
 function getCodeVersion(code) {
     if (!code?.startsWith('premium_id:')) return null;
     try {
@@ -66,9 +47,6 @@ function isCodeCompatible(code) {
     return version === 'V4';
 }
 
-// ============================================
-// VERIFICAR SESIÓN REAL (con ventana invisible)
-// ============================================
 async function verifySessionReal(platformKey, encryptedData) {
     let winId = null;
     
@@ -170,7 +148,6 @@ async function verifySessionReal(platformKey, encryptedData) {
                 ];
                 const isExpired = expiredIndicators.some(i => body.includes(i));
                 
-                // PRIME VIDEO
                 if (platformKey === 'prime') {
                     if (url.includes('nonprimehomepage') || url.includes('/offers/') || url.includes('nonprime')) {
                         return { isValid: false, reason: 'Sesión no premium' };
@@ -190,38 +167,81 @@ async function verifySessionReal(platformKey, encryptedData) {
                     }
                 }
                 
-                // ATRESPLAYER - VERIFICACIÓN MEJORADA
                 if (platformKey === 'atresplayer') {
-                    // Si está en página de login -> sesión inválida
                     if (url.includes('login') || url.includes('iniciar-sesion') || url.includes('identificate') || url.includes('entrar')) {
                         return { isValid: false, reason: 'Página de login detectada' };
                     }
                     
-                    // Buscar elementos que indican que el usuario NO está logueado
+                    const loggedInSelectors = [
+                        '[data-testid="user-avatar"]', '[data-testid="user-menu"]',
+                        '.user-avatar', '.user-menu', '.profile-dropdown',
+                        '.account-menu', '.user-info', '.profile-info',
+                        '[class*="UserMenu"]', '[class*="userMenu"]',
+                        '.nav-user', '.header-user',
+                        'img[alt*="perfil"]', 'img[alt*="profile"]',
+                        'img[class*="avatar"]', 'a[href*="logout"]',
+                        'button[class*="logout"]', '[class*="cerrar-sesion"]'
+                    ];
+                    
+                    let hasLoggedInElement = false;
+                    for (const selector of loggedInSelectors) {
+                        try {
+                            const el = document.querySelector(selector);
+                            if (el && el.offsetParent !== null) {
+                                hasLoggedInElement = true;
+                                break;
+                            }
+                        } catch(e) {}
+                    }
+                    
+                    const loggedInText = [
+                        'mi cuenta', 'mi perfil', 'cerrar sesión', 'logout',
+                        'mis listas', 'ver perfil', 'ajustes de cuenta'
+                    ];
+                    const hasLoggedInText = loggedInText.some(text => body.includes(text.toLowerCase()));
+                    
+                    let hasSessionCookie = false;
+                    try {
+                        const cookies = document.cookie.split(';');
+                        for (let cookie of cookies) {
+                            const c = cookie.trim().toLowerCase();
+                            if (c.includes('session') || c.includes('token') || 
+                                c.includes('auth') || c.includes('jwt') ||
+                                c.includes('atresplayer') || c.includes('user')) {
+                                hasSessionCookie = true;
+                                break;
+                            }
+                        }
+                    } catch(e) {}
+                    
+                    let hasStorageData = false;
+                    try {
+                        const storageKeys = ['user', 'token', 'session', 'auth', 'jwt', 'atresplayer'];
+                        for (const key of storageKeys) {
+                            if (localStorage.getItem(key) || sessionStorage.getItem(key)) {
+                                hasStorageData = true;
+                                break;
+                            }
+                        }
+                    } catch(e) {}
+                    
+                    const isValid = hasLoggedInElement || hasLoggedInText || hasSessionCookie || hasStorageData;
+                    
+                    if (isValid) {
+                        return { isValid: true };
+                    }
+                    
                     const noUserIndicators = [
                         'iniciar sesión', 'registrarse', 'crear cuenta', 'sign in', 'sign up',
                         'entrar con email', 'entrar con google', '¿no tienes cuenta?'
                     ];
                     const hasNoUserText = noUserIndicators.some(text => body.includes(text));
                     
-                    // Buscar elementos que indican que el usuario SÍ está logueado
-                    const hasUserAvatar = document.querySelector('[data-testid="user-avatar"], .user-avatar, .avatar, [class*="avatar"], .profile-image');
-                    const hasUserName = document.querySelector('[data-testid="user-name"], .user-name, .profile-name, .username');
-                    const hasUserMenu = document.querySelector('[class*="user-menu"], [class*="dropdown"], .profile-dropdown');
-                    const hasLogout = document.querySelector('[href*="logout"], [class*="logout"], [class*="cerrar-sesion"]');
-                    
-                    // Caso 1: Hay elementos de usuario logueado -> válido
-                    if (hasUserAvatar || hasUserName || hasUserMenu || hasLogout) {
-                        return { isValid: true };
-                    }
-                    
-                    // Caso 2: Hay texto de "iniciar sesión" -> inválido
                     if (hasNoUserText || isLoginPage) {
                         return { isValid: false, reason: 'No se detectó sesión activa' };
                     }
                     
-                    // Caso 3: Por defecto, si no podemos confirmar, asumimos inválido por seguridad
-                    return { isValid: false, reason: 'No se pudo verificar la sesión' };
+                    return { isValid: true };
                 }
                 
                 if (isLoginPage || isExpired) {
@@ -247,23 +267,20 @@ async function verifySessionReal(platformKey, encryptedData) {
     }
 }
 
-// ============================================
-// RESTAURAR SESIÓN (solo si es válida)
-// ============================================
 async function restoreSession(platformKey, encryptedData) {
     try {
         const platform = PLATFORMS[platformKey];
         if (!platform) throw new Error('Plataforma no soportada');
 
         if (platformKey === 'netflix' && !isNetflixAllowed()) {
-            throw new Error('NETFLIX BLOQUEADO: Netflix solo está disponible en navegadores de Windows.');
+            throw new Error('No disponible en este dispositivo');
         }
         
         const decoded = atob(encryptedData);
         const sessionData = JSON.parse(decoded);
         
         if (sessionData.version !== 'V4') {
-            throw new Error('Código incompatible. Solo compatible con PREMIUM ID V4');
+            throw new Error('Código incompatible');
         }
         
         const cookiePairs = sessionData.cookies.split('; ');
@@ -323,9 +340,6 @@ async function restoreSession(platformKey, encryptedData) {
     }
 }
 
-// ============================================
-// DETECCIÓN AUTOMÁTICA Y ABRIR POPUP
-// ============================================
 let lastProcessedCode = null;
 let isProcessing = false;
 
@@ -351,7 +365,7 @@ async function checkClipboardAndNotify() {
                     type: 'basic',
                     iconUrl: 'icons/icon128.png',
                     title: 'PREMIUM ID',
-                    message: `🎬 Código V4 detectado para ${platformName}. Abre la extensión y pulsa la plataforma.`,
+                    message: `Código detectado para ${platformName}. Abre la extensión.`,
                     priority: 2
                 });
                 
@@ -362,7 +376,7 @@ async function checkClipboardAndNotify() {
                     type: 'basic',
                     iconUrl: 'icons/icon128.png',
                     title: 'PREMIUM ID',
-                    message: `⚠️ Código incompatible (versión ${version}). Solo compatible con PREMIUM ID V4.`,
+                    message: `Código incompatible (versión ${version}).`,
                     priority: 2
                 });
             } else {
@@ -370,7 +384,7 @@ async function checkClipboardAndNotify() {
                     type: 'basic',
                     iconUrl: 'icons/icon128.png',
                     title: 'PREMIUM ID',
-                    message: `❌ Código inválido.`,
+                    message: `Código inválido.`,
                     priority: 2
                 });
             }
@@ -380,35 +394,6 @@ async function checkClipboardAndNotify() {
     } catch(e) {}
 }
 
-// ============================================
-// ANTI-SESSION SHARE
-// ============================================
-let sessionPasteDetected = false;
-
-async function checkClipboardForSessionPaste() {
-    if (sessionPasteDetected) return;
-    try {
-        const text = await navigator.clipboard.readText();
-        if (text && text.startsWith('session_paste')) {
-            sessionPasteDetected = true;
-            const tabs = await chrome.tabs.query({});
-            for (let tab of tabs) {
-                try { await chrome.tabs.sendMessage(tab.id, { action: 'kill_session' }); } catch(e) {}
-            }
-            chrome.notifications?.create({
-                type: 'basic',
-                iconUrl: 'icons/icon128.png',
-                title: 'PREMIUM ID',
-                message: '⚠️ Se detectó un intento de copiar la sesión.'
-            });
-            setTimeout(() => { sessionPasteDetected = false; }, 10000);
-        }
-    } catch(e) {}
-}
-
-// ============================================
-// HEARTBEAT
-// ============================================
 setInterval(async () => {
     const tabs = await chrome.tabs.query({});
     for (let tab of tabs) {
@@ -416,9 +401,6 @@ setInterval(async () => {
     }
 }, 2000);
 
-// ============================================
-// MANEJADOR DE MENSAJES
-// ============================================
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'verifySession') {
         verifySessionReal(request.platform, request.encryptedData)
@@ -443,6 +425,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 setInterval(checkClipboardAndNotify, 2000);
-setInterval(checkClipboardForSessionPaste, 2000);
-
-console.log('🔥 PREMIUM ID v4.0 - PÚBLICO (Anti-TV/Android activo)');
