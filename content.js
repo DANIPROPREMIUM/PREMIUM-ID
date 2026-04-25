@@ -1,8 +1,78 @@
-// PREMIUM ID - Content Script v4.3 (CORREGIDO - Crunchyroll funciona correctamente)
+// PREMIUM ID - Content Script v5.0 (Anti-TV/Android exclusivo Netflix)
 
 (function() {
     'use strict';
-    
+
+    // ============================================
+    // ANTI-TV/ANDROID — Exclusivo para Netflix
+    // ============================================
+    function isNetflixAllowed() {
+        const ua = navigator.userAgent;
+        const tvPatterns = [
+            /SmartTV/i, /Smart-TV/i, /SMART_TV/i,
+            /Tizen/i, /WebOS/i, /Web0S/i,
+            /HbbTV/i, /CrKey/i, /VIDAA/i,
+            /Viera/i, /NetCast/i, /NETTV/i,
+            /DLNADOC/i, /AppleTV/i, /googletv/i,
+            /AndroidTV/i, /Android.*TV/i,
+            /Roku/i, /Opera TV/i, /AFT/i
+        ];
+        const isTV      = tvPatterns.some(p => p.test(ua));
+        const isAndroid = /Android/i.test(ua);
+        const isIOS     = /iPhone|iPad|iPod/i.test(ua);
+        const isWindows = /Windows NT/i.test(ua);
+        return isWindows && !isTV && !isAndroid && !isIOS;
+    }
+
+    // Si estamos en Netflix y el dispositivo NO está permitido:
+    // mostrar overlay de bloqueo y detener todo.
+    function showNetflixBlockOverlay() {
+        const overlay = document.createElement('div');
+        overlay.id = 'premium-id-device-block';
+        overlay.style.cssText = `
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            width: 100% !important; height: 100% !important;
+            background: rgba(0,0,0,0.97) !important;
+            z-index: 2147483647 !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        `;
+        overlay.innerHTML = `
+            <div style="text-align:center;padding:36px 28px;background:#0a0a0a;
+                        border-radius:24px;border:1px solid #ff4444;max-width:320px;">
+                <div style="font-size:52px;margin-bottom:18px;">🚫</div>
+                <h2 style="color:#E50914;font-size:16px;font-weight:800;
+                           letter-spacing:1px;margin:0 0 12px;text-transform:uppercase;">
+                    Acceso No Permitido
+                </h2>
+                <p style="color:#aaa;font-size:13px;line-height:1.6;margin:0 0 20px;">
+                    Netflix solo está disponible desde<br>
+                    <strong style="color:#D4AF37">navegadores de Windows</strong>.
+                </p>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;">
+                    <div style="background:rgba(255,60,60,0.1);border-radius:10px;
+                                padding:8px 14px;color:#ff6666;">
+                        ❌ TV y Android TV — No permitido
+                    </div>
+                    <div style="background:rgba(255,60,60,0.1);border-radius:10px;
+                                padding:8px 14px;color:#ff6666;">
+                        ❌ Android / iOS — No permitido
+                    </div>
+                    <div style="background:rgba(212,175,55,0.1);border-radius:10px;
+                                padding:8px 14px;color:#D4AF37;">
+                        ✅ Chrome / Edge en Windows — Permitido
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const inject = () => { if (document.body) document.body.appendChild(overlay); };
+        if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
+    }
+
     let lastHeartbeat = Date.now();
     let sessionClosed = false;
     let watermarkAdded = false;
@@ -349,6 +419,13 @@
     
     // ========== INICIALIZAR ==========
     function init() {
+
+        // Anti-TV/Android: bloqueo exclusivo para Netflix
+        if (isNetflix() && !isNetflixAllowed()) {
+            showNetflixBlockOverlay();
+            return; // No continuar con nada más en esta página
+        }
+
         addWatermark();
         
         // Solo Netflix tiene bloqueos

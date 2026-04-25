@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "3.0",
+  "version": "4.0",
   "description": "Acceso gratuito a cuentas premium.",
   "permissions": [
     "cookies",

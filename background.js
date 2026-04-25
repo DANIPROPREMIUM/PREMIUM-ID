@@ -1,7 +1,42 @@
-// PREMIUM ID - Background v3.3 (modificado - sin falsas notificaciones)
+// PREMIUM ID - Background v4.0 PÚBLICO (Anti-TV/Android exclusivo Netflix)
+
+// ============================================
+// ANTI-TV/ANDROID — Exclusivo para Netflix
+// Solo permite Windows (Chrome/Edge/etc.)
+// Bloquea: Android, Smart TV, iOS
+// ============================================
+function isNetflixAllowed() {
+    const ua = navigator.userAgent;
+
+    // Patrones de Smart TV / Android TV / dispositivos de streaming
+    const tvPatterns = [
+        /SmartTV/i, /Smart-TV/i, /SMART_TV/i,
+        /Tizen/i,                  // Samsung Smart TV
+        /WebOS/i, /Web0S/i,        // LG Smart TV
+        /HbbTV/i,                  // TV híbrida europeo
+        /CrKey/i,                  // Chromecast
+        /VIDAA/i,                  // Hisense TV
+        /Viera/i, /NetCast/i,      // Panasonic / LG
+        /NETTV/i, /DLNADOC/i,      // Philips TV
+        /AppleTV/i,
+        /googletv/i, /AndroidTV/i,
+        /Android.*TV/i,
+        /Roku/i,
+        /Opera TV/i,
+        /AFT/i                     // Amazon Fire TV
+    ];
+
+    const isTV      = tvPatterns.some(p => p.test(ua));
+    const isAndroid = /Android/i.test(ua);
+    const isIOS     = /iPhone|iPad|iPod/i.test(ua);
+    const isWindows = /Windows NT/i.test(ua);
+
+    // Solo pasar si es Windows Y no es TV ni Android ni iOS
+    return isWindows && !isTV && !isAndroid && !isIOS;
+}
 
 const PLATFORMS = {
-    netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com', checkUrl: 'https://www.netflix.com/browse' },
+    netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse', checkUrl: 'https://www.netflix.com/browse' },
     crunchyroll: { name: 'Crunchyroll', domain: '.crunchyroll.com', url: 'https://www.crunchyroll.com', checkUrl: 'https://www.crunchyroll.com' },
     prime: { name: 'Prime Video', domain: '.amazon.com', altDomains: ['.primevideo.com'], url: 'https://www.primevideo.com', checkUrl: 'https://www.primevideo.com' },
     paramount: { name: 'Paramount+', domain: '.paramountplus.com', url: 'https://www.paramountplus.com', checkUrl: 'https://www.paramountplus.com' },
@@ -10,67 +45,45 @@ const PLATFORMS = {
 };
 
 // ============================================
-// GENERAR CÓDIGO
+// VERIFICAR VERSIÓN DEL CÓDIGO
 // ============================================
-
-async function generateSessionCode(platformKey) {
+function getCodeVersion(code) {
+    if (!code?.startsWith('premium_id:')) return null;
     try {
-        const platform = PLATFORMS[platformKey];
-        if (!platform) throw new Error('Plataforma no soportada');
-        
-        let allCookies = [];
-        const cookies = await chrome.cookies.getAll({ domain: platform.domain });
-        allCookies.push(...cookies);
-        
-        if (platform.altDomains) {
-            for (let altDomain of platform.altDomains) {
-                const altCookies = await chrome.cookies.getAll({ domain: altDomain });
-                allCookies.push(...altCookies);
-            }
-        }
-        
-        if (!allCookies || allCookies.length === 0) {
-            throw new Error(`No hay sesión activa en ${platform.name}`);
-        }
-        
-        const cookieString = allCookies.map(c => `${c.name}=${c.value}`).join('; ');
-        
-        const sessionData = {
-            platform: platformKey,
-            cookies: cookieString,
-            version: '1.0',
-            createdAt: Date.now()
-        };
-        
-        const encryptedData = btoa(JSON.stringify(sessionData));
-        const sessionId = Math.random().toString(36).substring(2, 8);
-        const accessKey = Math.random().toString(36).substring(2, 8);
-        const fullCode = `premium_id:${platformKey}:${sessionId}:${accessKey}:${encryptedData}`;
-        
-        return fullCode;
-        
+        const parts = code.split(':');
+        if (parts.length < 5) return null;
+        const encryptedData = parts.slice(4).join(':');
+        const decoded = atob(encryptedData);
+        const sessionData = JSON.parse(decoded);
+        return sessionData.version || 'V1';
     } catch(e) {
-        throw e;
+        return null;
     }
+}
+
+function isCodeCompatible(code) {
+    const version = getCodeVersion(code);
+    return version === 'V4';
 }
 
 // ============================================
 // VERIFICAR SESIÓN REAL (con ventana invisible)
 // ============================================
-
 async function verifySessionReal(platformKey, encryptedData) {
     let winId = null;
     
     try {
         const platform = PLATFORMS[platformKey];
-        if (!platform) return false;
+        if (!platform) return { isValid: false, error: 'Plataforma no soportada' };
         
         const decoded = atob(encryptedData);
         const sessionData = JSON.parse(decoded);
-        const cookiesString = sessionData.cookies;
         
-        // Restaurar cookies temporalmente
-        const cookiePairs = cookiesString.split('; ');
+        if (sessionData.version !== 'V4') {
+            return { isValid: false, error: 'Versión incompatible' };
+        }
+        
+        const cookiePairs = sessionData.cookies.split('; ');
         
         for (let cookiePair of cookiePairs) {
             const equalIndex = cookiePair.indexOf('=');
@@ -117,7 +130,6 @@ async function verifySessionReal(platformKey, encryptedData) {
             }
         }
         
-        // Crear ventana invisible (fuera de pantalla)
         const win = await chrome.windows.create({
             url: platform.checkUrl,
             type: 'popup',
@@ -130,11 +142,8 @@ async function verifySessionReal(platformKey, encryptedData) {
         
         winId = win.id;
         const tabId = win.tabs[0].id;
+        await new Promise(resolve => setTimeout(resolve, 6000));
         
-        // Esperar carga (5 segundos para Prime Video)
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        
-        // Ejecutar script para verificar
         const result = await chrome.scripting.executeScript({
             target: { tabId: tabId },
             func: (platformKey) => {
@@ -145,15 +154,10 @@ async function verifySessionReal(platformKey, encryptedData) {
                 const loginIndicators = {
                     crunchyroll: ['login', 'sign in', 'iniciar sesión', 'signin'],
                     netflix: ['login', 'sign in', 'iniciar sesión'],
-                    prime: [
-                        'signin', 'login', 'ap/signin', 'auth',
-                        'nonprimehomepage', 'offers/nonprimehomepage',
-                        'plan', 'selectplan', 'force_root',
-                        'offers', 'nonprime'
-                    ],
+                    prime: ['signin', 'login', 'ap/signin', 'auth', 'nonprimehomepage', 'offers/nonprimehomepage', 'plan', 'selectplan', 'force_root', 'offers', 'nonprime'],
                     paramount: ['login', 'sign in'],
                     viki: ['login', 'sign in'],
-                    atresplayer: ['iniciar-sesion', 'login']
+                    atresplayer: ['login', 'iniciar-sesion', 'identificate', 'entrar', 'signin']
                 };
                 
                 const indicators = loginIndicators[platformKey] || ['login', 'signin'];
@@ -161,41 +165,67 @@ async function verifySessionReal(platformKey, encryptedData) {
                 
                 const expiredIndicators = [
                     'session expired', 'sesión expirada', 'logged out', 'cerraste sesión',
-                    'sign in to continue', 'inicia sesión para continuar'
+                    'sign in to continue', 'inicia sesión para continuar', 'vuelve a iniciar sesión',
+                    'your session has expired', 'tu sesión ha expirado', 'login required'
                 ];
                 const isExpired = expiredIndicators.some(i => body.includes(i));
                 
-                // PRIME VIDEO: verificación específica
+                // PRIME VIDEO
                 if (platformKey === 'prime') {
-                    // Si la URL contiene 'nonprimehomepage' o 'offers' -> sesión inválida
                     if (url.includes('nonprimehomepage') || url.includes('/offers/') || url.includes('nonprime')) {
-                        return { isValid: false };
+                        return { isValid: false, reason: 'Sesión no premium' };
                     }
-                    
-                    // Buscar menú de usuario
                     const hasUserMenu = document.querySelector(
                         '[aria-label*="cuenta" i], [aria-label*="account" i], ' +
                         '.nav-account, #nav-link-accountList, ' +
                         '[data-testid="user-menu"], .profile-button, ' +
                         '.nav-user, .nav-avatar'
                     );
-                    
-                    // Si es página de contenido
                     const isContentPage = url.includes('/watch') || url.includes('/detail') || url.includes('/tv') || url.includes('/video');
-                    
-                    // Si no hay menú de usuario y no es página de contenido -> inválido
                     if (!hasUserMenu && !isContentPage) {
-                        return { isValid: false };
+                        return { isValid: false, reason: 'No se detectó sesión activa' };
                     }
-                    
-                    // Si hay menú de usuario -> válido
                     if (hasUserMenu) {
                         return { isValid: true };
                     }
                 }
                 
+                // ATRESPLAYER - VERIFICACIÓN MEJORADA
+                if (platformKey === 'atresplayer') {
+                    // Si está en página de login -> sesión inválida
+                    if (url.includes('login') || url.includes('iniciar-sesion') || url.includes('identificate') || url.includes('entrar')) {
+                        return { isValid: false, reason: 'Página de login detectada' };
+                    }
+                    
+                    // Buscar elementos que indican que el usuario NO está logueado
+                    const noUserIndicators = [
+                        'iniciar sesión', 'registrarse', 'crear cuenta', 'sign in', 'sign up',
+                        'entrar con email', 'entrar con google', '¿no tienes cuenta?'
+                    ];
+                    const hasNoUserText = noUserIndicators.some(text => body.includes(text));
+                    
+                    // Buscar elementos que indican que el usuario SÍ está logueado
+                    const hasUserAvatar = document.querySelector('[data-testid="user-avatar"], .user-avatar, .avatar, [class*="avatar"], .profile-image');
+                    const hasUserName = document.querySelector('[data-testid="user-name"], .user-name, .profile-name, .username');
+                    const hasUserMenu = document.querySelector('[class*="user-menu"], [class*="dropdown"], .profile-dropdown');
+                    const hasLogout = document.querySelector('[href*="logout"], [class*="logout"], [class*="cerrar-sesion"]');
+                    
+                    // Caso 1: Hay elementos de usuario logueado -> válido
+                    if (hasUserAvatar || hasUserName || hasUserMenu || hasLogout) {
+                        return { isValid: true };
+                    }
+                    
+                    // Caso 2: Hay texto de "iniciar sesión" -> inválido
+                    if (hasNoUserText || isLoginPage) {
+                        return { isValid: false, reason: 'No se detectó sesión activa' };
+                    }
+                    
+                    // Caso 3: Por defecto, si no podemos confirmar, asumimos inválido por seguridad
+                    return { isValid: false, reason: 'No se pudo verificar la sesión' };
+                }
+                
                 if (isLoginPage || isExpired) {
-                    return { isValid: false };
+                    return { isValid: false, reason: isLoginPage ? 'Página de login' : 'Sesión expirada' };
                 }
                 
                 return { isValid: true };
@@ -204,32 +234,37 @@ async function verifySessionReal(platformKey, encryptedData) {
         });
         
         const isValid = result[0]?.result?.isValid === true;
+        const reason = result[0]?.result?.reason || '';
         
-        return isValid;
+        return { isValid, reason };
         
     } catch(e) {
-        return false;
-        
+        return { isValid: false, error: e.message };
     } finally {
         if (winId) {
-            try {
-                await chrome.windows.remove(winId);
-            } catch(e) {}
+            try { await chrome.windows.remove(winId); } catch(e) {}
         }
     }
 }
 
 // ============================================
-// RESTAURAR SESIÓN (ABRE PESTAÑA VISIBLE)
+// RESTAURAR SESIÓN (solo si es válida)
 // ============================================
-
 async function restoreSession(platformKey, encryptedData) {
     try {
         const platform = PLATFORMS[platformKey];
         if (!platform) throw new Error('Plataforma no soportada');
+
+        if (platformKey === 'netflix' && !isNetflixAllowed()) {
+            throw new Error('NETFLIX BLOQUEADO: Netflix solo está disponible en navegadores de Windows.');
+        }
         
         const decoded = atob(encryptedData);
         const sessionData = JSON.parse(decoded);
+        
+        if (sessionData.version !== 'V4') {
+            throw new Error('Código incompatible. Solo compatible con PREMIUM ID V4');
+        }
         
         const cookiePairs = sessionData.cookies.split('; ');
         
@@ -281,17 +316,73 @@ async function restoreSession(platformKey, encryptedData) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         await chrome.tabs.create({ url: platform.url, active: true });
         
-        return true;
+        return { success: true };
         
     } catch(e) {
-        throw new Error('Código inválido');
+        throw new Error(e.message || 'Código inválido');
     }
 }
 
 // ============================================
-// ANTI-SESSION SHARE (MANTENIDO)
+// DETECCIÓN AUTOMÁTICA Y ABRIR POPUP
 // ============================================
+let lastProcessedCode = null;
+let isProcessing = false;
 
+async function checkClipboardAndNotify() {
+    if (isProcessing) return;
+    
+    try {
+        const text = await navigator.clipboard.readText();
+        
+        if (text === lastProcessedCode) return;
+        
+        if (text?.startsWith('premium_id:')) {
+            lastProcessedCode = text;
+            isProcessing = true;
+            
+            const version = getCodeVersion(text);
+            const parts = text.split(':');
+            const platform = parts[1];
+            const platformName = PLATFORMS[platform]?.name || platform;
+            
+            if (version === 'V4') {
+                chrome.notifications?.create({
+                    type: 'basic',
+                    iconUrl: 'icons/icon128.png',
+                    title: 'PREMIUM ID',
+                    message: `🎬 Código V4 detectado para ${platformName}. Abre la extensión y pulsa la plataforma.`,
+                    priority: 2
+                });
+                
+                chrome.action.openPopup();
+                
+            } else if (version && version !== 'V4') {
+                chrome.notifications?.create({
+                    type: 'basic',
+                    iconUrl: 'icons/icon128.png',
+                    title: 'PREMIUM ID',
+                    message: `⚠️ Código incompatible (versión ${version}). Solo compatible con PREMIUM ID V4.`,
+                    priority: 2
+                });
+            } else {
+                chrome.notifications?.create({
+                    type: 'basic',
+                    iconUrl: 'icons/icon128.png',
+                    title: 'PREMIUM ID',
+                    message: `❌ Código inválido.`,
+                    priority: 2
+                });
+            }
+            
+            isProcessing = false;
+        }
+    } catch(e) {}
+}
+
+// ============================================
+// ANTI-SESSION SHARE
+// ============================================
 let sessionPasteDetected = false;
 
 async function checkClipboardForSessionPaste() {
@@ -300,57 +391,39 @@ async function checkClipboardForSessionPaste() {
         const text = await navigator.clipboard.readText();
         if (text && text.startsWith('session_paste')) {
             sessionPasteDetected = true;
-            
             const tabs = await chrome.tabs.query({});
             for (let tab of tabs) {
-                try {
-                    await chrome.tabs.sendMessage(tab.id, { action: 'kill_session' });
-                } catch(e) {}
+                try { await chrome.tabs.sendMessage(tab.id, { action: 'kill_session' }); } catch(e) {}
             }
-            
             chrome.notifications?.create({
                 type: 'basic',
                 iconUrl: 'icons/icon128.png',
                 title: 'PREMIUM ID',
                 message: '⚠️ Se detectó un intento de copiar la sesión.'
             });
-            
             setTimeout(() => { sessionPasteDetected = false; }, 10000);
         }
     } catch(e) {}
 }
 
-setInterval(checkClipboardForSessionPaste, 2000);
-
 // ============================================
-// HEARTBEAT (SIN KILL SESSION)
+// HEARTBEAT
 // ============================================
-
 setInterval(async () => {
     const tabs = await chrome.tabs.query({});
     for (let tab of tabs) {
-        try {
-            await chrome.tabs.sendMessage(tab.id, { action: 'heartbeat' });
-        } catch(e) {}
+        try { await chrome.tabs.sendMessage(tab.id, { action: 'heartbeat' }); } catch(e) {}
     }
 }, 2000);
 
 // ============================================
 // MANEJADOR DE MENSAJES
 // ============================================
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'generateCode') {
-        generateSessionCode(request.platform)
-            .then(code => sendResponse({ success: true, code: code }))
-            .catch(err => sendResponse({ success: false, error: err.message }));
-        return true;
-    }
-    
     if (request.action === 'verifySession') {
         verifySessionReal(request.platform, request.encryptedData)
-            .then(isValid => sendResponse({ isValid: isValid }))
-            .catch(() => sendResponse({ isValid: false }));
+            .then(result => sendResponse({ isValid: result.isValid, reason: result.reason }))
+            .catch(err => sendResponse({ isValid: false, error: err.message }));
         return true;
     }
     
@@ -368,3 +441,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
     return false;
 });
+
+setInterval(checkClipboardAndNotify, 2000);
+setInterval(checkClipboardForSessionPaste, 2000);
+
+console.log('🔥 PREMIUM ID v4.0 - PÚBLICO (Anti-TV/Android activo)');
