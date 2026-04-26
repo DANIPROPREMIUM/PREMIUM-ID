@@ -58,7 +58,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 ---
 
-## 📺 PLATAFORMAS COMPATIBLES
+## 🖥️ 📱 PLATAFORMAS COMPATIBLES
 
 | Plataforma | Estado | Compatibilidad |
 |------------|--------|----------------|
