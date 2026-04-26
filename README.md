@@ -62,14 +62,15 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 | Plataforma | Estado | Compatibilidad |
 |------------|--------|----------------|
-| **NETFLIX** | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
-| **CRUNCHYROLL** | ✅ FULL | 🖥️ Windows / 📱 Android 
-| **PRIME VIDEO** | ✅ FULL | 🖥️ Windows / 📱 Android 
-| **PARAMOUNT+** | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
-| **VIKI** | ✅ FULL | 🖥️ Windows / 📱 Android 
-| **ATRESPLAYER** | ✅ FULL | 🖥️ Windows / 📱 Android
+| ![Netflix](https://img.shields.io/badge/-NETFLIX-E50914?style=flat&logo=netflix&logoColor=white) | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
+| ![Crunchyroll](https://img.shields.io/badge/-CRUNCHYROLL-F47521?style=flat&logo=crunchyroll&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
+| ![Prime Video](https://img.shields.io/badge/-PRIME%20VIDEO-00A8E1?style=flat&logo=primevideo&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
+| ![Paramount+](https://img.shields.io/badge/-PARAMOUNT%2B-0066FF?style=flat&logo=paramountplus&logoColor=white) | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
+| ![Viki](https://img.shields.io/badge/-VIKI-9B59B6?style=flat&logo=viki&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
+| **ATRESplayer** | ✅ FULL | 🖥️ Windows / 📱 Android |
 
 ---
+
 ## 🚀 Instalación Android
 
 1. **Abre Quetta browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:
