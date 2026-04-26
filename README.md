@@ -67,7 +67,7 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 | ![Prime Video](https://img.shields.io/badge/-PRIME%20VIDEO-00A8E1?style=flat&logo=primevideo&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
 | ![Paramount+](https://img.shields.io/badge/-PARAMOUNT%2B-0066FF?style=flat&logo=paramountplus&logoColor=white) | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
 | ![Viki](https://img.shields.io/badge/-VIKI-9B59B6?style=flat&logo=viki&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
-| **ATRESplayer** | ✅ FULL | 🖥️ Windows / 📱 Android |
+| ![ATRES](https://img.shields.io/badge/ATRES-E60000?style=flat)![player](https://img.shields.io/badge/player-CCCCCC?style=flat) | ✅ FULL | 🖥️ Windows / 📱 Android |
 
 ---
 
