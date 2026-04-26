@@ -60,14 +60,14 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 ## 📺 PLATAFORMAS COMPATIBLES
 
-| Plataforma | Estado |
-|------------|--------|
-| **NETFLIX** | ✅ FULL |
-| **CRUNCHYROLL** | ✅ FULL |
-| **PRIME VIDEO** | ✅ FULL |
-| **PARAMOUNT+** | ✅ FULL |
-| **VIKI** | ✅ FULL |
-| **ATRESPLAYER** | ✅ FULL |
+| Plataforma | Estado | Compatibilidad |
+|------------|--------|----------------|
+| **NETFLIX** | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
+| **CRUNCHYROLL** | ✅ FULL | 🖥️ Windows / 📱 Android 
+| **PRIME VIDEO** | ✅ FULL | 🖥️ Windows / 📱 Android 
+| **PARAMOUNT+** | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
+| **VIKI** | ✅ FULL | 🖥️ Windows / 📱 Android 
+| **ATRESPLAYER** | ✅ FULL | 🖥️ Windows / 📱 Android
 
 ---
 ## 🚀 Instalación Android
