@@ -10,74 +10,62 @@
 <body>
 <div class="premium-container">
     
-    <!-- Versión -->
-    <div class="version-badge">v4.0</div>
-    
     <!-- Header -->
     <div class="premium-header">
         <div class="premium-title">
             <span class="premium-text">PREMIUM</span>
-            <span class="id-text">ID</span>
+            <div class="id-wrapper">
+                <span class="id-text">ID</span>
+                <i class="fas fa-crown crown-icon tilted"></i>
+            </div>
         </div>
-        <div class="title-glow"></div>
+        <div class="creator-subtitle">ACCESO GRATUITO</div>
     </div>
     
-    <!-- Instrucción -->
-    <div class="instruction-box">
-        <i class="fas fa-clipboard-list"></i>
-        <span>COPIA UN CÓDIGO ID DESDE PASTE.MYST.RS</span>
-    </div>
-    
-    <!-- Grid de plataformas -->
+    <!-- Grid de plataformas (solo decorativo, no funcional) -->
     <div class="platforms-grid">
         <div class="platform-card netflix" data-platform="netflix" title="Netflix">
             <div class="platform-icon">
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="Netflix">
             </div>
-            <span>NETFLIX</span>
         </div>
         
         <div class="platform-card crunchyroll" data-platform="crunchyroll" title="Crunchyroll">
             <div class="platform-icon">
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/crunchyroll.svg" alt="Crunchyroll">
             </div>
-            <span>CRUNCHYROLL</span>
         </div>
         
         <div class="platform-card prime" data-platform="prime" title="Prime Video">
-            <div class="platform-icon prime-logo">
+            <div class="platform-icon">
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/primevideo.svg" alt="Prime Video">
             </div>
-            <span>PRIME VIDEO</span>
         </div>
         
         <div class="platform-card paramount" data-platform="paramount" title="Paramount+">
             <div class="platform-icon">
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paramountplus.svg" alt="Paramount+">
             </div>
-            <span>PARAMOUNT+</span>
         </div>
         
         <div class="platform-card viki" data-platform="viki" title="Rakuten Viki">
             <div class="platform-icon">
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/rakuten.svg" alt="Viki">
             </div>
-            <span>VIKI</span>
         </div>
         
         <div class="platform-card atresplayer" data-platform="atresplayer" title="AtresPlayer">
             <div class="platform-icon atres-text-logo">
                 <span class="atres-red">ATRES</span><span class="player-gray">player</span>
             </div>
-            <span>ATRESPLAYER</span>
         </div>
     </div>
     
-     <!-- Botones de soporte: Telegram + Web -->
+    <!-- Botones de soporte -->
     <div class="support-buttons">
         <a href="https://t.me/cuentaspremiumid" target="_blank" class="support-btn telegram">
             <i class="fab fa-telegram"></i>
-            <span>TELEGRAM</span>
+            <span>GRUPO TELEGRAM</span>
         </a>
         <a href="https://premium-id.jimdosite.com" target="_blank" class="support-btn web">
             <i class="fas fa-globe"></i>
@@ -89,7 +77,9 @@
     <div id="status-message" class="status-message"></div>
     
     <!-- Footer -->
-    <div class="premium-footer"></div>
+    <div class="premium-footer">
+        <span class="version">v4.0</span>
+    </div>
 </div>
 <script src="popup.js"></script>
 </body>

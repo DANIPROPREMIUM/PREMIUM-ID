@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 4.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 3.0</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="380" height="460" alt="Image" src="https://github.com/user-attachments/assets/1487dace-20c6-4c7a-b4e9-e2545cc27530" />
+  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/bcd09832-2fe2-45c5-a0cd-6f7c7d9f3e68" />
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-4.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-3.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 
@@ -58,19 +58,18 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 ---
 
-## 🖥️ 📱 PLATAFORMAS COMPATIBLES
+## 📺 PLATAFORMAS COMPATIBLES
 
-| Plataforma | Estado | Compatibilidad |
-|------------|--------|----------------|
-| ![Netflix](https://img.shields.io/badge/-NETFLIX-E50914?style=flat&logo=netflix&logoColor=white) | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
-| ![Crunchyroll](https://img.shields.io/badge/-CRUNCHYROLL-F47521?style=flat&logo=crunchyroll&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
-| ![Prime Video](https://img.shields.io/badge/-PRIME%20VIDEO-00A8E1?style=flat&logo=primevideo&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
-| ![Paramount+](https://img.shields.io/badge/-PARAMOUNT%2B-0066FF?style=flat&logo=paramountplus&logoColor=white) | ✅ FULL | 🖥️ **SOLO PC WINDOWS** |
-| ![Viki](https://img.shields.io/badge/-VIKI-9B59B6?style=flat&logo=viki&logoColor=white) | ✅ FULL | 🖥️ Windows / 📱 Android |
-| ![ATRES](https://img.shields.io/badge/ATRES-E60000?style=flat)![player](https://img.shields.io/badge/player-CCCCCC?style=flat) | ✅ FULL | 🖥️ Windows / 📱 Android |
+| Plataforma | Estado |
+|------------|--------|
+| **NETFLIX** | ✅ FULL |
+| **CRUNCHYROLL** | ✅ FULL |
+| **PRIME VIDEO** | ✅ FULL |
+| **PARAMOUNT+** | ✅ FULL |
+| **VIKI** | ✅ FULL |
+| **ATRESPLAYER** | ✅ FULL |
 
 ---
-
 ## 🚀 Instalación Android
 
 1. **Abre Quetta browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:

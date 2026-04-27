@@ -5,392 +5,245 @@
 }
 
 body {
-    width: 560px;
-    background: linear-gradient(135deg, #0a0a0f 0%, #0f0f1a 100%);
+    width: 280px;
+    background: linear-gradient(135deg, #0a0a0f 0%, #0d0d14 100%);
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
 }
 
 .premium-container {
-    padding: 24px 28px;
+    padding: 16px 10px 8px 10px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    position: relative;
+    align-items: center;
+    gap: 12px;
 }
 
-/* Versión */
-.version-badge {
-    position: absolute;
-    bottom: 16px;
-    right: 20px;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    border-radius: 24px;
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 800;
-    color: #D4AF37;
-    letter-spacing: 1px;
-    cursor: default;
-    backdrop-filter: blur(4px);
-    z-index: 10;
-}
-
-/* Header */
+/* ===== HEADER ===== */
 .premium-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 8px 0 12px 0;
-    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.premium-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
+    text-align: center;
+    gap: 6px;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(212, 175, 55, 0.1), 
-        rgba(255, 215, 0, 0.15), 
-        rgba(212, 175, 55, 0.1), 
-        transparent);
-    animation: shimmer 4s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 1;
-}
-
-@keyframes shimmer {
-    0% { left: -100%; }
-    20% { left: 100%; }
-    100% { left: 100%; }
-}
-
-.premium-header::before {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #D4AF37, #F5E6B3, #D4AF37, transparent);
-    animation: borderMove 3s linear infinite;
-    z-index: 2;
-}
-
-@keyframes borderMove {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    margin-bottom: 4px;
 }
 
 .premium-title {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
-    gap: 12px;
-    font-family: 'Inter', sans-serif;
+    gap: 4px;
     position: relative;
-    z-index: 3;
 }
 
 .premium-text {
-    font-size: 48px;
+    font-size: 37px;
     font-weight: 900;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, #FFFFFF, #E8E8E8, #F5F5F5, #FFFFFF);
+    background: linear-gradient(135deg, #FFFFFF, #E8E0C0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+.id-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.id-text {
+    font-size: 37px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #D4AF37, #F5E6B3, #FFD700);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: premiumShine 6s ease infinite;
+    animation: idBrightGlow 1.8s ease-in-out infinite;
 }
 
-@keyframes premiumShine {
+@keyframes idBrightGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.4));
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.7));
+        transform: scale(1.02);
+    }
+}
+
+.crown-icon.tilted {
+    position: absolute;
+    top: -6px;
+    left: 85%;
+    transform: translateX(-50%) rotate(22deg);
+    font-size: 17px;
+    color: #D4AF37;
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6));
+    pointer-events: none;
+}
+
+.creator-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #E8E8E8, #C0C0C0, #A8A8A8, #D4D4D4);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: silverShine 3s ease-in-out infinite;
+    margin-top: 2px;
+}
+
+@keyframes silverShine {
     0% { background-position: 0% center; }
-    50% { background-position: 100% center; }
+    50% { background-position: 100% center; text-shadow: 0 0 6px rgba(212, 175, 55, 0.5); }
     100% { background-position: 0% center; }
 }
 
-.id-text {
-    font-size: 48px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, #D4AF37, #F5E6B3, #D4AF37, #B8860B, #D4AF37);
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: metallicShine 4s ease infinite;
-}
-
-@keyframes metallicShine {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
-.title-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: glowExpand 4s ease-in-out infinite;
-    z-index: 1;
-}
-
-@keyframes glowExpand {
-    0%, 100% { 
-        opacity: 0.25;
-        transform: translate(-50%, -50%) scale(0.9);
-    }
-    50% { 
-        opacity: 0.4;
-        transform: translate(-50%, -50%) scale(1.15);
-    }
-}
-
-/* Instruction box */
-.instruction-box {
-    background: rgba(20, 16, 30, 0.6);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 40px;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-    min-height: 56px;
-}
-
-.instruction-box i {
-    color: #D4AF37;
-    font-size: 18px;
-}
-
-.instruction-box span {
-    font-size: 14px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #D4AF37, #F5E6B3);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 0.5px;
-}
-
-.instruction-box.warning {
-    border-color: #FF0000;
-    animation: blinkRed 0.8s ease-in-out infinite;
-}
-
-@keyframes blinkRed {
-    0%, 100% { border-color: #FF0000; background: rgba(255, 0, 0, 0.1); }
-    50% { border-color: #FF6666; background: rgba(255, 0, 0, 0.2); }
-}
-
-.instruction-box.warning i {
-    animation: none;
-    color: #FF0000 !important;
-}
-
-.telegram-inline-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    background: #0088cc !important;
-    color: white !important;
-    text-decoration: none !important;
-    padding: 4px 12px !important;
-    border-radius: 40px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    transition: all 0.2s ease !important;
-    margin-left: 8px !important;
-    cursor: pointer !important;
-    border: none !important;
-}
-
-.telegram-inline-btn:hover {
-    background: #0099dd !important;
-    transform: scale(1.02) !important;
-}
-
-/* Grid de plataformas */
+/* ===== GRID DE CÍRCULOS ===== */
 .platforms-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 4px 0;
-    position: relative;
-}
-
-.platforms-grid::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 10%;
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+    column-gap: 6px;
+    row-gap: 12px;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+    margin-top: 4px;
+    margin-bottom: 0px;
 }
 
 .platform-card {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 14px 8px;
-    background: linear-gradient(135deg, rgba(30, 25, 45, 0.8), rgba(20, 16, 30, 0.6));
-    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.25s ease;
+    background: #1a1a2a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
     overflow: hidden;
 }
 
 .platform-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
-.platform-card .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.5);
-    transform: scale(0);
-    animation: rippleAnim 0.6s linear;
-    pointer-events: none;
-}
-
-@keyframes rippleAnim {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
+.platform-card:active {
+    transform: scale(0.95);
 }
 
 .platform-icon {
-    width: 52px;
-    height: 52px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .platform-icon img {
-    width: 52px;
-    height: 52px;
-    transition: all 0.3s ease;
+    width: 34px;
+    height: 34px;
+    transition: transform 0.2s ease;
     object-fit: contain;
 }
-
-/* NETFLIX */
-.platform-card.netflix .platform-icon img {
-    filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg) brightness(98%) contrast(110%);
-}
-
-/* CRUNCHYROLL */
-.platform-card.crunchyroll .platform-icon img {
-    filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(101%);
-}
-
-/* PRIME VIDEO */
-.platform-card.prime .platform-icon {
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.platform-card.prime .platform-icon img {
-    width: 110px !important;
-    height: 110px !important;
-    transform: scale(1.0);
-    filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
-}
-
-/* PARAMOUNT+ */
-.platform-card.paramount .platform-icon img {
-    filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg) brightness(98%) contrast(110%);
-}
-
-/* VIKI */
-.platform-card.viki .platform-icon img {
-    filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(105%);
-}
-
-/* ATRESplayer */
-.platform-card.atresplayer .atres-text-logo {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0;
-    font-weight: 800;
-}
-
-.platform-card.atresplayer .atres-red {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    color: #E60000;
-    font-family: 'Inter', sans-serif;
-}
-
-.platform-card.atresplayer .player-gray {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    color: #CCCCCC;
-    font-family: 'Inter', sans-serif;
-}
-
-.platform-card span {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-}
-
-/* Hover effects */
-.platform-card.netflix:hover { background: rgba(229, 9, 20, 0.25); border-color: #E50914; }
-.platform-card.crunchyroll:hover { background: rgba(244, 117, 33, 0.25); border-color: #F47521; }
-.platform-card.prime:hover { background: rgba(0, 168, 225, 0.25); border-color: #00A8E1; }
-.platform-card.paramount:hover { background: rgba(0, 102, 255, 0.25); border-color: #0066FF; }
-.platform-card.viki:hover { background: rgba(155, 89, 182, 0.25); border-color: #9B59B6; }
-.platform-card.atresplayer:hover { background: rgba(230, 0, 0, 0.25); border-color: #E60000; }
 
 .platform-card:hover .platform-icon img {
     transform: scale(1.1);
 }
 
-.platform-card.prime:hover .platform-icon img {
-    transform: scale(1.05);
+/* NETFLIX */
+.platform-card.netflix:hover {
+    background: rgba(229, 9, 20, 0.25);
+    border-color: #E50914;
+}
+.platform-card.netflix .platform-icon img {
+    filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg) brightness(98%) contrast(110%);
 }
 
-.platform-card.atresplayer:hover .atres-red { color: #FF3333; }
-.platform-card.atresplayer:hover .player-gray { color: #FFFFFF; }
+/* CRUNCHYROLL */
+.platform-card.crunchyroll:hover {
+    background: rgba(244, 117, 33, 0.25);
+    border-color: #F47521;
+}
+.platform-card.crunchyroll .platform-icon img {
+    filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(101%);
+}
 
-/* Botones de soporte - Telegram + Web */
+/* PRIME VIDEO */
+.platform-card.prime:hover {
+    background: rgba(0, 168, 225, 0.25);
+    border-color: #00A8E1;
+}
+.platform-card.prime .platform-icon img {
+    width: 60px;
+    height: 60px;
+    filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
+}
+
+/* PARAMOUNT+ */
+.platform-card.paramount:hover {
+    background: rgba(0, 102, 255, 0.25);
+    border-color: #0066FF;
+}
+.platform-card.paramount .platform-icon img {
+    filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg) brightness(98%) contrast(110%);
+}
+
+/* VIKI */
+.platform-card.viki:hover {
+    background: rgba(155, 89, 182, 0.25);
+    border-color: #9B59B6;
+}
+.platform-card.viki .platform-icon img {
+    filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(105%);
+}
+
+/* ATRESplayer */
+.platform-card.atresplayer:hover {
+    background: rgba(230, 0, 0, 0.25);
+    border-color: #E60000;
+}
+.platform-card.atresplayer .atres-text-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+.platform-card.atresplayer .atres-red {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #E60000;
+}
+.platform-card.atresplayer .player-gray {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #CCCCCC;
+}
+.platform-card.atresplayer:hover .atres-red {
+    color: #FF5555;
+}
+.platform-card.atresplayer:hover .player-gray {
+    color: #FFFFFF;
+}
+
+/* ===== BOTONES DE SOPORTE ===== */
 .support-buttons {
     display: flex;
-    gap: 12px;
-    margin: 8px 0 4px 0;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
 }
 
 .support-btn {
@@ -398,69 +251,168 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 12px 16px;
-    border-radius: 60px;
+    gap: 6px;
+    padding: 8px 6px;
+    border-radius: 40px;
     text-decoration: none;
-    transition: all 0.3s ease;
+    font-size: 9px;
     font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
 .support-btn i {
-    font-size: 16px;
+    font-size: 11px;
 }
 
-/* Botón Telegram */
 .support-btn.telegram {
     background: linear-gradient(135deg, #0088cc, #006699);
     color: white;
-    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
 }
 
 .support-btn.telegram:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.5);
+    transform: translateY(-1px);
     background: linear-gradient(135deg, #0099dd, #0077aa);
+    box-shadow: 0 2px 8px rgba(0, 136, 204, 0.4);
 }
 
-/* Botón Web Premium ID */
 .support-btn.web {
     background: linear-gradient(135deg, #D4AF37, #B8942E);
     color: #1a1a2e;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .support-btn.web:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    transform: translateY(-1px);
     background: linear-gradient(135deg, #E0BF40, #C4A030);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
 }
 
-/* Status */
+/* ===== STATUS MENSAJE ===== */
 .status-message {
-    font-size: 13px;
+    font-size: 9px;
     text-align: center;
     color: #B8A87A;
     min-height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 4px 0;
+    width: 100%;
+    padding: 4px 4px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: 1.3;
 }
 
+/* ===== FOOTER ===== */
 .premium-footer {
-    padding-top: 4px;
-    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    padding: 6px 0 4px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    margin-top: 0px;
 }
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.version {
+    font-size: 7px;
+    font-weight: 500;
+    color: #3a3a4a;
 }
 
-@keyframes pulseGlow {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; text-shadow: 0 0 5px #D4AF37; }
+/* ===== EFECTO DE ONDA (RIPPLE) ===== */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.4) 50%, rgba(212, 175, 55, 0) 100%);
+    transform: scale(0);
+    animation: rippleEffect 0.6s ease-out;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(2.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ===== ANIMACIONES DE PARPADEO PARA SESIÓN CERRADA ===== */
+@keyframes skullBlink {
+    0%, 100% { 
+        opacity: 1; 
+        filter: drop-shadow(0 0 0px rgba(255,0,0,0));
+    }
+    50% { 
+        opacity: 0.5; 
+        filter: drop-shadow(0 0 8px rgba(255,60,60,0.8));
+    }
+}
+
+@keyframes textBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes statusBlink {
+    0%, 100% { 
+        opacity: 1;
+    }
+    50% { 
+        opacity: 0.7;
+    }
+}
+
+/* Calavera en instruction-box - PARPADEANTE */
+.instruction-box.warning .fas.fa-skull {
+    animation: skullBlink 0.6s ease-in-out infinite !important;
+}
+
+/* Botón de Telegram inline */
+.telegram-inline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0088cc;
+    color: white;
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.telegram-inline-btn:hover {
+    background: #0099dd;
+    transform: scale(1.02);
+}
+
+/* Instruction box contenedor */
+.instruction-box {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.3s ease;
+}
+
+/* FONDO VIOLETA para el mensaje de advertencia */
+.instruction-box.warning {
+    background: linear-gradient(135deg, rgba(128, 0, 128, 0.85), rgba(75, 0, 130, 0.85));
+    border: 2px solid rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+/* Estilo para el texto de SESIÓN CERRADA en MAYÚSCULAS */
+.instruction-box.warning strong {
+    text-transform: uppercase !important;
+    letter-spacing: 1px;
 }
