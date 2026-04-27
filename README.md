@@ -3,12 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 3.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 4.0</h1>
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="1019" height="505" alt="Image" src="https://github.com/user-attachments/assets/bcd09832-2fe2-45c5-a0cd-6f7c7d9f3e68" />
+  <img width="380" height="405" alt="Image" src="https://github.com/user-attachments/assets/1487dace-20c6-4c7a-b4e9-e2545cc27530" />
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-3.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-4.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 
@@ -58,16 +58,14 @@ Copia un código, abre la extensión y si la sesión es válida, se abre automá
 
 ---
 
-## 📺 PLATAFORMAS COMPATIBLES
-
-| Plataforma | Estado |
-|------------|--------|
-| **NETFLIX** | ✅ FULL |
-| **CRUNCHYROLL** | ✅ FULL |
-| **PRIME VIDEO** | ✅ FULL |
-| **PARAMOUNT+** | ✅ FULL |
-| **VIKI** | ✅ FULL |
-| **ATRESPLAYER** | ✅ FULL |
+| Plataforma | Estado | Compatibilidad |
+|------------|--------|----------------|
+| **NETFLIX** | ✅ FULL | 🖥️ SOLO PC |
+| **CRUNCHYROLL** | ✅ FULL | 📱 PC / Android |
+| **PRIME VIDEO** | ✅ FULL | 📱 PC / Android |
+| **PARAMOUNT+** | ✅ FULL | 🖥️ SOLO PC |
+| **VIKI** | ✅ FULL | 📱 PC / Android |
+| **ATRESPLAYER** | ✅ FULL | 📱 PC / Android |
 
 ---
 ## 🚀 Instalación Android
