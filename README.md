@@ -54,9 +54,9 @@
 
 **1 CÓDIGO | 1 CLIC | ACCESO INSTANTÁNEO**
 
-Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita. **Así de simple.**
+Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita.
 
-**NOTA:** En Android no se abre en automático, hay que pulsar sobre el logo de la plataforma una vez copiado el código ID.
+**NOTA:** En Android no se abre en automático, hay que pulsar sobre el logo de la plataforma una vez copiado el código.
 
 ---
 
