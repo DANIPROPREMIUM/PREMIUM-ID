@@ -36,6 +36,12 @@
 
 **❤️‍🔥 NETFLIX &nbsp;&nbsp;|&nbsp;&nbsp; 🧡 CRUNCHYROLL &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PRIME &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PARAMOUNT+ &nbsp;&nbsp;|&nbsp;&nbsp; 💜 VIKI &nbsp;&nbsp;|&nbsp;&nbsp; 🤍 ATRES**
 
+
+<div align="center">
+  
+
+
+
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
 
