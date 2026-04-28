@@ -43,13 +43,11 @@
 ---
 
 ## 📖 Sobre el Proyecto
-*  **PREMIUM ID** es una extensión para navegadores Chromium que permite acceder a cuentas premium de streaming mediante códigos ID.
+*  **PREMIUM ID** es una extensión para navegadores Chromium que permite acceder a cuentas premium mediante códigos ID.
 
 ---
 
 ## 🚀 LA EXTENSIÓN DEFINITIVA PARA CUENTAS PREMIUM
-
-**1 CÓDIGO | 1 CLIC | ACCESO INSTANTÁNEO**
 
 Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita.
 
