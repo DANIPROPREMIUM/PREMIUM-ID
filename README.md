@@ -43,14 +43,11 @@
 ---
 
 ## 📖 Sobre el Proyecto
-*  **PREMIUM ID** es compatible para Windows/ PC de Chrome/ navegadores Chromium y en Android con Quetta Browser
+*  **PREMIUM ID** es una extensión para navegadores Chromium que permite acceder a cuentas premium de streaming mediante códigos ID.
+
 ---
 
 ## 🚀 LA EXTENSIÓN DEFINITIVA PARA CUENTAS PREMIUM
-
----
-
-## 🎯 ¿QUÉ HACE?
 
 **1 CÓDIGO | 1 CLIC | ACCESO INSTANTÁNEO**
 
