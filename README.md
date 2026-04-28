@@ -31,17 +31,6 @@
   <img src="https://img.shields.io/badge/version-4.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
-
-### 💎 Cuentas Premium Gratis por Código ID 💎
-
-**❤️‍🔥 NETFLIX &nbsp;&nbsp;|&nbsp;&nbsp; 🧡 CRUNCHYROLL &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PRIME &nbsp;&nbsp;|&nbsp;&nbsp; 💙 PARAMOUNT+ &nbsp;&nbsp;|&nbsp;&nbsp; 💜 VIKI &nbsp;&nbsp;|&nbsp;&nbsp; 🤍 ATRES**
-
-
-<div align="center">
-  
-
-
-
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
 
