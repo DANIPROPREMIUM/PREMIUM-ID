@@ -33,7 +33,7 @@
 
 ---
 
-## ♕ ACCESO GRATIS A CUENTAS PREMIUM
+## ♕ ACCESO GRATUITO A CUENTAS PREMIUM
 
 Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita.
 
