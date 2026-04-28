@@ -42,11 +42,6 @@
 [![GRUPO TELEGRAM - CUENTAS PREMIUM GRATIS](https://img.shields.io/badge/GRUPO%20TELEGRAM-CUENTAS%20PREMIUM%20GRATIS-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/cuentaspremiumid) 
 ---
 
-## 📖 Sobre el Proyecto
-*  **PREMIUM ID** es una extensión para navegadores Chromium que permite acceder a cuentas premium mediante códigos ID.
-
----
-
 ## 🚀 LA EXTENSIÓN DEFINITIVA PARA CUENTAS PREMIUM
 
 Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita.
