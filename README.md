@@ -47,13 +47,12 @@ Copia un código ID, abre la extensión y si la sesión es válida, se abre auto
 
 | Plataformas disponibles | Estado | Compatibilidad |
 |------------|--------|----------------|
-| **NETFLIX** | ✅ FULL | 🖥️ SOLO PC |
-| **CRUNCHYROLL** | ✅ FULL | 📱 PC / Android |
-| **PRIME VIDEO** | ✅ FULL | 📱 PC / Android |
-| **PARAMOUNT+** | ✅ FULL | 🖥️ SOLO PC |
-| **VIKI** | ✅ FULL | 📱 PC / Android |
-| **ATRESPLAYER** | ✅ FULL | 📱 PC / Android |
-
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" width="18" height="18" style="filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg); vertical-align: middle;"> **NETFLIX** | ✅ FULL | 🖥️ SOLO PC |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/crunchyroll.svg" width="18" height="18" style="filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg); vertical-align: middle;"> **CRUNCHYROLL** | ✅ FULL | 📱 PC / Android |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/primevideo.svg" width="18" height="18" style="filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg); vertical-align: middle;"> **PRIME VIDEO** | ✅ FULL | 📱 PC / Android |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paramountplus.svg" width="18" height="18" style="filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg); vertical-align: middle;"> **PARAMOUNT+** | ✅ FULL | 🖥️ SOLO PC |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/rakuten.svg" width="18" height="18" style="filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg); vertical-align: middle;"> **VIKI** | ✅ FULL | 📱 PC / Android |
+| <span style="display:inline-flex;align-items:center;gap:4px;"><span style="color:#E60000;font-weight:800;">**ATRES**</span><span style="color:#CCCCCC;font-weight:700;">player</span></span> | ✅ FULL | 📱 PC / Android |
 ---
 ## 🚀 Instalación Android
 
