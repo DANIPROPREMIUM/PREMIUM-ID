@@ -32,10 +32,6 @@
 </p>  
 
 ---
- ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
-
-[![GRUPO TELEGRAM - CUENTAS PREMIUM GRATIS](https://img.shields.io/badge/GRUPO%20TELEGRAM-CUENTAS%20PREMIUM%20GRATIS-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/cuentaspremiumid) 
----
 
 ## 🚀 LA EXTENSIÓN DEFINITIVA PARA CUENTAS PREMIUM
 
@@ -44,8 +40,12 @@ Copia un código ID, abre la extensión y si la sesión es válida, se abre auto
 **NOTA:** En Android no se abre en automático, hay que pulsar sobre el logo de la plataforma una vez copiado el código.
 
 ---
+ ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
 
-| Plataforma | Estado | Compatibilidad |
+[![GRUPO TELEGRAM - CUENTAS PREMIUM GRATIS](https://img.shields.io/badge/GRUPO%20TELEGRAM-CUENTAS%20PREMIUM%20GRATIS-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/cuentaspremiumid) 
+---
+
+| Plataformas disponibles | Estado | Compatibilidad |
 |------------|--------|----------------|
 | **NETFLIX** | ✅ FULL | 🖥️ SOLO PC |
 | **CRUNCHYROLL** | ✅ FULL | 📱 PC / Android |
