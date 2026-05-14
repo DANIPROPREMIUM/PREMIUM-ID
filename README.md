@@ -3,8 +3,11 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 4.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 5.0</h1>
 
+**✅ Nuevo sistema Bypass integrado en NETFLIX**
+
+ *⚡️Ahora Premium ID elimina en automático el mensaje de “Hogar Netflix” en caso de aparecer, permitiendo seguir viendo contenido.*
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
@@ -28,7 +31,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-4.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-5.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 ---
