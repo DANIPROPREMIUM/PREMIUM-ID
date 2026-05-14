@@ -1,4 +1,4 @@
-// PREMIUM ID - Background v4.0
+// PREMIUM ID - Background v5.0
 
 function isNetflixAllowed() {
     const ua = navigator.userAgent;

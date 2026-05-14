@@ -24,8 +24,6 @@
         return isWindows && !isTV && !isAndroid && !isIOS;
     }
 
-    // Si estamos en Netflix y el dispositivo NO está permitido:
-    // mostrar overlay de bloqueo y detener todo.
     function showNetflixBlockOverlay() {
         const overlay = document.createElement('div');
         overlay.id = 'premium-id-device-block';
@@ -78,6 +76,8 @@
     let watermarkAdded = false;
     let extensionAlive = true;
     let shadowHost = null;
+    // FIX: bandera para saber si el <style> de idioma ya fue insertado
+    let languageStyleInserted = false;
     
     const platformConfig = {
         'netflix.com': { color: '#E50914', text: 'Netflix', loginUrl: 'https://www.netflix.com/login', loginIndicators: ['signin', 'login'] },
@@ -333,6 +333,7 @@
     }
     
     // ========== BLOQUEAR BOTONES PELIGROSOS (SOLO NETFLIX) ==========
+    // FIX: solo aplica el estilo si el elemento no lo tiene ya, evitando repaint innecesario
     function blockDangerousButtons() {
         if (!isNetflix()) return;
         
@@ -340,64 +341,70 @@
         allElements.forEach(el => {
             const text = el.textContent?.toLowerCase() || '';
             const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
-            if (text.includes('cerrar sesión') || text.includes('sign out') || text.includes('logout') || ariaLabel.includes('cerrar sesión') || ariaLabel.includes('sign out')) {
-                el.style.pointerEvents = 'none';
-                el.style.opacity = '0.6';
-            }
-            if (text.includes('agregar perfil') || text.includes('add profile') || text === '+' || ariaLabel.includes('agregar perfil') || ariaLabel.includes('add profile')) {
-                el.style.pointerEvents = 'none';
-                el.style.opacity = '0.6';
+            const isDangerous = (
+                text.includes('cerrar sesión') || text.includes('sign out') || text.includes('logout') ||
+                ariaLabel.includes('cerrar sesión') || ariaLabel.includes('sign out') ||
+                text.includes('agregar perfil') || text.includes('add profile') || text === '+' ||
+                ariaLabel.includes('agregar perfil') || ariaLabel.includes('add profile')
+            );
+            if (isDangerous) {
+                // FIX: solo escribir en el DOM si el valor realmente cambió
+                if (el.style.pointerEvents !== 'none') el.style.pointerEvents = 'none';
+                if (el.style.opacity !== '0.6') el.style.opacity = '0.6';
             }
         });
         const accountLinks = document.querySelectorAll('a[href*="/account"], a[href*="/profiles"], a[href*="/ManageProfiles"]');
         accountLinks.forEach(link => {
-            link.style.pointerEvents = 'none';
-            link.style.opacity = '0.6';
+            if (link.style.pointerEvents !== 'none') link.style.pointerEvents = 'none';
+            if (link.style.opacity !== '0.6') link.style.opacity = '0.6';
         });
     }
     
     // ========== PERMITIR SELECCIÓN DE PERFILES (SOLO NETFLIX) ==========
+    // FIX: solo escribe en el DOM si el valor realmente cambió
     function allowProfileSelection() {
         if (!isNetflix()) return;
         
         document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
-            if (el.style.pointerEvents === 'none') { el.style.pointerEvents = ''; el.style.opacity = ''; }
+            if (el.style.pointerEvents === 'none') el.style.pointerEvents = '';
+            if (el.style.opacity === '0.6') el.style.opacity = '';
         });
     }
     
-    // ========== DESBLOQUEAR CAMBIO DE IDIOMA EN REPRODUCTOR (SOLO PARA PLATAFORMAS QUE LO NECESITAN) ==========
+    // ========== DESBLOQUEAR CAMBIO DE IDIOMA ==========
+    // FIX: el <style> se inserta UNA SOLA VEZ; el interval solo desbloquea atributos en elementos nuevos
     function unblockLanguageSelector() {
-        // NO ejecutar en Crunchyroll porque rompe los menús desplegables
         if (isCrunchyroll()) return;
         
-        const style = document.createElement('style');
-        style.id = 'premium-id-language-unlock';
-        style.textContent = `
-            [data-testid="audio-track-selector"],
-            [data-testid="subtitle-track-selector"],
-            [aria-label*="idioma" i],
-            [aria-label*="language" i],
-            .language-selector,
-            .audio-selector,
-            .subtitle-selector,
-            select[aria-label*="idioma"],
-            select[aria-label*="language"],
-            button[aria-label*="audio"],
-            button[aria-label*="subtítulo"],
-            button[aria-label*="subtitle"] {
-                pointer-events: auto !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                display: inline-flex !important;
-                cursor: pointer !important;
-            }
-        `;
+        // Insertar el <style> solo si todavía no existe en el documento
+        if (!languageStyleInserted && !document.getElementById('premium-id-language-unlock')) {
+            const style = document.createElement('style');
+            style.id = 'premium-id-language-unlock';
+            style.textContent = `
+                [data-testid="audio-track-selector"],
+                [data-testid="subtitle-track-selector"],
+                [aria-label*="idioma" i],
+                [aria-label*="language" i],
+                .language-selector,
+                .audio-selector,
+                .subtitle-selector,
+                select[aria-label*="idioma"],
+                select[aria-label*="language"],
+                button[aria-label*="audio"],
+                button[aria-label*="subtítulo"],
+                button[aria-label*="subtitle"] {
+                    pointer-events: auto !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    display: inline-flex !important;
+                    cursor: pointer !important;
+                }
+            `;
+            document.head.appendChild(style);
+            languageStyleInserted = true;
+        }
         
-        const existingStyle = document.getElementById('premium-id-language-unlock');
-        if (existingStyle) existingStyle.remove();
-        
-        document.head.appendChild(style);
-        
+        // Solo quitar atributos HTML que bloqueen elementos (no tocar styles ya correctos)
         const languageElements = document.querySelectorAll(
             '[data-testid="audio-track-selector"], ' +
             '[data-testid="subtitle-track-selector"], ' +
@@ -409,11 +416,9 @@
         );
         
         languageElements.forEach(el => {
-            el.style.pointerEvents = 'auto';
-            el.style.opacity = '1';
-            el.style.visibility = 'visible';
-            el.removeAttribute('disabled');
-            el.removeAttribute('aria-disabled');
+            // FIX: solo tocar el DOM si hay algo que realmente cambiar
+            if (el.hasAttribute('disabled')) el.removeAttribute('disabled');
+            if (el.getAttribute('aria-disabled') === 'true') el.removeAttribute('aria-disabled');
         });
     }
     
@@ -423,12 +428,11 @@
         // Anti-TV/Android: bloqueo exclusivo para Netflix
         if (isNetflix() && !isNetflixAllowed()) {
             showNetflixBlockOverlay();
-            return; // No continuar con nada más en esta página
+            return;
         }
 
         addWatermark();
         
-        // Solo Netflix tiene bloqueos
         if (isNetflix()) {
             blockNavigation();
             setInterval(blockDangerousButtons, 2000);
@@ -438,7 +442,6 @@
             setInterval(detectInvalidSession, 5000);
         }
         
-        // Desbloquear selector de idioma (excepto en Crunchyroll)
         if (!isCrunchyroll()) {
             unblockLanguageSelector();
             setInterval(unblockLanguageSelector, 3000);

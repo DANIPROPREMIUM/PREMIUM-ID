@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup v4.0 PÚBLICO
+// PREMIUM ID - Popup v5.0 PÚBLICO
 // PC: Detección automática al abrir la extensión
 // Android: Mensaje de advertencia y verificación manual
 
@@ -449,11 +449,11 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             showWarningMessageAndroid();
         }, 500);
-        console.log('🔥 PREMIUM ID v4.0 - MODO ANDROID (Solo verificación manual)');
+        console.log('🔥 PREMIUM ID v5.0 - MODO ANDROID (Solo verificación manual)');
     } else {
         // PC: Detección automática al abrir
         setInterval(checkAndProcessClipboard, 1000);
         setTimeout(checkAndProcessClipboard, 500);
-        console.log('🔥 PREMIUM ID v4.0 - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v5.0 - MODO PC (Detección automática)');
     }
 });

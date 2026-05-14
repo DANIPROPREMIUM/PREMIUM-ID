@@ -311,9 +311,10 @@ body {
 }
 
 .version {
-    font-size: 7px;
-    font-weight: 500;
-    color: #3a3a4a;
+    font-size: 9px;
+    font-weight: 600;
+    color: #D4AF37;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
 }
 
 /* ===== EFECTO DE ONDA (RIPPLE) ===== */

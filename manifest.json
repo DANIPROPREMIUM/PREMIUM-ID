@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "4.0",
+  "version": "5.0",
   "description": "Acceso gratuito a cuentas premium.",
   "permissions": [
     "cookies",
@@ -41,6 +41,22 @@
       "matches": ["*://*.netflix.com/*", "*://*.crunchyroll.com/*", "*://*.primevideo.com/*", "*://*.paramountplus.com/*", "*://*.viki.com/*", "*://*.atresplayer.com/*"],
       "js": ["content.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.netflix.com/*"],
+      "js": ["bypass-core.js", "netflix-main.js"],
+      "css": ["netflix-controller.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "netflix-seeker.js",
+        "netflix-audioChange.js",
+        "netflix-substitleChange.js"
+      ],
+      "matches": ["*://*.netflix.com/*"]
     }
   ]
 }
