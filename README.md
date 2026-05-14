@@ -5,6 +5,15 @@
 <!-- Título Principal -->
 <h1 align="center">PREMIUM ID  VERSIÓN 5.0</h1>
 
+**✅ Nuevo sistema Bypass integrado en NETFLIX**
+
+*⚡️Ahora Premium ID elimina automáticamente el mensaje de “Hogar Netflix” en caso de aparecer, permitiendo seguir viendo contenido sin interrupciones.*
+
+💎 Más comodidad 
+💎 Más estabilidad 
+💎 Mejor experiencia
+
+PREMIUM ID sigue evolucionando 😏
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
