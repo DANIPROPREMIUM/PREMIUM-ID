@@ -44,9 +44,10 @@ PREMIUM ID sigue evolucionando 😏
 
 ## ♕ ACCESO GRATUITO A CUENTAS PREMIUM
 
-Copia un código ID, abre la extensión y si la sesión es válida, se abre automáticamente tu plataforma favorita.
+🧞 **Con ID EXTRACTOR: Obtén IDs automáticamente y accede a tus sesiones favoritas de PREMIUM ID con un solo clic.** 👑
+https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 
-**NOTA:** En Android no se abre en automático, hay que pulsar sobre el logo de la plataforma una vez copiado el código.
+**NOTA:** En Android no se abre en automático la sesión, hay que pulsar sobre el logo de la plataforma.
 
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
