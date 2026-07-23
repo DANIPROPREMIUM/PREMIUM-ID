@@ -105,22 +105,36 @@ body {
     100% { background-position: 0% center; }
 }
 
-/* ===== GRID DE CÍRCULOS ===== */
-.platforms-grid {
+/* ============================================================
+   FILA 1: 4 CÍRCULOS EN GRID
+   ============================================================ */
+.platforms-grid-top {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 6px;
-    row-gap: 12px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
     width: 100%;
     justify-items: center;
     align-items: center;
     margin-top: 4px;
-    margin-bottom: 0px;
 }
 
+/* ============================================================
+   FILA 2: 3 CÍRCULOS CENTRADOS CON FLEX
+   ============================================================ */
+.platforms-grid-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* ============================================================
+   TARJETA INDIVIDUAL
+   ============================================================ */
 .platform-card {
-    width: 68px;
-    height: 68px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -151,8 +165,8 @@ body {
 }
 
 .platform-icon img {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     transition: transform 0.2s ease;
     object-fit: contain;
 }
@@ -160,6 +174,8 @@ body {
 .platform-card:hover .platform-icon img {
     transform: scale(1.1);
 }
+
+/* ===== LOGOS CON COLOR ===== */
 
 /* NETFLIX */
 .platform-card.netflix:hover {
@@ -185,8 +201,8 @@ body {
     border-color: #00A8E1;
 }
 .platform-card.prime .platform-icon img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
 }
 
@@ -220,13 +236,13 @@ body {
     gap: 0;
 }
 .platform-card.atresplayer .atres-red {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: #E60000;
 }
 .platform-card.atresplayer .player-gray {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     letter-spacing: -0.3px;
     color: #CCCCCC;
@@ -236,6 +252,15 @@ body {
 }
 .platform-card.atresplayer:hover .player-gray {
     color: #FFFFFF;
+}
+
+/* HBO MAX */
+.platform-card.hbomax:hover {
+    background: rgba(100, 50, 249, 0.25);
+    border-color: #6432F9;
+}
+.platform-card.hbomax .platform-icon img {
+    filter: invert(14%) sepia(100%) saturate(4000%) hue-rotate(220deg) brightness(95%) contrast(110%);
 }
 
 /* ===== BOTONES DE SOPORTE ===== */

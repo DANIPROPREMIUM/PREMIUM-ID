@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
         prime: { name: 'Prime Video', url: 'https://www.primevideo.com', color: '#00A8E1' },
         paramount: { name: 'Paramount+', url: 'https://www.paramountplus.com', color: '#0066FF' },
         viki: { name: 'Rakuten Viki', url: 'https://www.viki.com', color: '#9B59B6' },
-        atresplayer: { name: 'AtresPlayer', url: 'https://www.atresplayer.com', color: '#E60000' }
+        atresplayer: { name: 'AtresPlayer', url: 'https://www.atresplayer.com', color: '#E60000' },
+        hbomax: { name: 'HBO Max', url: 'https://www.hbomax.com', color: '#6432F9' }
     };
     
     // Efecto de onda
@@ -219,6 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Verificar la sesión primero
             const verifyRes = await chrome.runtime.sendMessage({
                 action: 'verifySession',
                 platform: platform,
@@ -231,6 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Si la sesión es válida, restaurar
             showMessage(`🔍 Abriendo ${platformName}...`, 'info', 2000);
             
             const restoreRes = await chrome.runtime.sendMessage({
@@ -288,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ============================================================
-    // FUNCIÓN PARA ANDROID (Solo verificación manual)
+    // FUNCIÓN PARA ANDROID - CORREGIDA (ABRE LA PESTAÑA)
     // ============================================================
     async function verifyAndNotifyAndroid(platform, platformName, platformColor) {
         if (isProcessing) {
@@ -302,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const text = await readClipboard();
         
         if (!text?.startsWith('premium_id:')) {
-            showAndroidMessage(`❌ No hay código ID válido en el portapapeles. Cópialo desde PASTE.MYST.RS`, 'error', 4000);
+            showAndroidMessage(`❌ No hay código ID válido en el portapapeles.`, 'error', 4000);
             isProcessing = false;
             return false;
         }
@@ -325,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             
+            // Verificar la sesión
             showAndroidMessage(`🔍 Verificando sesión de ${platformName.toUpperCase()}...`, 'info', 2000);
             
             const verifyRes = await chrome.runtime.sendMessage({
@@ -334,9 +338,30 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             if (verifyRes?.isValid) {
-                showAndroidMessage(`✅ ${platformName.toUpperCase()} - SESIÓN VÁLIDA`, 'success', 4000);
-                showAndroidMessage(`📱 Abre la App o Web manualmente`, 'info', 3000);
-                restoreInstructionText();
+                // ✅ SESIÓN VÁLIDA - ABRIR LA PESTAÑA
+                showAndroidMessage(`✅ ${platformName.toUpperCase()} - SESIÓN VÁLIDA`, 'success', 3000);
+                showAndroidMessage(`📱 Abriendo ${platformName}...`, 'info', 2000);
+                
+                // 🔥 RESTAURAR Y ABRIR PESTAÑA (openTab = true)
+                const restoreRes = await chrome.runtime.sendMessage({
+                    action: 'restoreSession',
+                    platform: platform,
+                    encryptedData: encryptedData,
+                    openTab: true
+                });
+                
+                if (restoreRes?.success) {
+                    showAndroidMessage(`✅ ${platformName} abierta correctamente`, 'success', 3000);
+                    restoreInstructionText();
+                    
+                    // Cerrar el popup después de un momento
+                    setTimeout(() => {
+                        window.close();
+                    }, 2000);
+                } else {
+                    showSessionClosedMessage(platformName, platformColor);
+                }
+                
                 isProcessing = false;
                 return true;
             } else {
@@ -425,21 +450,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 8000);
     }
     
-    // ========== EVENTOS DE CLICK (SOLO PARA ANDROID) ==========
-    if (isAndroidDevice) {
-        platformCards.forEach(card => {
-            card.addEventListener('click', async (event) => {
-                const platform = card.dataset.platform;
-                if (platform && platforms[platform]) {
-                    const platformName = platforms[platform].name;
-                    const platformColor = platforms[platform].color;
-                    
-                    createRipple(event, card);
+    // ========== EVENTOS DE CLICK ==========
+    platformCards.forEach(card => {
+        card.addEventListener('click', async (event) => {
+            const platform = card.dataset.platform;
+            if (platform && platforms[platform]) {
+                const platformName = platforms[platform].name;
+                const platformColor = platforms[platform].color;
+                
+                createRipple(event, card);
+                
+                if (isAndroidDevice) {
+                    // Android: Verificar y abrir
                     await verifyAndNotifyAndroid(platform, platformName, platformColor);
+                } else {
+                    // PC: También permitir clic manual
+                    if (!isProcessing) {
+                        const text = await readClipboard();
+                        if (text?.startsWith('premium_id:')) {
+                            const parts = text.split(':');
+                            const codePlatform = parts[1];
+                            if (codePlatform === platform) {
+                                const encryptedData = parts.slice(4).join(':');
+                                await restoreSession(platform, encryptedData, platformName, platformColor, true);
+                            } else {
+                                showMessage(`⚠️ El código es para ${platforms[codePlatform]?.name || codePlatform}, no para ${platformName}`, 'warning', 3000);
+                            }
+                        } else {
+                            showMessage(`📋 Copia un código ID válido primero`, 'info', 2000);
+                        }
+                    }
                 }
-            });
+            }
         });
-    }
+    });
     
     // ============================================================
     // INICIALIZACIÓN
@@ -449,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             showWarningMessageAndroid();
         }, 500);
-        console.log('🔥 PREMIUM ID v5.0 - MODO ANDROID (Solo verificación manual)');
+        console.log('🔥 PREMIUM ID v5.0 - MODO ANDROID (Abre la pestaña automáticamente)');
     } else {
         // PC: Detección automática al abrir
         setInterval(checkAndProcessClipboard, 1000);
