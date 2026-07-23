@@ -3,11 +3,10 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 5.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 6.0</h1>
 
-**✅ Nuevo sistema Bypass integrado en NETFLIX**
 
-*⚡️Ahora Premium ID elimina automáticamente el mensaje de “Hogar Netflix” en caso de aparecer, permitiendo seguir viendo contenido sin interrupciones.*
+**⚡️Ahora Premium ID V6.0 SOPORTA HBO MAX y se corrige el doble reproductor en Netflix.**
 
 💎 Más comodidad 
 💎 Más estabilidad 
@@ -17,7 +16,7 @@ PREMIUM ID sigue evolucionando 😏
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="380" height="405" alt="Image" src="https://github.com/user-attachments/assets/c7eb4f94-f121-4ca0-890f-73d8da946c8c" />
+  <img width="380" height="405" alt="Image" src="https://github.com/user-attachments/assets/d4387301-15a3-44bd-92cf-479b59f84aec" />
 </p>
 
 <p align="center">
@@ -37,7 +36,7 @@ PREMIUM ID sigue evolucionando 😏
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-5.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-6.0-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 ---
@@ -55,14 +54,16 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 [![GRUPO TELEGRAM - CUENTAS PREMIUM GRATIS](https://img.shields.io/badge/GRUPO%20TELEGRAM-CUENTAS%20PREMIUM%20GRATIS-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/cuentaspremiumid) 
 ---
 
-| PLATAFORMAS DISPONIBLES | COMPATIBILIDAD |
+
+| PLATAFORMA | COMPATIBILIDAD | 
 |------------|----------------|
-| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" width="18" height="18" style="filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg); vertical-align: middle;"> **NETFLIX** | 🖥️ **SOLO PC** |
-| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/crunchyroll.svg" width="18" height="18" style="filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg); vertical-align: middle;"> **CRUNCHYROLL** | 📱 **PC / Android** |
-| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/primevideo.svg" width="18" height="18" style="filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg); vertical-align: middle;"> **PRIME VIDEO** | 📱 **PC / Android** |
-| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paramountplus.svg" width="18" height="18" style="filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg); vertical-align: middle;"> **PARAMOUNT+** | 🖥️ **SOLO PC** |
-| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/rakuten.svg" width="18" height="18" style="filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg); vertical-align: middle;"> **VIKI** | 📱 **PC / Android** |
-| <span style="display:inline-flex;align-items:center;gap:4px;"><span style="color:#E60000;font-weight:800;">**ATRES**</span><span style="color:#CCCCCC;font-weight:700;">player</span></span> | 📱 **PC / Android** |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" width="20" height="20" style="filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg); vertical-align: middle;"> **Netflix** |🖥️ <img src="https://img.shields.io/badge/SOLO_PC-FF0000?style=for-the-badge&logo=windows&logoColor=white"> | 
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/crunchyroll.svg" width="20" height="20" style="filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg); vertical-align: middle;"> **Crunchyroll** |🖥️📱 <img src="https://img.shields.io/badge/PC_&_Android-00FF00?style=for-the-badge&logo=android&logoColor=white"> |
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/primevideo.svg" width="20" height="20" style="filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg); vertical-align: middle;"> **Prime Video** |🖥️📱 <img src="https://img.shields.io/badge/PC_&_Android-00FF00?style=for-the-badge&logo=android&logoColor=white"> | 
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paramountplus.svg" width="20" height="20" style="filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg); vertical-align: middle;"> **Paramount+** |🖥️ <img src="https://img.shields.io/badge/SOLO_PC-FF0000?style=for-the-badge&logo=windows&logoColor=white"> | 
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/rakuten.svg" width="20" height="20" style="filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg); vertical-align: middle;"> **Viki** |🖥️📱 <img src="https://img.shields.io/badge/PC_&_Android-00FF00?style=for-the-badge&logo=android&logoColor=white"> | 
+| <span style="display:inline-flex;align-items:center;gap:4px;"><span style="color:#E60000;font-weight:800;">**ATRES**</span><span style="color:#CCCCCC;font-weight:700;">player</span></span> |🖥️📱 <img src="https://img.shields.io/badge/PC_&_Android-00FF00?style=for-the-badge&logo=android&logoColor=white"> |  
+| <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/hbomax.svg" width="20" height="20" style="filter: invert(14%) sepia(100%) saturate(4000%) hue-rotate(220deg); vertical-align: middle;"> **HBO Max** |🖥️📱 <img src="https://img.shields.io/badge/PC_&_Android-00FF00?style=for-the-badge&logo=android&logoColor=white"> | 
 
 ---
 ## 🚀 Instalación Android
