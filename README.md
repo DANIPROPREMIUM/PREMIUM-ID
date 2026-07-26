@@ -3,7 +3,7 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 6.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 7.0</h1>
 
 
 **⚡️Ahora Premium ID V7.0 SOPORTA HBO MAX y se corrige el doble reproductor en Netflix.**
