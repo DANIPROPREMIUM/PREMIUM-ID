@@ -16,7 +16,7 @@ PREMIUM ID sigue evolucionando 😏
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/d4387301-15a3-44bd-92cf-479b59f84aec" />
+  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/2ec20a64-d921-4d6c-9959-a7d5866c1e40" />
 </p>
 
 <p align="center">
