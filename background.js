@@ -1,13 +1,19 @@
-// PREMIUM ID - Background PÚBLICO v5.0
+// PREMIUM ID - Background PÚBLICO v5.0 (HBO MAX CORREGIDO)
 
 const PLATFORMS = {
-    netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse', checkUrl: 'https://www.netflix.com/browse' },
-    crunchyroll: { name: 'Crunchyroll', domain: '.crunchyroll.com', url: 'https://www.crunchyroll.com', checkUrl: 'https://www.crunchyroll.com' },
-    prime: { name: 'Prime Video', domain: '.amazon.com', altDomains: ['.primevideo.com'], url: 'https://www.primevideo.com', checkUrl: 'https://www.primevideo.com' },
-    paramount: { name: 'Paramount+', domain: '.paramountplus.com', url: 'https://www.paramountplus.com', checkUrl: 'https://www.paramountplus.com' },
-    viki: { name: 'Rakuten Viki', domain: '.viki.com', url: 'https://www.viki.com', checkUrl: 'https://www.viki.com' },
-    atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com', checkUrl: 'https://www.atresplayer.com' },
-    hbomax: { name: 'HBO Max', domain: '.hbomax.com', altDomains: ['.max.com'], url: 'https://www.hbomax.com', checkUrl: 'https://www.hbomax.com' }
+    netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
+    crunchyroll: { name: 'Crunchyroll', domain: '.crunchyroll.com', url: 'https://www.crunchyroll.com' },
+    prime: { name: 'Prime Video', domain: '.amazon.com', altDomains: ['.primevideo.com'], url: 'https://www.primevideo.com' },
+    paramount: { name: 'Paramount+', domain: '.paramountplus.com', url: 'https://www.paramountplus.com' },
+    viki: { name: 'Rakuten Viki', domain: '.viki.com', url: 'https://www.viki.com' },
+    atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com' },
+    hbomax: { 
+        name: 'HBO Max', 
+        domain: '.hbomax.com', 
+        altDomains: ['.max.com', 'play.hbomax.com'], 
+        url: 'https://play.hbomax.com',  // ← CAMBIADO a play.hbomax.com
+        checkUrl: 'https://play.hbomax.com'
+    }
 };
 
 function getCodeVersion(code) {
@@ -25,51 +31,7 @@ function getCodeVersion(code) {
 }
 
 // ============================================================
-// VERIFICAR SESIÓN REAL (SIN ABRIR VENTANA)
-// ============================================================
-async function verifySessionReal(platformKey, encryptedData) {
-    try {
-        const platform = PLATFORMS[platformKey];
-        if (!platform) return { isValid: false, error: 'Plataforma no soportada' };
-        
-        const decoded = atob(encryptedData);
-        const sessionData = JSON.parse(decoded);
-        
-        if (sessionData.version !== 'V4') {
-            return { isValid: false, error: 'Versión incompatible' };
-        }
-        
-        // Verificar que las cookies existen (no están vacías)
-        const cookiePairs = sessionData.cookies.split('; ');
-        if (!cookiePairs || cookiePairs.length === 0) {
-            return { isValid: false, reason: 'Sin cookies' };
-        }
-        
-        // Contar cookies válidas
-        let validCookies = 0;
-        for (let cookiePair of cookiePairs) {
-            const equalIndex = cookiePair.indexOf('=');
-            if (equalIndex === -1) continue;
-            const name = cookiePair.substring(0, equalIndex);
-            const value = cookiePair.substring(equalIndex + 1);
-            if (name && value) validCookies++;
-        }
-        
-        if (validCookies < 2) {
-            return { isValid: false, reason: 'Cookies insuficientes' };
-        }
-        
-        // Si todo está bien, asumimos que la sesión es válida
-        // (evitamos abrir ventanas que causan problemas)
-        return { isValid: true, reason: 'Sesión válida' };
-        
-    } catch(e) {
-        return { isValid: false, error: e.message };
-    }
-}
-
-// ============================================================
-// RESTAURAR SESIÓN
+// RESTAURAR SESIÓN - CON SOPORTE COMPLETO PARA HBO MAX
 // ============================================================
 async function restoreSession(platformKey, encryptedData, openTab = true) {
     try {
@@ -95,6 +57,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             
             if (!name || !value) continue;
             
+            // PRIME VIDEO
             if (platformKey === 'prime') {
                 await chrome.cookies.set({
                     url: 'https://www.amazon.com',
@@ -117,18 +80,75 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
-                
-            } else {
+                cookiesSet++;
+                continue;
+            }
+            
+            // ============================================================
+            // HBO MAX - CORREGIDO CON TODOS LOS DOMINIOS
+            // ============================================================
+            if (platformKey === 'hbomax') {
+                // 1. Establecer en hbomax.com
                 await chrome.cookies.set({
-                    url: platform.url,
+                    url: 'https://www.hbomax.com',
                     name: name,
                     value: value,
-                    domain: platform.domain,
+                    domain: '.hbomax.com',
                     path: '/',
                     secure: true,
+                    sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
+                
+                // 2. Establecer en max.com
+                await chrome.cookies.set({
+                    url: 'https://www.max.com',
+                    name: name,
+                    value: value,
+                    domain: '.max.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                // 3. Establecer en play.hbomax.com (IMPORTANTE)
+                await chrome.cookies.set({
+                    url: 'https://play.hbomax.com',
+                    name: name,
+                    value: value,
+                    domain: '.hbomax.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                // 4. Establecer sin dominio específico (por si acaso)
+                await chrome.cookies.set({
+                    url: 'https://www.hbomax.com',
+                    name: name,
+                    value: value,
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                cookiesSet++;
+                continue;
             }
+            
+            // RESTANTES
+            await chrome.cookies.set({
+                url: platform.url,
+                name: name,
+                value: value,
+                domain: platform.domain,
+                path: '/',
+                secure: true,
+                expirationDate: Date.now() / 1000 + 2592000
+            });
             cookiesSet++;
         }
         
@@ -190,13 +210,6 @@ async function checkClipboardAndNotify() {
 // MANEJADOR DE MENSAJES
 // ============================================================
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'verifySession') {
-        verifySessionReal(request.platform, request.encryptedData)
-            .then(result => sendResponse({ isValid: result.isValid, reason: result.reason }))
-            .catch(err => sendResponse({ isValid: false, error: err.message }));
-        return true;
-    }
-    
     if (request.action === 'restoreSession') {
         restoreSession(request.platform, request.encryptedData, request.openTab !== false)
             .then(result => sendResponse({ success: true, cookiesSet: result.cookiesSet }))
@@ -212,4 +225,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v5.0 (con HBO Max)');
+console.log('🔥 PREMIUM ID - BACKGROUND v5.0 (HBO MAX CORREGIDO)');
