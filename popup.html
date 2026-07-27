@@ -10,6 +10,7 @@
 <body>
 <div class="premium-container">
     
+    <!-- ===== HEADER ===== -->
     <div class="premium-header">
         <div class="premium-title">
             <span class="premium-text">PREMIUM</span>
@@ -21,7 +22,7 @@
         <div class="creator-subtitle">ACCESO GRATUITO</div>
     </div>
     
-    <!-- FILA 1: 4 CÍRCULOS -->
+    <!-- ===== FILA 1: 4 CÍRCULOS ===== -->
     <div class="platforms-grid-top">
         <div class="platform-card netflix" data-platform="netflix" title="Netflix">
             <div class="platform-icon">
@@ -48,7 +49,7 @@
         </div>
     </div>
     
-    <!-- FILA 2: 3 CÍRCULOS CENTRADOS -->
+    <!-- ===== FILA 2: 3 CÍRCULOS CENTRADOS ===== -->
     <div class="platforms-grid-bottom">
         <div class="platform-card viki" data-platform="viki" title="Rakuten Viki">
             <div class="platform-icon">
@@ -69,10 +70,21 @@
         </div>
     </div>
     
+    <!-- ===== BOTÓN LIMPIAR COOKIES DE HBO MAX ===== -->
+    <div id="hbomax-cleaner" class="hbomax-cleaner">
+        <button id="clean-hbomax-cookies" class="clean-btn">
+            <i class="fas fa-trash-alt"></i>
+            Limpiar cookies de HBO Max
+        </button>
+        <span class="clean-info">Útil si HBO Max no carga o da error de redirección</span>
+    </div>
+    
+    <!-- ===== STATUS ===== -->
     <div id="status-message" class="status-message"></div>
     
+    <!-- ===== FOOTER ===== -->
     <div class="premium-footer">
-        <span class="version">v7.0</span>
+        <span class="version">v8.0</span>
     </div>
 </div>
 <script src="popup.js"></script>

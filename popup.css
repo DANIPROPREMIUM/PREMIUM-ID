@@ -105,9 +105,7 @@ body {
     100% { background-position: 0% center; }
 }
 
-/* ============================================================
-   FILA 1: 4 CÍRCULOS EN GRID
-   ============================================================ */
+/* ===== GRID DE CÍRCULOS ===== */
 .platforms-grid-top {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -118,9 +116,6 @@ body {
     margin-top: 4px;
 }
 
-/* ============================================================
-   FILA 2: 3 CÍRCULOS CENTRADOS CON FLEX
-   ============================================================ */
 .platforms-grid-bottom {
     display: flex;
     justify-content: center;
@@ -129,9 +124,6 @@ body {
     margin-top: 8px;
 }
 
-/* ============================================================
-   TARJETA INDIVIDUAL
-   ============================================================ */
 .platform-card {
     width: 60px;
     height: 60px;
@@ -263,53 +255,76 @@ body {
     filter: invert(14%) sepia(100%) saturate(4000%) hue-rotate(220deg) brightness(95%) contrast(110%);
 }
 
-/* ===== BOTONES DE SOPORTE ===== */
-.support-buttons {
-    display: flex;
-    gap: 10px;
+/* ============================================================
+   BOTÓN LIMPIAR COOKIES DE HBO MAX
+   ============================================================ */
+.hbomax-cleaner {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 8px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    background: rgba(100, 50, 249, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(100, 50, 249, 0.2);
 }
 
-.support-btn {
-    flex: 1;
+.hbomax-cleaner.show {
+    display: flex !important;
+}
+
+.clean-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 6px;
-    border-radius: 40px;
-    text-decoration: none;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    transition: all 0.2s ease;
-}
-
-.support-btn i {
-    font-size: 11px;
-}
-
-.support-btn.telegram {
-    background: linear-gradient(135deg, #0088cc, #006699);
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #6432F9, #4A1FA8);
     color: white;
+    border: none;
+    border-radius: 40px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
 }
 
-.support-btn.telegram:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, #0099dd, #0077aa);
-    box-shadow: 0 2px 8px rgba(0, 136, 204, 0.4);
+.clean-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(100, 50, 249, 0.4);
 }
 
-.support-btn.web {
-    background: linear-gradient(135deg, #D4AF37, #B8942E);
-    color: #1a1a2e;
+.clean-btn:active {
+    transform: scale(0.97);
 }
 
-.support-btn.web:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, #E0BF40, #C4A030);
-    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+.clean-btn i {
+    font-size: 13px;
+}
+
+.clean-btn.cleaning {
+    background: linear-gradient(135deg, #FF6B35, #E63E00);
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+.clean-btn.done {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+.clean-info {
+    font-size: 8px;
+    color: #888;
+    text-align: center;
+    padding: 0 4px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
 /* ===== STATUS MENSAJE ===== */
@@ -340,105 +355,4 @@ body {
     font-weight: 600;
     color: #D4AF37;
     text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
-}
-
-/* ===== EFECTO DE ONDA (RIPPLE) ===== */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.4) 50%, rgba(212, 175, 55, 0) 100%);
-    transform: scale(0);
-    animation: rippleEffect 0.6s ease-out;
-    pointer-events: none;
-    z-index: 10;
-}
-
-@keyframes rippleEffect {
-    0% {
-        transform: scale(0);
-        opacity: 0.8;
-    }
-    50% {
-        transform: scale(2.5);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-/* ===== ANIMACIONES DE PARPADEO PARA SESIÓN CERRADA ===== */
-@keyframes skullBlink {
-    0%, 100% { 
-        opacity: 1; 
-        filter: drop-shadow(0 0 0px rgba(255,0,0,0));
-    }
-    50% { 
-        opacity: 0.5; 
-        filter: drop-shadow(0 0 8px rgba(255,60,60,0.8));
-    }
-}
-
-@keyframes textBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-@keyframes statusBlink {
-    0%, 100% { 
-        opacity: 1;
-    }
-    50% { 
-        opacity: 0.7;
-    }
-}
-
-/* Calavera en instruction-box - PARPADEANTE */
-.instruction-box.warning .fas.fa-skull {
-    animation: skullBlink 0.6s ease-in-out infinite !important;
-}
-
-/* Botón de Telegram inline */
-.telegram-inline-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #0088cc;
-    color: white;
-    text-decoration: none;
-    padding: 4px 12px;
-    border-radius: 40px;
-    font-size: 10px;
-    font-weight: 700;
-    transition: all 0.2s ease;
-}
-
-.telegram-inline-btn:hover {
-    background: #0099dd;
-    transform: scale(1.02);
-}
-
-/* Instruction box contenedor */
-.instruction-box {
-    width: 100%;
-    text-align: center;
-    padding: 8px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    transition: all 0.3s ease;
-}
-
-/* FONDO VIOLETA para el mensaje de advertencia */
-.instruction-box.warning {
-    background: linear-gradient(135deg, rgba(128, 0, 128, 0.85), rgba(75, 0, 130, 0.85));
-    border: 2px solid rgba(212, 175, 55, 0.6);
-    box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
-    backdrop-filter: blur(2px);
-}
-
-/* Estilo para el texto de SESIÓN CERRADA en MAYÚSCULAS */
-.instruction-box.warning strong {
-    text-transform: uppercase !important;
-    letter-spacing: 1px;
 }

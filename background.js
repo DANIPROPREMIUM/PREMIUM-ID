@@ -1,4 +1,4 @@
-// PREMIUM ID - Background PÚBLICO v5.0 (HBO MAX CORREGIDO)
+// PREMIUM ID - Background PÚBLICO v5.0 (HBO MAX - RESTAURA TOTAL)
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -9,10 +9,8 @@ const PLATFORMS = {
     atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com' },
     hbomax: { 
         name: 'HBO Max', 
-        domain: '.hbomax.com', 
-        altDomains: ['.max.com', 'play.hbomax.com'], 
-        url: 'https://play.hbomax.com',  // ← CAMBIADO a play.hbomax.com
-        checkUrl: 'https://play.hbomax.com'
+        domains: ['.hbomax.com', '.max.com', 'play.hbomax.com'],
+        url: 'https://play.hbomax.com'
     }
 };
 
@@ -31,7 +29,7 @@ function getCodeVersion(code) {
 }
 
 // ============================================================
-// RESTAURAR SESIÓN - CON SOPORTE COMPLETO PARA HBO MAX
+// RESTAURAR SESIÓN - HBO MAX CON TODAS LAS COOKIES
 // ============================================================
 async function restoreSession(platformKey, encryptedData, openTab = true) {
     try {
@@ -47,6 +45,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         
         const cookiePairs = sessionData.cookies.split('; ');
         let cookiesSet = 0;
+        let cookieNames = [];
         
         for (let cookiePair of cookiePairs) {
             const equalIndex = cookiePair.indexOf('=');
@@ -56,6 +55,8 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             const value = cookiePair.substring(equalIndex + 1);
             
             if (!name || !value) continue;
+            
+            cookieNames.push(name);
             
             // PRIME VIDEO
             if (platformKey === 'prime') {
@@ -85,55 +86,50 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             }
             
             // ============================================================
-            // HBO MAX - CORREGIDO CON TODOS LOS DOMINIOS
+            // HBO MAX - RESTAURAR EN TODOS LOS DOMINIOS
             // ============================================================
             if (platformKey === 'hbomax') {
-                // 1. Establecer en hbomax.com
-                await chrome.cookies.set({
-                    url: 'https://www.hbomax.com',
-                    name: name,
-                    value: value,
-                    domain: '.hbomax.com',
-                    path: '/',
-                    secure: true,
-                    sameSite: 'no_restriction',
-                    expirationDate: Date.now() / 1000 + 2592000
-                });
+                // Establecer en CADA dominio de HBO Max
+                for (let domain of platform.domains) {
+                    try {
+                        await chrome.cookies.set({
+                            url: `https://${domain.replace('.', '')}`,
+                            name: name,
+                            value: value,
+                            domain: domain,
+                            path: '/',
+                            secure: true,
+                            sameSite: 'no_restriction',
+                            expirationDate: Date.now() / 1000 + 2592000
+                        });
+                    } catch(e) {
+                        // Si falla un dominio, intentar sin dominio específico
+                        try {
+                            await chrome.cookies.set({
+                                url: 'https://www.hbomax.com',
+                                name: name,
+                                value: value,
+                                path: '/',
+                                secure: true,
+                                sameSite: 'no_restriction',
+                                expirationDate: Date.now() / 1000 + 2592000
+                            });
+                        } catch(e2) {}
+                    }
+                }
                 
-                // 2. Establecer en max.com
-                await chrome.cookies.set({
-                    url: 'https://www.max.com',
-                    name: name,
-                    value: value,
-                    domain: '.max.com',
-                    path: '/',
-                    secure: true,
-                    sameSite: 'no_restriction',
-                    expirationDate: Date.now() / 1000 + 2592000
-                });
-                
-                // 3. Establecer en play.hbomax.com (IMPORTANTE)
-                await chrome.cookies.set({
-                    url: 'https://play.hbomax.com',
-                    name: name,
-                    value: value,
-                    domain: '.hbomax.com',
-                    path: '/',
-                    secure: true,
-                    sameSite: 'no_restriction',
-                    expirationDate: Date.now() / 1000 + 2592000
-                });
-                
-                // 4. Establecer sin dominio específico (por si acaso)
-                await chrome.cookies.set({
-                    url: 'https://www.hbomax.com',
-                    name: name,
-                    value: value,
-                    path: '/',
-                    secure: true,
-                    sameSite: 'no_restriction',
-                    expirationDate: Date.now() / 1000 + 2592000
-                });
+                // También establecer sin dominio específico
+                try {
+                    await chrome.cookies.set({
+                        url: 'https://www.hbomax.com',
+                        name: name,
+                        value: value,
+                        path: '/',
+                        secure: true,
+                        sameSite: 'no_restriction',
+                        expirationDate: Date.now() / 1000 + 2592000
+                    });
+                } catch(e) {}
                 
                 cookiesSet++;
                 continue;
@@ -161,7 +157,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             await chrome.tabs.create({ url: platform.url, active: true });
         }
         
-        return { success: true, cookiesSet };
+        return { success: true, cookiesSet, cookieNames };
         
     } catch(e) {
         throw new Error(e.message || 'Error al restaurar sesión');
@@ -225,4 +221,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v5.0 (HBO MAX CORREGIDO)');
+console.log('🔥 PREMIUM ID - BACKGROUND v5.0 (HBO MAX - Restaura total)');
