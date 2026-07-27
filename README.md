@@ -8,7 +8,7 @@
 
 **⚡️Ahora Premium ID V8.0 es 100% estable con HBO MAX.**
 
-💎 Integrado botón que aparece si es una sesión de HBO, útil para eliminar cookies viejas o simplemente cambiar de sesión.
+💎 **Integrado botón que aparece si es una sesión de HBO, útil para eliminar cookies viejas o simplemente cambiar de sesión.**
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
