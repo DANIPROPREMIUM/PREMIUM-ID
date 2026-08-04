@@ -6,9 +6,9 @@
 <h1 align="center">PREMIUM ID  VERSIÓN 8.0</h1>
 
 
-**⚡️Ahora Premium ID V8.0 es 100% estable con HBO MAX.**
+**⚡️PREMIUM ID V8.1 es ESTABILIDAD GARANTIZADA con HBO MAX.**
 
-💎 **Integrado botón que aparece si es una sesión de HBO, útil para eliminar cookies viejas o simplemente cambiar de sesión.**
+💎 **Integrado botón que aparece si es una sesión de HBO, útil para eliminar cookies viejas y acceder a la sesión.**
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
@@ -32,7 +32,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-8.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-8.1-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 ---
