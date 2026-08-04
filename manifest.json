@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "8.0",
+  "version": "8.1",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -20,7 +20,8 @@
     "*://*.viki.com/*",
     "*://*.atresplayer.com/*",
     "*://*.hbomax.com/*",
-    "*://*.max.com/*"
+    "*://*.max.com/*",
+    "*://*.hbo.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -49,14 +50,21 @@
         "*://*.viki.com/*",
         "*://*.atresplayer.com/*",
         "*://*.hbomax.com/*",
-        "*://*.max.com/*"
+        "*://*.max.com/*",
+        "*://*.hbo.com/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     },
     {
-      "matches": ["*://*.netflix.com/*"],
-      "js": ["bypass-core.js"],
+      "matches": [
+        "*://*.netflix.com/*"
+      ],
+      "js": [
+        "bypass-core.js"
+      ],
       "run_at": "document_idle"
     }
   ]

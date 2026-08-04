@@ -38,11 +38,74 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         
         const decoded = atob(encryptedData);
         const sessionData = JSON.parse(decoded);
-        
+
+        // ============================================================
+        // HBO MAX V5: cookies COMPLETAS (dominio + atributos reales).
+        // Se restaura cada cookie tal cual la exportó el CREADOR,
+        // igual que hace Cookie-Editor. Solo HBO usa este camino.
+        // ============================================================
+        if (platformKey === 'hbomax' && sessionData.version === 'V5' && Array.isArray(sessionData.cookiesFull)) {
+            let cookiesSet = 0;
+            let cookieNames = [];
+
+            for (let c of sessionData.cookiesFull) {
+                if (!c.name) continue;
+
+                const bareHost = (c.domain || '').replace(/^\./, '');
+                if (!bareHost) continue;
+                const path = c.path || '/';
+                const url = `https://${bareHost}${path}`;
+
+                const details = {
+                    url,
+                    name: c.name,
+                    value: c.value != null ? String(c.value) : '',
+                    path,
+                    secure: !!c.secure,
+                    httpOnly: !!c.httpOnly,
+                    sameSite: c.sameSite || 'unspecified'
+                };
+
+                // Cookie de dominio (.hbomax.com) vs host-only (auth.hbomax.com)
+                if (!c.hostOnly && c.domain) {
+                    details.domain = c.domain;
+                }
+
+                // sameSite=none exige secure
+                if (details.sameSite === 'no_restriction') {
+                    details.secure = true;
+                }
+
+                // Expiración original (o sesión si no había)
+                if (!c.session && c.expirationDate) {
+                    details.expirationDate = c.expirationDate;
+                }
+
+                try {
+                    await chrome.cookies.set(details);
+                    cookiesSet++;
+                    cookieNames.push(c.name);
+                } catch (e) {
+                    console.warn('No se pudo setear', c.name, '@', c.domain, e?.message);
+                }
+            }
+
+            if (cookiesSet === 0) {
+                throw new Error('No se pudieron restaurar las cookies');
+            }
+
+            if (openTab) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                await chrome.tabs.create({ url: platform.url, active: true });
+            }
+
+            return { success: true, cookiesSet, cookieNames };
+        }
+
         if (sessionData.version !== 'V4') {
             throw new Error('Código incompatible');
         }
-        
+
         const cookiePairs = sessionData.cookies.split('; ');
         let cookiesSet = 0;
         let cookieNames = [];
@@ -187,7 +250,7 @@ async function checkClipboardAndNotify() {
             const platform = parts[1];
             const platformName = PLATFORMS[platform]?.name || platform;
             
-            if (version === 'V4') {
+            if (version === 'V4' || version === 'V5') {
                 chrome.notifications?.create({
                     type: 'basic',
                     iconUrl: 'icons/icon128.png',
@@ -221,4 +284,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v5.0 (HBO MAX - Restaura total)');
+console.log('🔥 PREMIUM ID PRUEBA - BACKGROUND v5.0 (HBO MAX V5 - restaura cookies completas)');
