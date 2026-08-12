@@ -11,7 +11,7 @@
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/071733e8-b750-45f7-913e-163a8a6ec8fa" />
+  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/43e55aff-a3b9-4ce5-99e6-be6f9277f813" />
 </p>
 
 <p align="center">
