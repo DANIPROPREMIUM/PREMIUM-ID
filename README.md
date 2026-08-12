@@ -6,13 +6,12 @@
 <h1 align="center">PREMIUM ID  VERSIÓN 9.0</h1>
 
 
-**⚡️ESTABILIDAD GARANTIZADA EN HBO MAX.**
+**⚡️APPLE TV AHORA COMPATIBLE CON PREMIUM ID V9.0.**
 
-💎 **Integrado botón que aparece si es una sesión de HBO, útil para eliminar cookies viejas y cambiar de sesión.**
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/2ec20a64-d921-4d6c-9959-a7d5866c1e40" />
+  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/071733e8-b750-45f7-913e-163a8a6ec8fa" />
 </p>
 
 <p align="center">
