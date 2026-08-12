@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "8.1",
+  "version": "9.0",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -21,7 +21,9 @@
     "*://*.atresplayer.com/*",
     "*://*.hbomax.com/*",
     "*://*.max.com/*",
-    "*://*.hbo.com/*"
+    "*://*.hbo.com/*",
+    "*://*.apple.com/*",
+    "*://*.tv.apple.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -51,20 +53,16 @@
         "*://*.atresplayer.com/*",
         "*://*.hbomax.com/*",
         "*://*.max.com/*",
-        "*://*.hbo.com/*"
+        "*://*.hbo.com/*",
+        "*://*.apple.com/*",
+        "*://*.tv.apple.com/*"
       ],
-      "js": [
-        "content.js"
-      ],
+      "js": ["content.js"],
       "run_at": "document_idle"
     },
     {
-      "matches": [
-        "*://*.netflix.com/*"
-      ],
-      "js": [
-        "bypass-core.js"
-      ],
+      "matches": ["*://*.netflix.com/*"],
+      "js": ["bypass-core.js"],
       "run_at": "document_idle"
     }
   ]

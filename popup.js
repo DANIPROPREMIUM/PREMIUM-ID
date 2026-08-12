@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup PÚBLICO v5.0 (HBO Max con botón limpiar)
+// PREMIUM ID - Popup PÚBLICO v9.0
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let autoCloseTimeout = null;
     let lastClipboardText = null;
     let isAndroidDevice = /Android/i.test(navigator.userAgent);
-    let pendingRestore = null; // Guardar datos de restauración pendiente
+    let pendingRestore = null;
     
     const platforms = {
         netflix: { name: 'Netflix', url: 'https://www.netflix.com/browse' },
@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         paramount: { name: 'Paramount+', url: 'https://www.paramountplus.com' },
         viki: { name: 'Rakuten Viki', url: 'https://www.viki.com' },
         atresplayer: { name: 'AtresPlayer', url: 'https://www.atresplayer.com' },
-        hbomax: { name: 'HBO Max', url: 'https://play.hbomax.com' }
+        hbomax: { name: 'HBO Max', url: 'https://play.hbomax.com' },
+        appletv: { name: 'Apple TV', url: 'https://tv.apple.com' }
     };
     
     function showMessage(text, type = 'info', duration = 3000) {
@@ -78,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 } catch(e) {}
             }
             
-            // Limpiar cookies sin dominio específico
             try {
                 const allCookies = await chrome.cookies.getAll({});
                 for (let cookie of allCookies) {
@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showMessage(`✅ ${deleted} cookies eliminadas. Restaurando...`, 'success', 2000);
             
-            // 🔥 RESTAURAR LA SESIÓN PENDIENTE DESPUÉS DE LIMPIAR
             if (pendingRestore) {
                 setTimeout(async () => {
                     await restoreSession(
@@ -165,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ============================================================
-    // DETECCIÓN AUTOMÁTICA EN PC (CON PAUSA PARA HBO MAX)
+    // DETECCIÓN AUTOMÁTICA EN PC
     // ============================================================
     async function checkAndProcessClipboard() {
         if (isRestoring) return;
@@ -183,30 +182,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (platform && platforms[platform]) {
                 const encryptedData = parts.slice(4).join(':');
                 
-                // ============================================================
-                // HBO MAX: MOSTRAR BOTÓN Y NO RESTAURAR AUTOMÁTICAMENTE
-                // ============================================================
                 if (platform === 'hbomax') {
-                    // Guardar datos para restaurar después de limpiar
                     pendingRestore = {
                         platform: platform,
                         encryptedData: encryptedData,
                         platformName: platformName
                     };
                     
-                    // Mostrar el botón limpiar
                     hbomaxCleaner.classList.add('show');
-                    
-                    // Mostrar mensaje
                     showMessage(`📋 Código de ${platformName} detectado. Limpia cookies o pulsa el logo.`, 'info', 5000);
-                    
-                    // NO cerrar el popup, NO restaurar automáticamente
                     return;
                 }
                 
-                // ============================================================
-                // OTRAS PLATAFORMAS: RESTAURAR AUTOMÁTICAMENTE
-                // ============================================================
                 hbomaxCleaner.classList.remove('show');
                 showMessage(`🔍 Código detectado para ${platformName}. Restaurando...`, 'info', 2000);
                 await restoreSession(platform, encryptedData, platformName);
@@ -221,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ============================================================
-    // CLIC MANUAL EN LOGO (PARA TODAS LAS PLATAFORMAS)
+    // CLIC MANUAL EN LOGO
     // ============================================================
     platformCards.forEach(card => {
         card.addEventListener('click', async function() {
@@ -237,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const parts = text.split(':');
             const codePlatform = parts[1];
             
-            // Verificar que la plataforma coincida
             if (codePlatform !== platform) {
                 const platformName = platforms[codePlatform]?.name || codePlatform;
                 showMessage(`⚠️ El código es para ${platformName}`, 'warning', 3000);
@@ -247,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const encryptedData = parts.slice(4).join(':');
             const platformName = platforms[platform]?.name || platform;
             
-            // Si es HBO Max, mostrar el botón limpiar
             if (platform === 'hbomax') {
                 pendingRestore = {
                     platform: platform,
@@ -259,7 +244,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Otras plataformas: restaurar directamente
             hbomaxCleaner.classList.remove('show');
             await restoreSession(platform, encryptedData, platformName);
         });

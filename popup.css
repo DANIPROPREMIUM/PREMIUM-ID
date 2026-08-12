@@ -18,7 +18,6 @@ body {
     gap: 12px;
 }
 
-/* ===== HEADER ===== */
 .premium-header {
     display: flex;
     flex-direction: column;
@@ -105,28 +104,20 @@ body {
     100% { background-position: 0% center; }
 }
 
-/* ===== GRID DE CÍRCULOS ===== */
-.platforms-grid-top {
+/* ===== GRID DE 4x4 ===== */
+.platforms-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 8px 6px;
     width: 100%;
     justify-items: center;
     align-items: center;
     margin-top: 4px;
 }
 
-.platforms-grid-bottom {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    margin-top: 8px;
-}
-
 .platform-card {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -157,8 +148,8 @@ body {
 }
 
 .platform-icon img {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     transition: transform 0.2s ease;
     object-fit: contain;
 }
@@ -168,8 +159,6 @@ body {
 }
 
 /* ===== LOGOS CON COLOR ===== */
-
-/* NETFLIX */
 .platform-card.netflix:hover {
     background: rgba(229, 9, 20, 0.25);
     border-color: #E50914;
@@ -178,7 +167,6 @@ body {
     filter: invert(14%) sepia(95%) saturate(7000%) hue-rotate(355deg) brightness(98%) contrast(110%);
 }
 
-/* CRUNCHYROLL */
 .platform-card.crunchyroll:hover {
     background: rgba(244, 117, 33, 0.25);
     border-color: #F47521;
@@ -187,18 +175,16 @@ body {
     filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(101%);
 }
 
-/* PRIME VIDEO */
 .platform-card.prime:hover {
     background: rgba(0, 168, 225, 0.25);
     border-color: #00A8E1;
 }
 .platform-card.prime .platform-icon img {
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
     filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
 }
 
-/* PARAMOUNT+ */
 .platform-card.paramount:hover {
     background: rgba(0, 102, 255, 0.25);
     border-color: #0066FF;
@@ -207,7 +193,6 @@ body {
     filter: invert(27%) sepia(98%) saturate(2000%) hue-rotate(210deg) brightness(98%) contrast(110%);
 }
 
-/* VIKI */
 .platform-card.viki:hover {
     background: rgba(155, 89, 182, 0.25);
     border-color: #9B59B6;
@@ -216,7 +201,6 @@ body {
     filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(105%);
 }
 
-/* ATRESplayer */
 .platform-card.atresplayer:hover {
     background: rgba(230, 0, 0, 0.25);
     border-color: #E60000;
@@ -228,13 +212,13 @@ body {
     gap: 0;
 }
 .platform-card.atresplayer .atres-red {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: #E60000;
 }
 .platform-card.atresplayer .player-gray {
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 700;
     letter-spacing: -0.3px;
     color: #CCCCCC;
@@ -246,13 +230,24 @@ body {
     color: #FFFFFF;
 }
 
-/* HBO MAX */
 .platform-card.hbomax:hover {
     background: rgba(100, 50, 249, 0.25);
     border-color: #6432F9;
 }
 .platform-card.hbomax .platform-icon img {
     filter: invert(14%) sepia(100%) saturate(4000%) hue-rotate(220deg) brightness(95%) contrast(110%);
+}
+
+.platform-card.appletv:hover {
+    background: rgba(85, 85, 85, 0.25);
+    border-color: #555555;
+}
+.platform-card.appletv .platform-icon i {
+    transition: all 0.2s ease;
+}
+.platform-card.appletv:hover .platform-icon i {
+    color: #ffffff !important;
+    transform: scale(1.1);
 }
 
 /* ============================================================

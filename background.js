@@ -1,4 +1,4 @@
-// PREMIUM ID - Background PÚBLICO v5.0 (HBO MAX - RESTAURA TOTAL)
+// PREMIUM ID - Background PÚBLICO v9.0
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -11,6 +11,12 @@ const PLATFORMS = {
         name: 'HBO Max', 
         domains: ['.hbomax.com', '.max.com', 'play.hbomax.com'],
         url: 'https://play.hbomax.com'
+    },
+    appletv: {
+        name: 'Apple TV',
+        domain: '.apple.com',
+        altDomains: ['.tv.apple.com'],
+        url: 'https://tv.apple.com'
     }
 };
 
@@ -29,7 +35,7 @@ function getCodeVersion(code) {
 }
 
 // ============================================================
-// RESTAURAR SESIÓN - HBO MAX CON TODAS LAS COOKIES
+// RESTAURAR SESIÓN
 // ============================================================
 async function restoreSession(platformKey, encryptedData, openTab = true) {
     try {
@@ -40,9 +46,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         const sessionData = JSON.parse(decoded);
 
         // ============================================================
-        // HBO MAX V5: cookies COMPLETAS (dominio + atributos reales).
-        // Se restaura cada cookie tal cual la exportó el CREADOR,
-        // igual que hace Cookie-Editor. Solo HBO usa este camino.
+        // HBO MAX V5: cookies COMPLETAS
         // ============================================================
         if (platformKey === 'hbomax' && sessionData.version === 'V5' && Array.isArray(sessionData.cookiesFull)) {
             let cookiesSet = 0;
@@ -66,17 +70,14 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     sameSite: c.sameSite || 'unspecified'
                 };
 
-                // Cookie de dominio (.hbomax.com) vs host-only (auth.hbomax.com)
                 if (!c.hostOnly && c.domain) {
                     details.domain = c.domain;
                 }
 
-                // sameSite=none exige secure
                 if (details.sameSite === 'no_restriction') {
                     details.secure = true;
                 }
 
-                // Expiración original (o sesión si no había)
                 if (!c.session && c.expirationDate) {
                     details.expirationDate = c.expirationDate;
                 }
@@ -149,10 +150,9 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             }
             
             // ============================================================
-            // HBO MAX - RESTAURAR EN TODOS LOS DOMINIOS
+            // HBO MAX
             // ============================================================
             if (platformKey === 'hbomax') {
-                // Establecer en CADA dominio de HBO Max
                 for (let domain of platform.domains) {
                     try {
                         await chrome.cookies.set({
@@ -166,7 +166,6 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                             expirationDate: Date.now() / 1000 + 2592000
                         });
                     } catch(e) {
-                        // Si falla un dominio, intentar sin dominio específico
                         try {
                             await chrome.cookies.set({
                                 url: 'https://www.hbomax.com',
@@ -181,7 +180,6 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     }
                 }
                 
-                // También establecer sin dominio específico
                 try {
                     await chrome.cookies.set({
                         url: 'https://www.hbomax.com',
@@ -194,6 +192,35 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     });
                 } catch(e) {}
                 
+                cookiesSet++;
+                continue;
+            }
+            
+            // ============================================================
+            // APPLE TV
+            // ============================================================
+            if (platformKey === 'appletv') {
+                await chrome.cookies.set({
+                    url: 'https://www.apple.com',
+                    name: name,
+                    value: value,
+                    domain: '.apple.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
+                
+                await chrome.cookies.set({
+                    url: 'https://tv.apple.com',
+                    name: name,
+                    value: value,
+                    domain: '.tv.apple.com',
+                    path: '/',
+                    secure: true,
+                    sameSite: 'no_restriction',
+                    expirationDate: Date.now() / 1000 + 2592000
+                });
                 cookiesSet++;
                 continue;
             }
@@ -284,4 +311,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID PRUEBA - BACKGROUND v5.0 (HBO MAX V5 - restaura cookies completas)');
+console.log('🔥 PREMIUM ID - BACKGROUND v9.0');
