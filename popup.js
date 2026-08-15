@@ -1,17 +1,35 @@
-// PREMIUM ID - Popup PÚBLICO v9.0
+// PREMIUM ID - Popup PÚBLICO v10.0
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
     const platformCards = document.querySelectorAll('.platform-card');
     const hbomaxCleaner = document.getElementById('hbomax-cleaner');
     const cleanBtn = document.getElementById('clean-hbomax-cookies');
+    const netflixPanel = document.getElementById('netflix-tokens');
+    const nfTokensList = document.getElementById('nf-tokens-list');
+    const nfStatusEl = document.getElementById('nf-status');
+    const nfRegenBtn = document.getElementById('nt-regenerar');
+    const nfIngresarBtn = document.getElementById('nt-ingresar');
+    const nfNoteEl = document.querySelector('.nt-note');
     
     let isRestoring = false;
     let messageTimeout = null;
     let autoCloseTimeout = null;
     let lastClipboardText = null;
-    let isAndroidDevice = /Android/i.test(navigator.userAgent);
     let pendingRestore = null;
+    let pendingNetflix = null;
+    let nfTokens = null;
+    let nfGenerating = false;
+    // Detección de dispositivo por UA: todo navegador Android con extensiones
+    // (Kiwi/Quetta) tiene "Android" en el UA; un PC normal no.
+    // userAgentData.mobile es la fuente de verdad cuando está disponible.
+    function isAndroidDevice() {
+        try {
+            const uaData = navigator.userAgentData;
+            if (uaData && typeof uaData.mobile === 'boolean') return uaData.mobile;
+        } catch(e) {}
+        return /Android/i.test(navigator.userAgent);
+    }
     
     const platforms = {
         netflix: { name: 'Netflix', url: 'https://www.netflix.com/browse' },
@@ -164,15 +182,127 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ============================================================
+    // PANEL NETFLIX: INGRESAR / 3 TOKENS
+    // ============================================================
+    async function copyText(txt, btn) {
+        if (!txt) return;
+        try {
+            await navigator.clipboard.writeText(txt);
+            if (btn) {
+                const antes = btn.textContent;
+                btn.classList.add('done');
+                btn.textContent = '✓';
+                setTimeout(() => {
+                    btn.classList.remove('done');
+                    btn.textContent = antes;
+                }, 1200);
+            }
+        } catch(e) {}
+    }
+
+    function setNfStatus(text, type = '') {
+        nfStatusEl.textContent = text;
+        nfStatusEl.className = 'nf-status ' + type;
+    }
+
+    function formatExpiry(ms) {
+        if (!ms) return '';
+        const d = new Date(typeof ms === 'number' ? ms : Number(ms));
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleString();
+    }
+
+    function renderNfTokens(isPc) {
+        if (!nfTokens) {
+            nfTokensList.classList.add('hidden');
+            return;
+        }
+        nfTokensList.classList.remove('hidden');
+        const keys = isPc ? ['phone', 'desktop', 'tv'] : ['phone', 'tv'];
+        for (const k of ['phone', 'desktop', 'tv']) {
+            const row = nfTokensList.querySelector(`[data-ntk="${k}"]`);
+            if (!row) continue;
+            if (keys.includes(k) && nfTokens[k]) row.classList.remove('hidden');
+            else row.classList.add('hidden');
+        }
+        const extra = formatExpiry(nfTokens.expires);
+        setNfStatus(extra ? 'Tokens listos ✔ · expira: ' + extra : 'Tokens listos ✔', 'ok');
+    }
+
+    async function genNfTokens(codeText, isPc) {
+        if (nfGenerating) return;
+        nfGenerating = true;
+        setNfStatus('Generando tokens…');
+        try {
+            const r = await chrome.runtime.sendMessage({ action: 'genTokens', text: codeText });
+            if (!r?.success) throw new Error(r?.error || 'Error al generar tokens');
+            nfTokens = {
+                code: codeText,
+                phone: r.tokens.phone || '',
+                desktop: r.tokens.desktop || '',
+                tv: r.tokens.tv || '',
+                expires: r.expires,
+                mintedAt: Date.now()
+            };
+            await chrome.storage.local.set({ nfTokens });
+            renderNfTokens(isPc);
+        } catch(e) {
+            setNfStatus('✗ ' + e.message, 'err');
+        } finally {
+            nfGenerating = false;
+        }
+    }
+
+    async function ensureNfTokens(codeText, isPc) {
+        try {
+            const st = await chrome.storage.local.get('nfTokens');
+            if (st.nfTokens && codeText && st.nfTokens.code === codeText) {
+                nfTokens = st.nfTokens;
+                renderNfTokens(isPc);
+                return;
+            }
+        } catch(e) {}
+        await genNfTokens(codeText, isPc);
+    }
+
+    function showNetflixOptions(encryptedData, codeText) {
+        pendingNetflix = { encryptedData, codeText };
+        hbomaxCleaner.classList.remove('show');
+        netflixPanel.classList.remove('hidden');
+        nfTokensList.classList.add('hidden');
+        setNfStatus('');
+        
+        const isPc = !isAndroidDevice();
+        // En PC se ofrece Ingresar + los 3 tokens (la web reproduce).
+        // En Android no hay Ingresar y solo se muestran Teléfono/TV.
+        if (nfIngresarBtn) nfIngresarBtn.classList.toggle('hidden', !isPc);
+        if (nfNoteEl) {
+            nfNoteEl.textContent = isPc
+                ? 'Elegí Ingresar o usá un token para otro dispositivo'
+                : 'Web no reproduce en Android → usá un token';
+        }
+        
+        ensureNfTokens(codeText, isPc);
+    }
+
+    function hideNetflixOptions() {
+        netflixPanel.classList.add('hidden');
+        pendingNetflix = null;
+    }
+
+    // ============================================================
     // DETECCIÓN AUTOMÁTICA EN PC
     // ============================================================
     async function checkAndProcessClipboard() {
         if (isRestoring) return;
-        if (isAndroidDevice) return;
         
         const text = await readClipboard();
         if (text === lastClipboardText) return;
         lastClipboardText = text;
+
+        if (!text?.startsWith('premium_id:')) {
+            hideNetflixOptions();
+        }
         
         if (text?.startsWith('premium_id:')) {
             const parts = text.split(':');
@@ -181,6 +311,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (platform && platforms[platform]) {
                 const encryptedData = parts.slice(4).join(':');
+                
+                if (platform === 'netflix') {
+                    showNetflixOptions(encryptedData, text);
+                    return;
+                }
                 
                 if (platform === 'hbomax') {
                     pendingRestore = {
@@ -233,6 +368,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const encryptedData = parts.slice(4).join(':');
             const platformName = platforms[platform]?.name || platform;
             
+            if (platform === 'netflix') {
+                showNetflixOptions(encryptedData, text);
+                return;
+            }
+            
             if (platform === 'hbomax') {
                 pendingRestore = {
                     platform: platform,
@@ -257,14 +397,50 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ============================================================
+    // EVENTOS DEL PANEL NETFLIX
+    // ============================================================
+    if (nfIngresarBtn) {
+        nfIngresarBtn.addEventListener('click', () => {
+            if (!pendingNetflix) return;
+            hbomaxCleaner.classList.remove('show');
+            restoreSession('netflix', pendingNetflix.encryptedData, 'Netflix');
+        });
+    }
+    
+    if (nfRegenBtn) {
+        nfRegenBtn.addEventListener('click', () => {
+            if (pendingNetflix) genNfTokens(pendingNetflix.codeText, !isAndroidDevice());
+        });
+    }
+    
+    if (nfTokensList) {
+        nfTokensList.addEventListener('click', (e) => {
+            const b = e.target.closest('button');
+            if (!b || !nfTokens) return;
+            const k = b.dataset.ntk;
+            const url = nfTokens[k];
+            if (!url) return;
+            if (b.classList.contains('ir')) {
+                chrome.tabs.create({ url: url, active: true });
+                window.close();
+            } else if (b.classList.contains('cp')) {
+                copyText(url, b);
+            }
+        });
+    }
+    
+    // ============================================================
     // INICIALIZACIÓN
     // ============================================================
-    if (isAndroidDevice) {
-        showMessage('📱 Modo Android: Pulsa el logo para restaurar', 'info', 4000);
-        console.log('🔥 PREMIUM ID - MODO ANDROID');
+    // El polling corre SIEMPRE: en PC lee el portapapeles automáticamente;
+    // en Android la lectura falla (se ignora en silencio) y se usa el logo.
+    setInterval(checkAndProcessClipboard, 1000);
+    setTimeout(checkAndProcessClipboard, 300);
+
+    if (isAndroidDevice()) {
+        showMessage('📱 Modo Android: pulsa el logo de la plataforma', 'info', 4000);
+        console.log('🔥 PREMIUM ID v10.0 - MODO ANDROID');
     } else {
-        setInterval(checkAndProcessClipboard, 1000);
-        setTimeout(checkAndProcessClipboard, 300);
-        console.log('🔥 PREMIUM ID - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v10.0 - MODO PC (Detección automática)');
     }
 });

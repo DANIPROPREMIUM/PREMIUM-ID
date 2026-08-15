@@ -135,6 +135,10 @@
     function detectInvalidSession() {
         if (!isNetflix()) return;
         
+        // ⛔ SI ES UNA URL DE TOKEN (nftoken), NO INTERFERIR:
+        // el token es autónomo y debe cargar su propia página.
+        if (window.location.href.toLowerCase().includes('nftoken')) return;
+
         // ⛔ SI YA SE REDIRIGIÓ, NO HACER NADA
         if (netflixRedirected) return;
 
@@ -236,6 +240,10 @@
 
         const path = window.location.pathname;
         const url = window.location.href;
+
+        // ⛔ Si es una URL de token (nftoken), no interferir:
+        // el token es autónomo y debe cargar su propia página.
+        if (url.toLowerCase().includes('nftoken')) return;
 
         const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
         if (tvPatterns.some(p => path.includes(p) || url.includes(p))) {

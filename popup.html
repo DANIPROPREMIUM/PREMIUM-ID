@@ -81,13 +81,49 @@
         </button>
         <span class="clean-info">Útil si HBO Max no carga o da error de redirección</span>
     </div>
+
+    <!-- ===== PANEL NETFLIX: INGRESAR / 2 TOKENS (TELÉFONO / TV) ===== -->
+    <div id="netflix-tokens" class="netflix-tokens hidden">
+        <div class="nt-header">
+            <span class="nt-title"><i class="fas fa-ticket-alt"></i> Netflix</span>
+            <button id="nt-ingresar" class="nt-ingresar hidden">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+        </div>
+        <span class="nt-note">Web no reproduce en Android → usá un token</span>
+        <div id="nf-tokens-list" class="nf-tokens-list hidden">
+            <div class="nt-row" data-ntk="phone">
+                <span class="nt-name">📱 Teléfono</span>
+                <div class="nt-actions">
+                    <button class="nt-btn ir" data-ntk="phone">Ir</button>
+                    <button class="nt-btn cp" data-ntk="phone">Copiar</button>
+                </div>
+            </div>
+            <div class="nt-row" data-ntk="desktop">
+                <span class="nt-name">🖥 Desktop</span>
+                <div class="nt-actions">
+                    <button class="nt-btn ir" data-ntk="desktop">Ir</button>
+                    <button class="nt-btn cp" data-ntk="desktop">Copiar</button>
+                </div>
+            </div>
+            <div class="nt-row" data-ntk="tv">
+                <span class="nt-name">📺 TV</span>
+                <div class="nt-actions">
+                    <button class="nt-btn ir" data-ntk="tv">Ir</button>
+                    <button class="nt-btn cp" data-ntk="tv">Copiar</button>
+                </div>
+            </div>
+            <button id="nt-regenerar" class="nt-regenerar">↻ Regenerar tokens</button>
+        </div>
+        <div id="nf-status" class="nf-status"></div>
+    </div>
     
     <!-- ===== STATUS ===== -->
     <div id="status-message" class="status-message"></div>
     
     <!-- ===== FOOTER ===== -->
     <div class="premium-footer">
-        <span class="version">v9.0</span>
+        <span class="version">v10.0</span>
     </div>
 </div>
 <script src="popup.js"></script>

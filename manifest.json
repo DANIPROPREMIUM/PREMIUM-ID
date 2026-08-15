@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "9.0",
+  "version": "10.0",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -9,7 +9,8 @@
     "scripting",
     "storage",
     "windows",
-    "clipboardRead"
+    "clipboardRead",
+    "declarativeNetRequest"
   ],
   "host_permissions": [
     "*://*.netflix.com/*",
@@ -23,7 +24,8 @@
     "*://*.max.com/*",
     "*://*.hbo.com/*",
     "*://*.apple.com/*",
-    "*://*.tv.apple.com/*"
+    "*://*.tv.apple.com/*",
+    "https://ios.prod.ftl.netflix.com/*"
   ],
   "background": {
     "service_worker": "background.js"
