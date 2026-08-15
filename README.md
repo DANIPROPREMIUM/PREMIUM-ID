@@ -3,15 +3,15 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 9.0</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 10</h1>
 
 
-**⚡️APPLE TV AHORA COMPATIBLE CON PREMIUM ID V9.0.**
+**⚡️NEW! AHORA EN LA VERSIÓN 10, SOPORTA PARA ACCEDER EN LA APK OFICIAL DE NETFLIX Y EN TV.**
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/43e55aff-a3b9-4ce5-99e6-be6f9277f813" />
+  <img width="360" height="405" alt="Image" src="https://github.com/user-attachments/assets/6f9d873e-2acf-448c-b2f9-037e28d0ce2c" />
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-9.0-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-10-blue.svg?style=for-the-badge" alt="Version">
 </p>  
 
 ---
