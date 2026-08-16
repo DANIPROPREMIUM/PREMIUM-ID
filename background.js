@@ -454,7 +454,7 @@ async function genNetflixTokens(texto) {
     source: "premium-id"
   };
   const { token, expires } = await mintToken(session);
-  if (!token) throw new Error('La sesión fue rechazada (Premium ID muerto o ya usado).');
+  if (!token) throw new Error('Cuenta off, imposible generar TOKENS, intenta con otra.');
   return { tokens: urlsDeToken(token), token, expires };
 }
 

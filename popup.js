@@ -278,8 +278,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nfIngresarBtn) nfIngresarBtn.classList.toggle('hidden', !isPc);
         if (nfNoteEl) {
             nfNoteEl.textContent = isPc
-                ? 'Elegí Ingresar o usá un token para otro dispositivo'
-                : 'Web no reproduce en Android → usá un token';
+                ? '⚠️ Nota: Si un TOKEN generado falla y no te accede es por la región. Prueba con otra cuenta. '
+                : 'Web no reproduce en Android → utiliza un token';
         }
         
         ensureNfTokens(codeText, isPc);
