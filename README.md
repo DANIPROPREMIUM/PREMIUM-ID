@@ -40,9 +40,8 @@
   <img src="https://img.shields.io/badge/version-10-blue.svg?style=for-the-badge" alt="Version">
   <!-- Badge específico para Netflix en Orion Browser (iOS) -->
 <p align="center">
-  <img src="https://img.shields.io/badge/VINCULAR%20APP%20NETFLIX%20EN%20ORION%20BROWSER-iOS?style=for-the-badge&logo=netflix&logoColor=white&color=E50914" alt="VINCULAR APP NETFLIX EN ORION BROWSER iOS">
+  <img src="https://img.shields.io/badge/VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
-</p>  
 
 ---
 
