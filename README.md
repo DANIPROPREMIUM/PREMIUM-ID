@@ -18,6 +18,12 @@
 <img src="https://badgen.net/badge/PARA%20WINDOWS/PC?icon=windows&labelColor=555555&scale=2" alt="PARA PC / WINDOWS">
 </p>
 
+
+  <!-- Badge para Orion Browser (iOS) -->
+<p align="center">
+  <img src="https://badgen.net/badge/PARA%20ORION%20BROWSER/iOS?icon=apple&color=6C5CE7&scale=2" alt="PARA ORION BROWSER iOS">
+</p>
+
 <!-- Insignia para Android -->
 <p align="center">
   <img src="https://badgen.net/badge/PARA%20QUETTA%20BROWSER/ANDROID?icon=android&color=3DDC84&scale=2" alt="PARA ANDROID">
@@ -32,6 +38,10 @@
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/version-10-blue.svg?style=for-the-badge" alt="Version">
+  <!-- Badge específico para Netflix en Orion Browser (iOS) -->
+<p align="center">
+  <img src="https://img.shields.io/badge/PARA%20NETFLIX%20EN%20ORION%20BROWSER-iOS?style=for-the-badge&logo=netflix&logoColor=white&color=E50914" alt="PARA NETFLIX EN ORION BROWSER iOS">
+</p>
 </p>  
 
 ---
