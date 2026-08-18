@@ -61,6 +61,15 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg" width="20" height="20" style="vertical-align: middle;"> **Apple TV** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 
 ---
+
+## 📱 PREMIUM ID PARA ORION BROWSER (iOS)
+
+**Extensión adaptada para instalarse en Orion Browser.**
+
+[![DESCARGAR](https://img.shields.io/badge/⬇️_DESCARGAR_EXTENSION_PARA_ORION_BROWSER-6C5CE7?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.usercontent.google.com/download?id=1V9dJPjjWI190NqgtXCzSoYwp4we47Uom&export=download)
+
+
+
 ## 🚀 Instalación Android
 
 1. **Abre Quetta browser, dirígete al icono de la pieza de puzzle/ activa el "Modo de desarrollador"** (esquina superior derecha) y descarga el archivo ZIP de este repositorio:
