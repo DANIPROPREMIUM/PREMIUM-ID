@@ -82,12 +82,16 @@
         <span class="clean-info">Acción necesaria para acceder correctamente a HBO Max</span>
     </div>
 
-    <!-- ===== PANEL NETFLIX: INGRESAR / 2 TOKENS (TELÉFONO / TV) ===== -->
+    <!-- ===== PANEL NETFLIX: INGRESAR / 3 TOKENS ===== -->
     <div id="netflix-tokens" class="netflix-tokens hidden">
         <div class="nt-header">
-            <span class="nt-title"><i class="fas fa-ticket-alt"></i> Netflix</span>
+            <span class="nt-title">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="Netflix" class="nt-title-icon">
+                Netflix
+            </span>
             <button id="nt-ingresar" class="nt-ingresar hidden">
-                <i class="fas fa-sign-in-alt"></i> Ingresar
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="Netflix" class="nt-ingresar-icon">
+                Ingresar
             </button>
         </div>
         <span class="nt-note">Web no reproduce en Android → usá un token</span>
@@ -120,10 +124,20 @@
     
     <!-- ===== STATUS ===== -->
     <div id="status-message" class="status-message"></div>
+
+    <!-- ===== BOTONES DE ENLACES (WEB + TELEGRAM) ===== -->
+    <div class="links-buttons">
+        <a href="https://premium-id.jimdosite.com" target="_blank" rel="noopener noreferrer" class="link-btn web">
+            <i class="fas fa-globe"></i> Web
+        </a>
+        <a href="https://telegram.me/cuentaspremiumid" target="_blank" rel="noopener noreferrer" class="link-btn telegram">
+            <i class="fab fa-telegram-plane"></i> Telegram
+        </a>
+    </div>
     
     <!-- ===== FOOTER ===== -->
     <div class="premium-footer">
-        <span class="version">v10</span>
+        <span class="version">v11</span>
     </div>
 </div>
 <script src="popup.js"></script>

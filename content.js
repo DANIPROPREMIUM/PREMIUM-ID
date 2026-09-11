@@ -1,4 +1,4 @@
-// PREMIUM ID - Content Script v5.0 (Netflix - Sin bucle de refresco)
+// PREMIUM ID - Content Script v5.1 (Netflix - Sin bucle de refresco)
 
 (function() {
     'use strict';
@@ -45,10 +45,16 @@
         return window.location.hostname.includes('crunchyroll.com');
     }
 
+    // ✅ NUEVO: detectar HBO Max (hbomax.com y max.com)
+    function isHboMax() {
+        return window.location.hostname.includes('hbomax') ||
+               window.location.hostname.includes('max.com');
+    }
+
     // ============================================================
     // CONTROL DE BUCLE PARA NETFLIX
     // ============================================================
-    let netflixRedirected = false;  // ✅ Bandera para evitar bucle
+    let netflixRedirected = false;
 
     // ========== MARCA DE AGUA ==========
     let watermarkAdded = false;
@@ -134,9 +140,8 @@
     // ========== DETECTAR SESIÓN INVÁLIDA (SIN BUCLE) ==========
     function detectInvalidSession() {
         if (!isNetflix()) return;
-        
+
         // ⛔ SI ES UNA URL DE TOKEN (nftoken), NO INTERFERIR:
-        // el token es autónomo y debe cargar su propia página.
         if (window.location.href.toLowerCase().includes('nftoken')) return;
 
         // ⛔ SI YA SE REDIRIGIÓ, NO HACER NADA
@@ -149,32 +154,30 @@
 
         // ✅ SI ESTAMOS EN LOGIN, NO REDIRIGIR
         if (url.includes('login')) {
-            netflixRedirected = true;  // Marcar para no redirigir
+            netflixRedirected = true;
             return;
         }
 
         const expiredIndicators = [
-            'session expired', 'sesión expirada', 'sign in again', 
+            'session expired', 'sesión expirada', 'sign in again',
             'inicia sesión nuevamente', 'logged out', 'cerraste sesión',
             'your session has expired', 'tu sesión ha expirado',
             'no eres parte del hogar', 'your netflix household',
             'iniciar sesión', 'sign in', 'sign in to continue',
             'vuelve a iniciar sesión'
         ];
-        const isExpired = expiredIndicators.some(indicator => 
+        const isExpired = expiredIndicators.some(indicator =>
             body.includes(indicator) || title.includes(indicator)
         );
 
         if (isExpired) {
-            // ✅ MARCAR PARA NO REPETIR
             netflixRedirected = true;
-            
+
             safeSendMessage({
                 action: 'session_failed',
                 platform: getPlatformKey()
             });
 
-            // ✅ LIMPIAR COOKIES Y REDIRIGIR
             clearCookies();
 
             setTimeout(() => {
@@ -241,8 +244,6 @@
         const path = window.location.pathname;
         const url = window.location.href;
 
-        // ⛔ Si es una URL de token (nftoken), no interferir:
-        // el token es autónomo y debe cargar su propia página.
         if (url.toLowerCase().includes('nftoken')) return;
 
         const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
@@ -250,7 +251,7 @@
             window.location.replace('https://www.netflix.com/browse');
             return;
         }
-        
+
         if (path.includes('/account') || path.includes('/profiles') || path.includes('/ManageProfiles') || path.includes('logout')) {
             window.location.replace('https://www.netflix.com/browse');
             return;
@@ -267,10 +268,10 @@
             const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
             const href = el.getAttribute('href')?.toLowerCase() || '';
             const onClick = el.getAttribute('onclick')?.toLowerCase() || '';
-            
+
             const isSignOut = (
-                text.includes('cerrar sesión') || 
-                text.includes('sign out') || 
+                text.includes('cerrar sesión') ||
+                text.includes('sign out') ||
                 text.includes('logout') ||
                 text.includes('cerrar sesión') ||
                 text.includes('cierra sesión') ||
@@ -282,13 +283,13 @@
                 onClick.includes('logout') ||
                 onClick.includes('signout')
             );
-            
+
             if (isSignOut) {
                 el.style.pointerEvents = 'none';
                 el.style.opacity = '0.4';
                 el.style.cursor = 'default';
                 el.style.userSelect = 'none';
-                
+
                 if (el.tagName === 'A') {
                     el.removeAttribute('href');
                     el.style.textDecoration = 'none';
@@ -312,7 +313,7 @@
         addProfileButtons.forEach(el => {
             const text = el.textContent?.toLowerCase() || '';
             const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
-            
+
             const isAddProfile = (
                 text === '+' ||
                 text.includes('agregar perfil') ||
@@ -325,13 +326,13 @@
                 (el.className && el.className.includes && el.className.includes('profile-add')) ||
                 (el.id && el.id.includes('add-profile'))
             );
-            
+
             if (isAddProfile) {
                 el.style.pointerEvents = 'none';
                 el.style.opacity = '0.4';
                 el.style.cursor = 'default';
                 el.style.userSelect = 'none';
-                
+
                 if (el.tagName === 'A') {
                     el.removeAttribute('href');
                 }
@@ -351,7 +352,7 @@
         if (!isNetflix()) return;
 
         document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
-            const isAddButton = el.textContent?.includes('+') || 
+            const isAddButton = el.textContent?.includes('+') ||
                                el.getAttribute('aria-label')?.includes('agregar');
             if (!isAddButton) {
                 el.style.pointerEvents = '';
@@ -372,14 +373,20 @@
     }
 
     // ========== DESBLOQUEAR CAMBIO DE IDIOMA ==========
+    // ✅ FIX: NO se ejecuta en HBO Max, porque sus botones de audio/subtítulos
+    // se confunden con los selectores de idioma y el CSS `display: inline-flex`
+    // resucita el aviso "English - Audio Description" impidiendo cerrarlo con la X.
     let languageStyleInserted = false;
 
     function unblockLanguageSelector() {
         if (isCrunchyroll()) return;
+        if (isHboMax()) return;  // ✅ FIX: saltar en HBO Max / Max
 
         if (!languageStyleInserted && !document.getElementById('premium-id-language-unlock')) {
             const style = document.createElement('style');
             style.id = 'premium-id-language-unlock';
+            // ✅ FIX: eliminado `display` y `visibility` porque rompían el cierre
+            // del overlay de HBO Max y de otros reproductores.
             style.textContent = `
                 [data-testid="audio-track-selector"],
                 [data-testid="subtitle-track-selector"],
@@ -395,8 +402,6 @@
                 button[aria-label*="subtitle"] {
                     pointer-events: auto !important;
                     opacity: 1 !important;
-                    visibility: visible !important;
-                    display: inline-flex !important;
                     cursor: pointer !important;
                 }
             `;
@@ -422,7 +427,6 @@
 
     // ========== RESETEAR BANDERA AL CARGAR UNA NUEVA SESIÓN ==========
     function resetRedirectFlag() {
-        // Si la URL es browse (sesión activa), resetear la bandera
         if (window.location.href.includes('/browse')) {
             netflixRedirected = false;
         }
@@ -434,25 +438,21 @@
 
         if (isNetflix()) {
             blockNavigation();
-            
+
             setInterval(blockAllDangerousButtons, 2000);
             blockAllDangerousButtons();
-            
-            // ✅ RESETEAR BANDERA SI ESTAMOS EN BROWSE
+
             resetRedirectFlag();
-            
-            // ✅ DETECTAR SESIÓN CADA 5 SEGUNDOS (SOLO SI NO SE HA REDIRIGIDO)
+
             setInterval(detectInvalidSession, 5000);
-            
-            // ✅ DETECTAR AL CARGAR LA PÁGINA
+
             window.addEventListener('load', () => {
                 resetRedirectFlag();
                 setTimeout(() => {
                     detectInvalidSession();
                 }, 1500);
             });
-            
-            // ✅ CUANDO CAMBIA LA URL (SPA DE NETFLIX)
+
             let lastUrl = window.location.href;
             setInterval(() => {
                 if (window.location.href !== lastUrl) {
@@ -461,11 +461,11 @@
                     detectInvalidSession();
                 }
             }, 1000);
-            
+
             const observer = new MutationObserver(() => {
                 blockAllDangerousButtons();
             });
-            
+
             if (document.body) {
                 observer.observe(document.body, { childList: true, subtree: true });
             }
@@ -475,7 +475,8 @@
             }, { passive: true });
         }
 
-        if (!isCrunchyroll()) {
+        // ✅ FIX: aquí ya se excluye HBO Max por dentro de la función
+        if (!isCrunchyroll() && !isHboMax()) {
             unblockLanguageSelector();
             setInterval(unblockLanguageSelector, 3000);
         }
@@ -487,5 +488,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v5.0 (Netflix - Sin bucle de refresco)');
+    console.log('🔥 PREMIUM ID - CONTENT v5.1 (Netflix - Sin bucle de refresco)');
 })();

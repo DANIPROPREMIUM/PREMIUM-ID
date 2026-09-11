@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup PÚBLICO v10.0
+// PREMIUM ID - Popup PÚBLICO v10.3
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nfRegenBtn = document.getElementById('nt-regenerar');
     const nfIngresarBtn = document.getElementById('nt-ingresar');
     const nfNoteEl = document.querySelector('.nt-note');
-    
+
     let isRestoring = false;
     let messageTimeout = null;
     let autoCloseTimeout = null;
@@ -20,9 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let pendingNetflix = null;
     let nfTokens = null;
     let nfGenerating = false;
-    // Detección de dispositivo por UA: todo navegador Android con extensiones
-    // (Kiwi/Quetta) tiene "Android" en el UA; un PC normal no.
-    // userAgentData.mobile es la fuente de verdad cuando está disponible.
+
     function isAndroidDevice() {
         try {
             const uaData = navigator.userAgentData;
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch(e) {}
         return /Android/i.test(navigator.userAgent);
     }
-    
+
     const platforms = {
         netflix: { name: 'Netflix', url: 'https://www.netflix.com/browse' },
         crunchyroll: { name: 'Crunchyroll', url: 'https://www.crunchyroll.com' },
@@ -41,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hbomax: { name: 'HBO Max', url: 'https://play.hbomax.com' },
         appletv: { name: 'Apple TV', url: 'https://tv.apple.com' }
     };
-    
+
     function showMessage(text, type = 'info', duration = 3000) {
         if (messageTimeout) clearTimeout(messageTimeout);
         const color = type === 'success' ? '#4CAF50' : type === 'error' ? '#FF5252' : '#D4AF37';
@@ -51,28 +49,47 @@ document.addEventListener('DOMContentLoaded', function() {
             messageTimeout = null;
         }, duration);
     }
-    
+
     async function readClipboard() {
-        try { 
+        try {
             return await navigator.clipboard.readText();
-        } catch(e) { 
-            return null; 
+        } catch(e) {
+            return null;
         }
     }
-    
+
     // ============================================================
-    // FUNCIÓN: LIMPIAR COOKIES DE HBO MAX Y RESTAURAR
+    // HABILITAR / DESHABILITAR BOTÓN INGRESAR NETFLIX
+    // ============================================================
+    function disableNfIngresar() {
+        if (!nfIngresarBtn) return;
+        nfIngresarBtn.disabled = true;
+        nfIngresarBtn.classList.add('disabled');
+        nfIngresarBtn.setAttribute('aria-disabled', 'true');
+        nfIngresarBtn.title = 'Cuenta off — no disponible';
+    }
+
+    function enableNfIngresar() {
+        if (!nfIngresarBtn) return;
+        nfIngresarBtn.disabled = false;
+        nfIngresarBtn.classList.remove('disabled');
+        nfIngresarBtn.removeAttribute('aria-disabled');
+        nfIngresarBtn.title = '';
+    }
+
+    // ============================================================
+    // LIMPIAR COOKIES HBO MAX
     // ============================================================
     async function clearHboMaxCookies() {
         if (!cleanBtn) return;
-        
+
         cleanBtn.classList.add('cleaning');
         cleanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Limpiando...';
-        
+
         try {
             const domains = ['hbomax.com', 'max.com', 'play.hbomax.com'];
             let deleted = 0;
-            
+
             for (let domain of domains) {
                 try {
                     const cookies = await chrome.cookies.getAll({ domain: '.' + domain });
@@ -84,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         deleted++;
                     }
                 } catch(e) {}
-                
+
                 try {
                     const cookies = await chrome.cookies.getAll({ domain: domain });
                     for (let cookie of cookies) {
@@ -96,12 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } catch(e) {}
             }
-            
+
             try {
                 const allCookies = await chrome.cookies.getAll({});
                 for (let cookie of allCookies) {
                     if (!cookie.domain || cookie.domain === '') {
-                        const isHBO = cookie.name?.toLowerCase().includes('session') || 
+                        const isHBO = cookie.name?.toLowerCase().includes('session') ||
                                       cookie.name?.toLowerCase().includes('token') ||
                                       cookie.name?.toLowerCase().includes('auth') ||
                                       cookie.name?.toLowerCase().includes('access') ||
@@ -117,53 +134,53 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             } catch(e) {}
-            
+
             cleanBtn.classList.remove('cleaning');
             cleanBtn.classList.add('done');
             cleanBtn.innerHTML = `<i class="fas fa-check"></i> ${deleted} cookies eliminadas`;
-            
+
             showMessage(`✅ ${deleted} cookies eliminadas. Restaurando...`, 'success', 2000);
-            
+
             if (pendingRestore) {
                 setTimeout(async () => {
                     await restoreSession(
-                        pendingRestore.platform, 
-                        pendingRestore.encryptedData, 
+                        pendingRestore.platform,
+                        pendingRestore.encryptedData,
                         pendingRestore.platformName
                     );
                     pendingRestore = null;
                 }, 1000);
             }
-            
+
             setTimeout(() => {
                 cleanBtn.classList.remove('done');
                 cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
             }, 5000);
-            
+
         } catch(e) {
             cleanBtn.classList.remove('cleaning');
             cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
             showMessage(`❌ Error: ${e.message}`, 'error', 3000);
         }
     }
-    
+
     // ============================================================
     // RESTAURAR SESIÓN
     // ============================================================
     async function restoreSession(platform, encryptedData, platformName) {
         if (isRestoring) return;
         isRestoring = true;
-        
+
         try {
             showMessage(`🔄 Restaurando ${platformName}...`, 'info', 2000);
-            
+
             const response = await chrome.runtime.sendMessage({
                 action: 'restoreSession',
                 platform: platform,
                 encryptedData: encryptedData,
                 openTab: true
             });
-            
+
             if (response?.success) {
                 showMessage(`✅ ${platformName} abierta correctamente`, 'success', 2000);
                 autoCloseTimeout = setTimeout(() => {
@@ -172,17 +189,17 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 showMessage(`❌ ${response?.error || 'Error al restaurar'}`, 'error', 3000);
             }
-            
+
             isRestoring = false;
-            
+
         } catch(e) {
             showMessage(`❌ Error: ${e.message}`, 'error', 3000);
             isRestoring = false;
         }
     }
-    
+
     // ============================================================
-    // PANEL NETFLIX: INGRESAR / 3 TOKENS
+    // PANEL NETFLIX
     // ============================================================
     async function copyText(txt, btn) {
         if (!txt) return;
@@ -233,6 +250,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nfGenerating) return;
         nfGenerating = true;
         setNfStatus('Generando tokens…');
+
+        // Al intentar generar, reactivamos el botón por si estaba off
+        enableNfIngresar();
+
         try {
             const r = await chrome.runtime.sendMessage({ action: 'genTokens', text: codeText });
             if (!r?.success) throw new Error(r?.error || 'Error al generar tokens');
@@ -248,6 +269,12 @@ document.addEventListener('DOMContentLoaded', function() {
             renderNfTokens(isPc);
         } catch(e) {
             setNfStatus('✗ ' + e.message, 'err');
+
+            // ✅ Si la cuenta está off → deshabilitar Ingresar
+            const msg = (e.message || '').toLowerCase();
+            if (msg.includes('cuenta off') || msg.includes('imposible generar')) {
+                disableNfIngresar();
+            }
         } finally {
             nfGenerating = false;
         }
@@ -271,17 +298,18 @@ document.addEventListener('DOMContentLoaded', function() {
         netflixPanel.classList.remove('hidden');
         nfTokensList.classList.add('hidden');
         setNfStatus('');
-        
+
+        // ✅ Al mostrar el panel con nuevo código, reactivar el botón Ingresar
+        enableNfIngresar();
+
         const isPc = !isAndroidDevice();
-        // En PC se ofrece Ingresar + los 3 tokens (la web reproduce).
-        // En Android no hay Ingresar y solo se muestran Teléfono/TV.
         if (nfIngresarBtn) nfIngresarBtn.classList.toggle('hidden', !isPc);
         if (nfNoteEl) {
             nfNoteEl.textContent = isPc
                 ? '⚠️ Nota: Si un TOKEN generado falla y no te accede es por la región. Prueba con otra cuenta. '
                 : 'Web no reproduce en Android → utiliza un token';
         }
-        
+
         ensureNfTokens(codeText, isPc);
     }
 
@@ -291,11 +319,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================
-    // DETECCIÓN AUTOMÁTICA EN PC
+    // DETECCIÓN AUTOMÁTICA
     // ============================================================
     async function checkAndProcessClipboard() {
         if (isRestoring) return;
-        
+
         const text = await readClipboard();
         if (text === lastClipboardText) return;
         lastClipboardText = text;
@@ -303,36 +331,36 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!text?.startsWith('premium_id:')) {
             hideNetflixOptions();
         }
-        
+
         if (text?.startsWith('premium_id:')) {
             const parts = text.split(':');
             const platform = parts[1];
             const platformName = platforms[platform]?.name || platform;
-            
+
             if (platform && platforms[platform]) {
                 const encryptedData = parts.slice(4).join(':');
-                
+
                 if (platform === 'netflix') {
                     showNetflixOptions(encryptedData, text);
                     return;
                 }
-                
+
                 if (platform === 'hbomax') {
                     pendingRestore = {
                         platform: platform,
                         encryptedData: encryptedData,
                         platformName: platformName
                     };
-                    
+
                     hbomaxCleaner.classList.add('show');
-                    showMessage(`📋 Código de ${platformName} detectado. Limpia cookies o pulsa el logo.`, 'info', 5000);
+                    showMessage(`📋 Código de ${platformName} detectado`, 'info', 5000);
                     return;
                 }
-                
+
                 hbomaxCleaner.classList.remove('show');
                 showMessage(`🔍 Código detectado para ${platformName}. Restaurando...`, 'info', 2000);
                 await restoreSession(platform, encryptedData, platformName);
-                
+
             } else {
                 showMessage(`⚠️ Código inválido`, 'error', 2500);
                 hbomaxCleaner.classList.remove('show');
@@ -341,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hbomaxCleaner.classList.remove('show');
         }
     }
-    
+
     // ============================================================
     // CLIC MANUAL EN LOGO
     // ============================================================
@@ -349,30 +377,30 @@ document.addEventListener('DOMContentLoaded', function() {
         card.addEventListener('click', async function() {
             const platform = this.dataset.platform;
             if (!platform) return;
-            
+
             const text = await readClipboard();
             if (!text?.startsWith('premium_id:')) {
                 showMessage('❌ No hay código válido en el portapapeles', 'error', 3000);
                 return;
             }
-            
+
             const parts = text.split(':');
             const codePlatform = parts[1];
-            
+
             if (codePlatform !== platform) {
                 const platformName = platforms[codePlatform]?.name || codePlatform;
                 showMessage(`⚠️ El código es para ${platformName}`, 'warning', 3000);
                 return;
             }
-            
+
             const encryptedData = parts.slice(4).join(':');
             const platformName = platforms[platform]?.name || platform;
-            
+
             if (platform === 'netflix') {
                 showNetflixOptions(encryptedData, text);
                 return;
             }
-            
+
             if (platform === 'hbomax') {
                 pendingRestore = {
                     platform: platform,
@@ -380,39 +408,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     platformName: platformName
                 };
                 hbomaxCleaner.classList.add('show');
-                showMessage(`📋 Código de ${platformName} listo. Limpia cookies o pulsa el logo.`, 'info', 3000);
+                showMessage(`📋 Código de ${platformName} detectado`, 'info', 3000);
                 return;
             }
-            
+
             hbomaxCleaner.classList.remove('show');
             await restoreSession(platform, encryptedData, platformName);
         });
     });
-    
+
     // ============================================================
-    // EVENTO DEL BOTÓN LIMPIAR
+    // EVENTOS
     // ============================================================
     if (cleanBtn) {
         cleanBtn.addEventListener('click', clearHboMaxCookies);
     }
-    
-    // ============================================================
-    // EVENTOS DEL PANEL NETFLIX
-    // ============================================================
+
     if (nfIngresarBtn) {
         nfIngresarBtn.addEventListener('click', () => {
+            // ✅ Guard: no hacer nada si está deshabilitado
+            if (nfIngresarBtn.disabled || nfIngresarBtn.classList.contains('disabled')) return;
             if (!pendingNetflix) return;
             hbomaxCleaner.classList.remove('show');
             restoreSession('netflix', pendingNetflix.encryptedData, 'Netflix');
         });
     }
-    
+
     if (nfRegenBtn) {
         nfRegenBtn.addEventListener('click', () => {
             if (pendingNetflix) genNfTokens(pendingNetflix.codeText, !isAndroidDevice());
         });
     }
-    
+
     if (nfTokensList) {
         nfTokensList.addEventListener('click', (e) => {
             const b = e.target.closest('button');
@@ -428,19 +455,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // ============================================================
     // INICIALIZACIÓN
     // ============================================================
-    // El polling corre SIEMPRE: en PC lee el portapapeles automáticamente;
-    // en Android la lectura falla (se ignora en silencio) y se usa el logo.
     setInterval(checkAndProcessClipboard, 1000);
     setTimeout(checkAndProcessClipboard, 300);
 
     if (isAndroidDevice()) {
         showMessage('📱 Modo Android: pulsa el logo de la plataforma', 'info', 4000);
-        console.log('🔥 PREMIUM ID v10.0 - MODO ANDROID');
+        console.log('🔥 PREMIUM ID v10.3 - MODO ANDROID');
     } else {
-        console.log('🔥 PREMIUM ID v10.0 - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v10.3 - MODO PC (Detección automática)');
     }
 });
