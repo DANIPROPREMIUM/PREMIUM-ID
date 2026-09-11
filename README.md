@@ -3,10 +3,11 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 10</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 11</h1>
 
 
-**⚡️NEW! AHORA EN LA VERSIÓN 10, SOPORTA PARA ACCEDER EN LA APK OFICIAL DE NETFLIX Y EN TV.**
+**⚡️NEW! EN LA VERSIÓN 11 SE ARREGLÓ BUG CON MENSAJE DE IDIOMA CON UNA "X" QUE NO SE CERRABA EN EL REPRODUCTOR DE VIDEO.**
+**ARREGLOS MENORES CON: NUEVA INTERFAZ CON BOTONES DIRECTOS A LA WEB Y GRUPO.**
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
@@ -37,7 +38,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-10-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-11-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
