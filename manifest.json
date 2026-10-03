@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "11",
+  "version": "12",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -25,6 +25,7 @@
     "*://*.hbo.com/*",
     "*://*.apple.com/*",
     "*://*.tv.apple.com/*",
+    "*://*.hidive.com/*",
     "https://ios.prod.ftl.netflix.com/*"
   ],
   "background": {
@@ -57,14 +58,21 @@
         "*://*.max.com/*",
         "*://*.hbo.com/*",
         "*://*.apple.com/*",
-        "*://*.tv.apple.com/*"
+        "*://*.tv.apple.com/*",
+        "*://*.hidive.com/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     },
     {
-      "matches": ["*://*.netflix.com/*"],
-      "js": ["bypass-core.js"],
+      "matches": [
+        "*://*.netflix.com/*"
+      ],
+      "js": [
+        "bypass-core.js"
+      ],
       "run_at": "document_idle"
     }
   ]

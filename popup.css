@@ -1,5 +1,5 @@
 /* ============================================================
-   PREMIUM ID — Estilo Premium Dorado v2.6
+   PREMIUM ID — Estilo Premium Dorado v3.5
    ============================================================ */
 
 * {
@@ -12,6 +12,15 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 body {
@@ -22,17 +31,16 @@ body {
 }
 
 /* ============================================================
-   CONTENEDOR PRINCIPAL CON HALOS DOBLES
+   CONTENEDOR PRINCIPAL
    ============================================================ */
 .premium-container {
     position: relative;
-    padding: 18px 10px 0 10px;
+    padding: 16px 10px 10px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
     width: 100%;
-    min-height: 100vh;
     background:
         radial-gradient(ellipse at top, rgba(212, 175, 55, 0.10), transparent 55%),
         radial-gradient(ellipse at bottom, rgba(60, 80, 200, 0.08), transparent 60%),
@@ -45,7 +53,6 @@ body {
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Línea dorada superior ornamental */
 .premium-container::before {
     content: '';
     position: absolute;
@@ -58,6 +65,11 @@ body {
     pointer-events: none;
 }
 
+.premium-container.panel-open .links-buttons,
+.premium-container.panel-open .premium-footer {
+    display: none !important;
+}
+
 /* ============================================================
    HEADER
    ============================================================ */
@@ -68,7 +80,7 @@ body {
     text-align: center;
     gap: 4px;
     width: 100%;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     position: relative;
 }
 
@@ -80,7 +92,6 @@ body {
     position: relative;
 }
 
-/* ✅ PREMIUM en blanco total */
 .premium-text {
     font-size: 38px;
     font-weight: 900;
@@ -94,7 +105,6 @@ body {
     display: inline-block;
 }
 
-/* ✅ ID en dorado */
 .id-text {
     font-size: 38px;
     font-weight: 900;
@@ -105,7 +115,6 @@ body {
         0 0 20px rgba(212, 175, 55, 0.35);
 }
 
-/* ✅ Corona SIN animación (estática) */
 .crown-icon.tilted {
     position: absolute;
     top: -8px;
@@ -133,7 +142,6 @@ body {
     padding: 0 8px;
 }
 
-/* Líneas ornamentales al lado del subtítulo */
 .creator-subtitle::before,
 .creator-subtitle::after {
     content: '';
@@ -157,22 +165,22 @@ body {
 }
 
 /* ============================================================
-   GRID DE PLATAFORMAS
+   GRID DE PLATAFORMAS — 3x3
    ============================================================ */
 .platforms-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px 12px;
     width: 100%;
     justify-items: center;
     align-items: center;
-    margin-top: 4px;
-    margin-bottom: 8px;
+    margin-top: 2px;
+    margin-bottom: 4px;
 }
 
 .platform-card {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -189,7 +197,6 @@ body {
         0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
-/* Borde dorado que gira al hacer hover */
 .platform-card::before {
     content: '';
     position: absolute;
@@ -243,8 +250,8 @@ body {
 }
 
 .platform-icon img {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     transition: transform 0.3s ease, filter 0.3s ease;
     object-fit: contain;
 }
@@ -264,10 +271,14 @@ body {
     filter: invert(48%) sepia(79%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(101%);
 }
 
-.platform-card.prime:hover { background: linear-gradient(135deg, rgba(0, 168, 225, 0.22), rgba(26, 26, 42, 0.9)); border-color: #00A8E1; }
+/* ===== Prime Video ===== */
+.platform-card.prime:hover {
+    background: linear-gradient(135deg, rgba(0, 168, 225, 0.22), rgba(26, 26, 42, 0.9));
+    border-color: #00A8E1;
+}
 .platform-card.prime .platform-icon img {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     filter: invert(42%) sepia(98%) saturate(1782%) hue-rotate(165deg) brightness(98%) contrast(101%);
 }
 
@@ -281,31 +292,95 @@ body {
     filter: invert(22%) sepia(89%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(105%);
 }
 
-.platform-card.atresplayer:hover { background: linear-gradient(135deg, rgba(230, 0, 0, 0.22), rgba(26, 26, 42, 0.9)); border-color: #E60000; }
-.platform-card.atresplayer .atres-text-logo { display: flex; align-items: center; justify-content: center; gap: 0; }
-.platform-card.atresplayer .atres-red { font-size: 10px; font-weight: 800; letter-spacing: -0.5px; color: #E60000; }
-.platform-card.atresplayer .player-gray { font-size: 9px; font-weight: 700; letter-spacing: -0.3px; color: #CCCCCC; }
-.platform-card.atresplayer:hover .atres-red { color: #FF5555; }
-.platform-card.atresplayer:hover .player-gray { color: #FFFFFF; }
+/* ===== AtresPlayer ===== */
+.platform-card.atresplayer:hover {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.25), rgba(26, 26, 42, 0.9));
+    border-color: #FF0000;
+}
+.platform-card.atresplayer .platform-icon img {
+    width: 38px;
+    height: 38px;
+    filter: brightness(0) saturate(100%) invert(13%) sepia(93%) saturate(7499%) hue-rotate(2deg) brightness(102%) contrast(118%) drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
+}
+.platform-card.atresplayer::before {
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(255, 0, 0, 0.9) 25%,
+        transparent 50%,
+        rgba(255, 0, 0, 0.9) 75%,
+        transparent 100%
+    );
+}
 
 .platform-card.hbomax:hover { background: linear-gradient(135deg, rgba(100, 50, 249, 0.22), rgba(26, 26, 42, 0.9)); border-color: #6432F9; }
 .platform-card.hbomax .platform-icon img {
     filter: invert(14%) sepia(100%) saturate(4000%) hue-rotate(220deg) brightness(95%) contrast(110%);
 }
 
-.platform-card.appletv:hover { background: linear-gradient(135deg, rgba(85, 85, 85, 0.22), rgba(26, 26, 42, 0.9)); border-color: #888; }
+/* ===== Apple TV (fondo translúcido al hover) ===== */
+.platform-card.appletv:hover {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 8px 22px rgba(0, 0, 0, 0.55),
+        0 0 20px rgba(255, 255, 255, 0.15);
+}
 .platform-card.appletv .platform-icon i {
-    font-size: 36px !important;
+    font-size: 34px !important;
     color: #888;
     transition: all 0.25s ease;
 }
 .platform-card.appletv:hover .platform-icon i {
-    color: #ffffff !important;
+    color: #FFFFFF !important;
     transform: scale(1.1);
 }
 
+/* ===== HiDive (solo letras) ===== */
+.platform-card.hidive:hover {
+    background: linear-gradient(135deg, rgba(0, 174, 239, 0.22), rgba(26, 26, 42, 0.9));
+    border-color: #00AEEF;
+}
+
+.platform-card.hidive .hidive-text-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    transition: all 0.25s ease;
+}
+
+.platform-card.hidive .hidive-hi {
+    font-size: 13px;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+.platform-card.hidive .hidive-dive {
+    font-size: 13px;
+    color: #00AEEF;
+    text-shadow: 0 0 6px rgba(0, 174, 239, 0.5);
+}
+
+.platform-card.hidive:hover .hidive-hi {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.platform-card.hidive:hover .hidive-dive {
+    color: #00AEEF;
+    text-shadow: 0 0 12px rgba(0, 174, 239, 0.9);
+}
+
 /* ============================================================
-   PANELES GENÉRICOS (vidrio dorado)
+   PANELES GENÉRICOS
    ============================================================ */
 .hbomax-cleaner,
 .netflix-tokens {
@@ -325,7 +400,6 @@ body {
     overflow: hidden;
 }
 
-/* Brillo dorado sutil en la esquina */
 .hbomax-cleaner::before,
 .netflix-tokens::before {
     content: '';
@@ -410,7 +484,6 @@ body {
     background: linear-gradient(135deg, #4CAF50, #2E7D32);
 }
 
-/* ✅ Frase informativa de HBO Max en blanco total */
 .clean-info {
     font-size: 8px;
     color: #FFFFFF;
@@ -501,7 +574,6 @@ body {
 .nt-ingresar:active { transform: scale(0.97); }
 .nt-ingresar.hidden { display: none !important; }
 
-/* ✅ Estado deshabilitado del botón Ingresar (cuenta off) */
 .nt-ingresar.disabled,
 .nt-ingresar:disabled {
     animation: none !important;
@@ -515,7 +587,6 @@ body {
     border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* ✅ Nota de Netflix en blanco total */
 .nt-note {
     font-size: 9px;
     color: #FFFFFF;
@@ -647,7 +718,7 @@ body {
     justify-content: center;
     gap: 10px;
     width: 100%;
-    margin-top: 14px;
+    margin-top: 10px;
     padding: 0 2px;
 }
 
@@ -721,9 +792,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 0 6px;
+    padding: 6px 0 4px;
     width: 100%;
-    margin-top: 4px;
+    margin-top: 2px;
     position: relative;
 }
 

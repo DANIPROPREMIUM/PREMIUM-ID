@@ -1,4 +1,4 @@
-// PREMIUM ID - Content Script v5.1 (Netflix - Sin bucle de refresco)
+// PREMIUM ID - Content Script v6.5 (Netflix + Crunchyroll: bloqueos + HiDive)
 
 (function() {
     'use strict';
@@ -12,7 +12,8 @@
         'viki.com': { color: '#9B59B6', text: 'Rakuten Viki', loginUrl: 'https://www.viki.com/login', loginIndicators: ['login', 'signin'] },
         'atresplayer.com': { color: '#FF4D4D', text: 'AtresPlayer', loginUrl: 'https://www.atresplayer.com/iniciar-sesion', loginIndicators: ['iniciar-sesion', 'login'] },
         'hbomax.com': { color: '#6432F9', text: 'HBO Max', loginUrl: 'https://www.hbomax.com/login', loginIndicators: ['login', 'signin'] },
-        'max.com': { color: '#6432F9', text: 'HBO Max', loginUrl: 'https://www.max.com/login', loginIndicators: ['login', 'signin'] }
+        'max.com': { color: '#6432F9', text: 'HBO Max', loginUrl: 'https://www.max.com/login', loginIndicators: ['login', 'signin'] },
+        'hidive.com': { color: '#00AEEF', text: 'HiDive', loginUrl: 'https://www.hidive.com/login', loginIndicators: ['login', 'signin'] }
     };
 
     function getCurrentPlatform() {
@@ -34,6 +35,7 @@
         if (hostname.includes('viki')) return 'viki';
         if (hostname.includes('atresplayer')) return 'atresplayer';
         if (hostname.includes('hbomax') || hostname.includes('max')) return 'hbomax';
+        if (hostname.includes('hidive')) return 'hidive';
         return null;
     }
 
@@ -45,18 +47,16 @@
         return window.location.hostname.includes('crunchyroll.com');
     }
 
-    // ✅ NUEVO: detectar HBO Max (hbomax.com y max.com)
     function isHboMax() {
         return window.location.hostname.includes('hbomax') ||
                window.location.hostname.includes('max.com');
     }
 
-    // ============================================================
-    // CONTROL DE BUCLE PARA NETFLIX
-    // ============================================================
-    let netflixRedirected = false;
+    function isHiDive() {
+        return window.location.hostname.includes('hidive.com');
+    }
 
-    // ========== MARCA DE AGUA ==========
+    let netflixRedirected = false;
     let watermarkAdded = false;
 
     function addWatermark() {
@@ -114,7 +114,6 @@
         document.body.appendChild(watermark);
     }
 
-    // ========== ENVIAR MENSAJE SEGURO ==========
     let extensionAlive = true;
 
     function safeSendMessage(message, callback) {
@@ -137,14 +136,9 @@
         }
     }
 
-    // ========== DETECTAR SESIÓN INVÁLIDA (SIN BUCLE) ==========
     function detectInvalidSession() {
         if (!isNetflix()) return;
-
-        // ⛔ SI ES UNA URL DE TOKEN (nftoken), NO INTERFERIR:
         if (window.location.href.toLowerCase().includes('nftoken')) return;
-
-        // ⛔ SI YA SE REDIRIGIÓ, NO HACER NADA
         if (netflixRedirected) return;
 
         const platform = getCurrentPlatform();
@@ -152,7 +146,6 @@
         const title = document.title?.toLowerCase() || '';
         const body = document.body?.innerText?.toLowerCase() || '';
 
-        // ✅ SI ESTAMOS EN LOGIN, NO REDIRIGIR
         if (url.includes('login')) {
             netflixRedirected = true;
             return;
@@ -161,10 +154,7 @@
         const expiredIndicators = [
             'session expired', 'sesión expirada', 'sign in again',
             'inicia sesión nuevamente', 'logged out', 'cerraste sesión',
-            'your session has expired', 'tu sesión ha expirado',
-            'no eres parte del hogar', 'your netflix household',
-            'iniciar sesión', 'sign in', 'sign in to continue',
-            'vuelve a iniciar sesión'
+            'your session has expired', 'tu sesión ha expirado'
         ];
         const isExpired = expiredIndicators.some(indicator =>
             body.includes(indicator) || title.includes(indicator)
@@ -199,7 +189,6 @@
         } catch (e) {}
     }
 
-    // ========== RECIBIR MENSAJES ==========
     try {
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (!extensionAlive) {
@@ -209,10 +198,6 @@
 
             if (request.action === 'heartbeat') {
                 sendResponse({ received: true });
-            }
-
-            if (request.action === 'kill_session') {
-                sendResponse({ killed: false, message: 'Kill session disabled' });
             }
 
             if (request.action === 'reset_netflix_redirect') {
@@ -234,159 +219,143 @@
     }
 
     // ============================================================
-    // ========== PROTECCIONES DE NETFLIX ==========
+    // ✅ HELPER: interceptar clics silenciosamente
     // ============================================================
+    function interceptClicks(el) {
+        el.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            ev.stopImmediatePropagation();
+            return false;
+        }, true);
 
-    // ========== BLOQUEAR NAVEGACIÓN ==========
-    function blockNavigation() {
-        if (!isNetflix()) return;
+        el.addEventListener('mousedown', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            ev.stopImmediatePropagation();
+        }, true);
 
-        const path = window.location.pathname;
-        const url = window.location.href;
-
-        if (url.toLowerCase().includes('nftoken')) return;
-
-        const tvPatterns = ['/tv', '/tv8', '/tv2', '/tv9', '/pair', '/activate', '/device', '/atv', '/tvcode'];
-        if (tvPatterns.some(p => path.includes(p) || url.includes(p))) {
-            window.location.replace('https://www.netflix.com/browse');
-            return;
-        }
-
-        if (path.includes('/account') || path.includes('/profiles') || path.includes('/ManageProfiles') || path.includes('logout')) {
-            window.location.replace('https://www.netflix.com/browse');
-            return;
-        }
+        el.addEventListener('pointerdown', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            ev.stopImmediatePropagation();
+        }, true);
     }
 
-    // ========== ANULAR BOTÓN DE CERRAR SESIÓN ==========
-    function blockSignOutButtons() {
+    function matchesSignOut(text, ariaLabel, href) {
+        return (
+            text.includes('cerrar sesión') ||
+            text.includes('cierra sesión') ||
+            text.includes('cerrar sesion') ||
+            text.includes('cierra sesion') ||
+            text.trim() === 'sign out' ||
+            text.trim() === 'logout' ||
+            text.trim() === 'log out' ||
+            ariaLabel.includes('cerrar sesión') ||
+            ariaLabel.includes('cerrar sesion') ||
+            ariaLabel.includes('sign out') ||
+            ariaLabel.includes('logout') ||
+            ariaLabel.includes('log out') ||
+            href.includes('logout') ||
+            href.includes('signout') ||
+            href.includes('sign-out') ||
+            href.includes('/logout')
+        );
+    }
+
+    function matchesProfileManagement(text, ariaLabel, href) {
+        return (
+            text.includes('gestionar perfil') ||
+            text.includes('administrar perfil') ||
+            text.includes('editar perfil') ||
+            text.includes('añadir perfil') ||
+            text.includes('anadir perfil') ||
+            text.includes('agregar perfil') ||
+            text.includes('crear perfil') ||
+            text.includes('nuevo perfil') ||
+            text.includes('manage profile') ||
+            text.includes('edit profile') ||
+            text.includes('add profile') ||
+            text.includes('create profile') ||
+            text.includes('new profile') ||
+            ariaLabel.includes('gestionar perfil') ||
+            ariaLabel.includes('administrar perfil') ||
+            ariaLabel.includes('editar perfil') ||
+            ariaLabel.includes('añadir perfil') ||
+            ariaLabel.includes('agregar perfil') ||
+            ariaLabel.includes('crear perfil') ||
+            ariaLabel.includes('manage profile') ||
+            ariaLabel.includes('edit profile') ||
+            ariaLabel.includes('add profile') ||
+            (href.includes('/profile') && (
+                href.includes('edit') ||
+                href.includes('manage') ||
+                href.includes('add') ||
+                href.includes('new') ||
+                href.includes('create')
+            ))
+        );
+    }
+
+    // ============================================================
+    // ✅ NETFLIX: solo bloquea "Cerrar sesión"
+    // ============================================================
+    function blockNetflixSignOut() {
         if (!isNetflix()) return;
 
-        const allElements = document.querySelectorAll('a, button, span, div');
-        allElements.forEach(el => {
+        document.querySelectorAll('a, button').forEach(el => {
+            if (el.hasAttribute('data-signout-blocked')) return;
+
             const text = el.textContent?.toLowerCase() || '';
             const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
             const href = el.getAttribute('href')?.toLowerCase() || '';
-            const onClick = el.getAttribute('onclick')?.toLowerCase() || '';
 
-            const isSignOut = (
-                text.includes('cerrar sesión') ||
-                text.includes('sign out') ||
-                text.includes('logout') ||
-                text.includes('cerrar sesión') ||
-                text.includes('cierra sesión') ||
-                ariaLabel.includes('cerrar sesión') ||
-                ariaLabel.includes('sign out') ||
-                ariaLabel.includes('logout') ||
-                href.includes('logout') ||
-                href.includes('signout') ||
-                onClick.includes('logout') ||
-                onClick.includes('signout')
-            );
-
-            if (isSignOut) {
-                el.style.pointerEvents = 'none';
-                el.style.opacity = '0.4';
-                el.style.cursor = 'default';
-                el.style.userSelect = 'none';
-
-                if (el.tagName === 'A') {
-                    el.removeAttribute('href');
-                    el.style.textDecoration = 'none';
-                }
-                if (el.hasAttribute('onclick')) {
-                    el.setAttribute('onclick', 'return false;');
-                }
-                if (!el.hasAttribute('data-blocked')) {
-                    el.setAttribute('data-blocked', 'true');
-                    el.title = '🔒 Bloqueado por PREMIUM ID';
-                }
+            if (matchesSignOut(text, ariaLabel, href)) {
+                el.setAttribute('data-signout-blocked', 'true');
+                interceptClicks(el);
             }
         });
     }
 
-    // ========== ANULAR BOTÓN "+" AGREGAR PERFIL ==========
-    function blockAddProfileButton() {
-        if (!isNetflix()) return;
+    // ============================================================
+    // ✅ CRUNCHYROLL: bloquea "Cerrar sesión" + "Gestionar perfiles"
+    // ============================================================
+    function blockCrunchyrollActions() {
+        if (!isCrunchyroll()) return;
 
-        const addProfileButtons = document.querySelectorAll('a, button');
-        addProfileButtons.forEach(el => {
+        document.querySelectorAll('a, button').forEach(el => {
+            if (el.hasAttribute('data-blocked-action')) return;
+
             const text = el.textContent?.toLowerCase() || '';
             const ariaLabel = el.getAttribute('aria-label')?.toLowerCase() || '';
+            const href = el.getAttribute('href')?.toLowerCase() || '';
 
-            const isAddProfile = (
-                text === '+' ||
-                text.includes('agregar perfil') ||
-                text.includes('add profile') ||
-                text.includes('añadir perfil') ||
-                text.includes('create profile') ||
-                ariaLabel.includes('agregar perfil') ||
-                ariaLabel.includes('add profile') ||
-                ariaLabel.includes('añadir perfil') ||
-                (el.className && el.className.includes && el.className.includes('profile-add')) ||
-                (el.id && el.id.includes('add-profile'))
-            );
+            // Bloquear Cerrar sesión
+            if (matchesSignOut(text, ariaLabel, href)) {
+                el.setAttribute('data-blocked-action', 'true');
+                interceptClicks(el);
+                return;
+            }
 
-            if (isAddProfile) {
-                el.style.pointerEvents = 'none';
-                el.style.opacity = '0.4';
-                el.style.cursor = 'default';
-                el.style.userSelect = 'none';
-
-                if (el.tagName === 'A') {
-                    el.removeAttribute('href');
-                }
-                if (el.hasAttribute('onclick')) {
-                    el.setAttribute('onclick', 'return false;');
-                }
-                if (!el.hasAttribute('data-blocked')) {
-                    el.setAttribute('data-blocked', 'true');
-                    el.title = '🔒 Bloqueado por PREMIUM ID';
-                }
+            // Bloquear gestión de perfiles
+            if (matchesProfileManagement(text, ariaLabel, href)) {
+                el.setAttribute('data-blocked-action', 'true');
+                interceptClicks(el);
+                return;
             }
         });
     }
 
-    // ========== PERMITIR SOLO SELECCIÓN DE PERFILES ==========
-    function allowProfileSelection() {
-        if (!isNetflix()) return;
-
-        document.querySelectorAll('.profile-link, .profile-icon, [data-profile-guid]').forEach(el => {
-            const isAddButton = el.textContent?.includes('+') ||
-                               el.getAttribute('aria-label')?.includes('agregar');
-            if (!isAddButton) {
-                el.style.pointerEvents = '';
-                el.style.opacity = '';
-                el.style.cursor = '';
-                el.style.userSelect = '';
-            }
-        });
-    }
-
-    // ========== BLOQUEAR TODOS LOS BOTONES PELIGROSOS ==========
-    function blockAllDangerousButtons() {
-        if (!isNetflix()) return;
-
-        blockSignOutButtons();
-        blockAddProfileButton();
-        allowProfileSelection();
-    }
-
-    // ========== DESBLOQUEAR CAMBIO DE IDIOMA ==========
-    // ✅ FIX: NO se ejecuta en HBO Max, porque sus botones de audio/subtítulos
-    // se confunden con los selectores de idioma y el CSS `display: inline-flex`
-    // resucita el aviso "English - Audio Description" impidiendo cerrarlo con la X.
     let languageStyleInserted = false;
 
     function unblockLanguageSelector() {
         if (isCrunchyroll()) return;
-        if (isHboMax()) return;  // ✅ FIX: saltar en HBO Max / Max
+        if (isHboMax()) return;
+        if (isHiDive()) return;
 
         if (!languageStyleInserted && !document.getElementById('premium-id-language-unlock')) {
             const style = document.createElement('style');
             style.id = 'premium-id-language-unlock';
-            // ✅ FIX: eliminado `display` y `visibility` porque rompían el cierre
-            // del overlay de HBO Max y de otros reproductores.
             style.textContent = `
                 [data-testid="audio-track-selector"],
                 [data-testid="subtitle-track-selector"],
@@ -425,23 +394,45 @@
         });
     }
 
-    // ========== RESETEAR BANDERA AL CARGAR UNA NUEVA SESIÓN ==========
     function resetRedirectFlag() {
         if (window.location.href.includes('/browse')) {
             netflixRedirected = false;
         }
     }
 
-    // ========== INICIALIZAR ==========
     function init() {
         addWatermark();
 
+        // Netflix: bloquear "Cerrar sesión"
         if (isNetflix()) {
-            blockNavigation();
+            setInterval(blockNetflixSignOut, 2000);
+            blockNetflixSignOut();
+        }
 
-            setInterval(blockAllDangerousButtons, 2000);
-            blockAllDangerousButtons();
+        // Crunchyroll: bloquear "Cerrar sesión" + gestión de perfiles
+        if (isCrunchyroll()) {
+            setInterval(blockCrunchyrollActions, 2000);
+            blockCrunchyrollActions();
+        }
 
+        // Observer + scroll comunes
+        if (isNetflix() || isCrunchyroll()) {
+            const observer = new MutationObserver(() => {
+                if (isNetflix()) blockNetflixSignOut();
+                if (isCrunchyroll()) blockCrunchyrollActions();
+            });
+            if (document.body) {
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+
+            window.addEventListener('scroll', () => {
+                if (isNetflix()) blockNetflixSignOut();
+                if (isCrunchyroll()) blockCrunchyrollActions();
+            }, { passive: true });
+        }
+
+        // Netflix: detección de sesión inválida + reanudar bloqueo
+        if (isNetflix()) {
             resetRedirectFlag();
 
             setInterval(detectInvalidSession, 5000);
@@ -461,22 +452,9 @@
                     detectInvalidSession();
                 }
             }, 1000);
-
-            const observer = new MutationObserver(() => {
-                blockAllDangerousButtons();
-            });
-
-            if (document.body) {
-                observer.observe(document.body, { childList: true, subtree: true });
-            }
-
-            window.addEventListener('scroll', () => {
-                blockAllDangerousButtons();
-            }, { passive: true });
         }
 
-        // ✅ FIX: aquí ya se excluye HBO Max por dentro de la función
-        if (!isCrunchyroll() && !isHboMax()) {
+        if (!isCrunchyroll() && !isHboMax() && !isHiDive()) {
             unblockLanguageSelector();
             setInterval(unblockLanguageSelector, 3000);
         }
@@ -488,5 +466,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v5.1 (Netflix - Sin bucle de refresco)');
+    console.log('🔥 PREMIUM ID - CONTENT v6.5 (Netflix + Crunchyroll: bloqueos + HiDive)');
 })();

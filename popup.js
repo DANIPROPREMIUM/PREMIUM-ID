@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup PÚBLICO v10.3
+// PREMIUM ID - Popup PÚBLICO v12.1
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nfRegenBtn = document.getElementById('nt-regenerar');
     const nfIngresarBtn = document.getElementById('nt-ingresar');
     const nfNoteEl = document.querySelector('.nt-note');
+    const premiumContainer = document.querySelector('.premium-container');
 
     let isRestoring = false;
     let messageTimeout = null;
@@ -21,6 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
     let nfTokens = null;
     let nfGenerating = false;
 
+    // ============================================================
+    // ✅ ALTERNAR CLASE .panel-open EN EL CONTENEDOR
+    // ============================================================
+    function updateContainerState() {
+        const nfOpen = !netflixPanel.classList.contains('hidden');
+        const hbOpen = hbomaxCleaner.classList.contains('show');
+        if (nfOpen || hbOpen) {
+            premiumContainer.classList.add('panel-open');
+        } else {
+            premiumContainer.classList.remove('panel-open');
+        }
+    }
+
+    const stateObserver = new MutationObserver(updateContainerState);
+    stateObserver.observe(netflixPanel, { attributes: true, attributeFilter: ['class'] });
+    stateObserver.observe(hbomaxCleaner, { attributes: true, attributeFilter: ['class'] });
+
+    updateContainerState();
+
+    // ============================================================
+    // DETECCIÓN DE DISPOSITIVO
+    // ============================================================
     function isAndroidDevice() {
         try {
             const uaData = navigator.userAgentData;
@@ -37,9 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
         viki: { name: 'Rakuten Viki', url: 'https://www.viki.com' },
         atresplayer: { name: 'AtresPlayer', url: 'https://www.atresplayer.com' },
         hbomax: { name: 'HBO Max', url: 'https://play.hbomax.com' },
-        appletv: { name: 'Apple TV', url: 'https://tv.apple.com' }
+        appletv: { name: 'Apple TV', url: 'https://tv.apple.com' },
+        hidive: { name: 'HiDive', url: 'https://www.hidive.com' }
     };
 
+    // ============================================================
+    // UTILIDADES
+    // ============================================================
     function showMessage(text, type = 'info', duration = 3000) {
         if (messageTimeout) clearTimeout(messageTimeout);
         const color = type === 'success' ? '#4CAF50' : type === 'error' ? '#FF5252' : '#D4AF37';
@@ -182,7 +209,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response?.success) {
-                showMessage(`✅ ${platformName} abierta correctamente`, 'success', 2000);
+                if (platform === 'hidive') {
+                    showMessage(`✅ Sesión de HiDive inyectada`, 'success', 2000);
+                } else {
+                    showMessage(`✅ ${platformName} abierta correctamente`, 'success', 2000);
+                }
                 autoCloseTimeout = setTimeout(() => {
                     window.close();
                 }, 1500);
@@ -251,7 +282,6 @@ document.addEventListener('DOMContentLoaded', function() {
         nfGenerating = true;
         setNfStatus('Generando tokens…');
 
-        // Al intentar generar, reactivamos el botón por si estaba off
         enableNfIngresar();
 
         try {
@@ -270,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch(e) {
             setNfStatus('✗ ' + e.message, 'err');
 
-            // ✅ Si la cuenta está off → deshabilitar Ingresar
             const msg = (e.message || '').toLowerCase();
             if (msg.includes('cuenta off') || msg.includes('imposible generar')) {
                 disableNfIngresar();
@@ -299,7 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
         nfTokensList.classList.add('hidden');
         setNfStatus('');
 
-        // ✅ Al mostrar el panel con nuevo código, reactivar el botón Ingresar
         enableNfIngresar();
 
         const isPc = !isAndroidDevice();
@@ -426,7 +454,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (nfIngresarBtn) {
         nfIngresarBtn.addEventListener('click', () => {
-            // ✅ Guard: no hacer nada si está deshabilitado
             if (nfIngresarBtn.disabled || nfIngresarBtn.classList.contains('disabled')) return;
             if (!pendingNetflix) return;
             hbomaxCleaner.classList.remove('show');
@@ -464,8 +491,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (isAndroidDevice()) {
         showMessage('📱 Modo Android: pulsa el logo de la plataforma', 'info', 4000);
-        console.log('🔥 PREMIUM ID v10.3 - MODO ANDROID');
+        console.log('🔥 PREMIUM ID v12.1 - MODO ANDROID');
     } else {
-        console.log('🔥 PREMIUM ID v10.3 - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v12.1 - MODO PC (Detección automática)');
     }
 });

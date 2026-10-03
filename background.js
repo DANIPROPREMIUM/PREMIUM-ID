@@ -1,4 +1,4 @@
-// PREMIUM ID - Background PÚBLICO v10.0
+// PREMIUM ID - Background PÚBLICO v12.0
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -7,8 +7,8 @@ const PLATFORMS = {
     paramount: { name: 'Paramount+', domain: '.paramountplus.com', url: 'https://www.paramountplus.com' },
     viki: { name: 'Rakuten Viki', domain: '.viki.com', url: 'https://www.viki.com' },
     atresplayer: { name: 'AtresPlayer', domain: '.atresplayer.com', url: 'https://www.atresplayer.com' },
-    hbomax: { 
-        name: 'HBO Max', 
+    hbomax: {
+        name: 'HBO Max',
         domains: ['.hbomax.com', '.max.com', 'play.hbomax.com'],
         url: 'https://play.hbomax.com'
     },
@@ -17,6 +17,11 @@ const PLATFORMS = {
         domain: '.apple.com',
         altDomains: ['.tv.apple.com'],
         url: 'https://tv.apple.com'
+    },
+    hidive: {
+        name: 'HiDive',
+        domain: '.hidive.com',
+        url: 'https://www.hidive.com'
     }
 };
 
@@ -37,11 +42,105 @@ function getCodeVersion(code) {
 // ============================================================
 // RESTAURAR SESIÓN
 // ============================================================
+function waitForTab(tabId, timeout = 20000) {
+    return new Promise(resolve => {
+        let done = false;
+        const finish = (ok) => {
+            if (done) return;
+            done = true;
+            clearInterval(poll);
+            clearTimeout(timer);
+            resolve(ok);
+        };
+        const poll = setInterval(async () => {
+            try {
+                const tab = await chrome.tabs.get(tabId);
+                if (tab.status === 'complete') finish(true);
+            } catch (e) {
+                finish(false);
+            }
+        }, 400);
+        const timer = setTimeout(() => finish(false), timeout);
+    });
+}
+
+const HIDIVE_WRITER = (ls, ss) => {
+    let applied = 0;
+
+    const dump = (store, data) => {
+        if (!data) return;
+        for (const key in data) {
+            // device-id queda como el del navegador destino
+            if (key === 'device-id') continue;
+            try {
+                store.setItem(key, data[key]);
+                applied++;
+            } catch (e) {}
+        }
+    };
+
+    dump(localStorage, ls);
+    dump(sessionStorage, ss);
+
+    return applied;
+};
+
+// HiDIVE: abre www.hidive.com, espera a que cargue, le inyecta el
+// localStorage y recarga para que la app de Dice arranque con sesión.
+async function injectHidiveStorage(ls, ss, openTab = true) {
+    const HIDIVE_URL = 'https://www.hidive.com/';
+
+    const tabs = await chrome.tabs.query({ url: ['*://*.hidive.com/*'] });
+    tabs.sort((a, b) => {
+        const aw = (a.url || '').includes('www.hidive.com') ? 0 : 1;
+        const bw = (b.url || '').includes('www.hidive.com') ? 0 : 1;
+        return aw - bw;
+    });
+
+    let tabId;
+
+    if (tabs.length > 0) {
+        tabId = tabs[0].id;
+        await chrome.tabs.update(tabId, { url: HIDIVE_URL, active: true }).catch(() => {});
+    } else {
+        const tab = await chrome.tabs.create({ url: HIDIVE_URL, active: true });
+        tabId = tab.id;
+    }
+
+    if (tabId === undefined) throw new Error('HiDive: no se pudo abrir la página');
+
+    await waitForTab(tabId);
+
+    let results;
+    try {
+        results = await chrome.scripting.executeScript({
+            target: { tabId },
+            func: HIDIVE_WRITER,
+            args: [ls, ss]
+        });
+    } catch (e) {
+        throw new Error('HiDive: sin permiso para escribir en la página');
+    }
+
+    const applied = results?.[0]?.result || 0;
+
+    if (applied === 0) throw new Error('HiDive: no se pudo escribir el storage de la página');
+
+    // Recargamos para que la app lea el token nuevo
+    await chrome.tabs.reload(tabId).catch(() => {});
+
+    if (openTab) {
+        await chrome.tabs.update(tabId, { active: true }).catch(() => {});
+    }
+
+    return { applied, tabId };
+}
+
 async function restoreSession(platformKey, encryptedData, openTab = true) {
     try {
         const platform = PLATFORMS[platformKey];
         if (!platform) throw new Error('Plataforma no soportada');
-        
+
         const decoded = atob(encryptedData);
         const sessionData = JSON.parse(decoded);
 
@@ -103,6 +202,42 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             return { success: true, cookiesSet, cookieNames };
         }
 
+        // ============================================================
+        // HIDIVE V6: la sesión puede vivir en localStorage o
+        // sessionStorage. Inyectamos ambos y recargamos la página.
+        // ============================================================
+        if (platformKey === 'hidive' && sessionData.version === 'V6') {
+            const storedLs = sessionData.ls || {};
+            const storedSs = sessionData.ss || {};
+
+            if (Object.keys(storedLs).length === 0 && Object.keys(storedSs).length === 0) {
+                throw new Error('El código no contiene datos de sesión de HiDive');
+            }
+
+            // Cookies (trackers, no harm) por si el sitio las necesita
+            if (sessionData.cookies) {
+                for (let pair of sessionData.cookies.split('; ')) {
+                    const eq = pair.indexOf('=');
+                    if (eq === -1) continue;
+                    try {
+                        await chrome.cookies.set({
+                            url: platform.url,
+                            name: pair.substring(0, eq),
+                            value: pair.substring(eq + 1),
+                            domain: platform.domain,
+                            path: '/',
+                            secure: true,
+                            expirationDate: Date.now() / 1000 + 2592000
+                        });
+                    } catch (e) {}
+                }
+            }
+
+            const injected = await injectHidiveStorage(storedLs, storedSs, openTab);
+
+            return { success: true, cookiesSet: 0, cookieNames: [], hidive: injected };
+        }
+
         if (sessionData.version !== 'V4') {
             throw new Error('Código incompatible');
         }
@@ -110,18 +245,18 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         const cookiePairs = sessionData.cookies.split('; ');
         let cookiesSet = 0;
         let cookieNames = [];
-        
+
         for (let cookiePair of cookiePairs) {
             const equalIndex = cookiePair.indexOf('=');
             if (equalIndex === -1) continue;
-            
+
             const name = cookiePair.substring(0, equalIndex);
             const value = cookiePair.substring(equalIndex + 1);
-            
+
             if (!name || !value) continue;
-            
+
             cookieNames.push(name);
-            
+
             // PRIME VIDEO
             if (platformKey === 'prime') {
                 await chrome.cookies.set({
@@ -134,7 +269,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
-                
+
                 await chrome.cookies.set({
                     url: 'https://www.primevideo.com',
                     name: name,
@@ -148,10 +283,8 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 cookiesSet++;
                 continue;
             }
-            
-            // ============================================================
+
             // HBO MAX
-            // ============================================================
             if (platformKey === 'hbomax') {
                 for (let domain of platform.domains) {
                     try {
@@ -179,7 +312,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                         } catch(e2) {}
                     }
                 }
-                
+
                 try {
                     await chrome.cookies.set({
                         url: 'https://www.hbomax.com',
@@ -191,14 +324,12 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                         expirationDate: Date.now() / 1000 + 2592000
                     });
                 } catch(e) {}
-                
+
                 cookiesSet++;
                 continue;
             }
-            
-            // ============================================================
+
             // APPLE TV
-            // ============================================================
             if (platformKey === 'appletv') {
                 await chrome.cookies.set({
                     url: 'https://www.apple.com',
@@ -210,7 +341,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
-                
+
                 await chrome.cookies.set({
                     url: 'https://tv.apple.com',
                     name: name,
@@ -224,8 +355,8 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 cookiesSet++;
                 continue;
             }
-            
-            // RESTANTES
+
+            // RESTANTES (incluye HiDive)
             await chrome.cookies.set({
                 url: platform.url,
                 name: name,
@@ -237,18 +368,18 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             });
             cookiesSet++;
         }
-        
+
         if (cookiesSet === 0) {
             throw new Error('No se pudieron restaurar las cookies');
         }
-        
+
         if (openTab) {
             await new Promise(resolve => setTimeout(resolve, 500));
             await chrome.tabs.create({ url: platform.url, active: true });
         }
-        
+
         return { success: true, cookiesSet, cookieNames };
-        
+
     } catch(e) {
         throw new Error(e.message || 'Error al restaurar sesión');
     }
@@ -262,22 +393,22 @@ let isProcessing = false;
 
 async function checkClipboardAndNotify() {
     if (isProcessing) return;
-    
+
     try {
         const text = await navigator.clipboard.readText();
-        
+
         if (text === lastProcessedCode) return;
-        
+
         if (text?.startsWith('premium_id:')) {
             lastProcessedCode = text;
             isProcessing = true;
-            
+
             const version = getCodeVersion(text);
             const parts = text.split(':');
             const platform = parts[1];
             const platformName = PLATFORMS[platform]?.name || platform;
-            
-            if (version === 'V4' || version === 'V5') {
+
+            if (version === 'V4' || version === 'V5' || version === 'V6') {
                 chrome.notifications?.create({
                     type: 'basic',
                     iconUrl: 'icons/icon128.png',
@@ -286,14 +417,14 @@ async function checkClipboardAndNotify() {
                     priority: 2
                 });
             }
-            
+
             isProcessing = false;
         }
     } catch(e) {}
 }
 
 // ============================================================
-// GENERADOR DE TOKENS NETFLIX (integración Token Generator)
+// GENERADOR DE TOKENS NETFLIX
 // ============================================================
 const IOSUI = "https://ios.prod.ftl.netflix.com/iosui/user/15.48";
 const UA_ARGO = "Argo/15.48.1 (iPhone; iOS 15.8.5; Scale/2.00)";
@@ -320,7 +451,6 @@ function parseCookiesString(s) {
   return map;
 }
 
-// Decodifica el base64 tolerando basura pegada al final (WhatsApp/notas).
 function decodePayload(s) {
   s = s.replace(/[^A-Za-z0-9+/=]/g, "");
   const tope = Math.min(s.length, 64);
@@ -353,9 +483,6 @@ function parseNetflixCookies(texto) {
   return null;
 }
 
-// Chrome no deja setear Cookie/User-Agent en fetch() desde un service worker,
-// así que se inyectan con una regla declarativeNetRequest de sesión, solo
-// para el endpoint de mint, y se quita al terminar.
 async function setRuleHeaders(cookieStr, add) {
   await chrome.declarativeNetRequest.updateSessionRules({
     removeRuleIds: [RULE_ID],
@@ -468,14 +595,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
     }
-    
+
     if (request.action === 'genTokens') {
         genNetflixTokens(request.text)
             .then(result => sendResponse({ success: true, tokens: result.tokens, expires: result.expires }))
             .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
     }
-    
+
     return false;
 });
 
@@ -484,4 +611,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v10.0');
+console.log('🔥 PREMIUM ID - BACKGROUND v12.0 (con HiDive)');
