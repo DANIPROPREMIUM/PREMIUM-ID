@@ -3,14 +3,14 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 11</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 12</h1>
 
 
-**⚡️NEW! EN LA VERSIÓN 11 SE ARREGLÓ BUG EN HBO CON MENSAJE DE IDIOMA CON UNA "X" QUE NO SE CERRABA EN EL REPRODUCTOR DE VIDEO.**
+**⚡️NEW! EN LA VERSIÓN 12 AHORA SOPORTA HIDIVE.COM (SIMILAR A CRUNCHYROLL)**
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="350" height="400" alt="Image" src="https://github.com/user-attachments/assets/67aca9a7-9991-4449-965c-e9992909283d" />
+  <img width="350" height="400" alt="Image" src="https://github.com/user-attachments/assets/3f72e8c9-27a1-4513-bc78-41272643cafd" />
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-11-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-12-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
@@ -56,6 +56,7 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 [![GRUPO TELEGRAM - CUENTAS PREMIUM GRATIS](https://img.shields.io/badge/GRUPO%20TELEGRAM-CUENTAS%20PREMIUM%20GRATIS-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/cuentaspremiumid) 
 ---
 
+
 | PLATAFORMA | COMPATIBILIDAD | APK OFICIAL | APK PREMIUM ID PRO |
 |------------|----------------|-------------|---------------------|
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" width="20" height="20" style="vertical-align: middle;"> **Netflix** | <code>PC</code> <code>Android TV</code> <code>APK</code> <br> <a href="https://orionbrowser.com/"><code>iOS (Orion)</code></a> | ✅ <img src="https://img.shields.io/badge/OFICIAL-0088CC?style=for-the-badge&logo=netflix&logoColor=white"> | ❌ |
@@ -66,7 +67,7 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 | <span style="display:inline-flex;align-items:center;gap:4px;"><span style="color:#E60000;font-weight:800;">**ATRES**</span><span style="color:#CCCCCC;font-weight:700;">player</span></span> | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/hbomax.svg" width="20" height="20" style="vertical-align: middle;"> **HBO Max** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg" width="20" height="20" style="vertical-align: middle;"> **Apple TV** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
-
+| **HiDive** | <code>PC</code> <code>Android</code> <code>Android TV</code> <code>❓</code> | ❌ | ❓ |
 ---
 
 ## 📱 PREMIUM ID PARA ORION BROWSER (iOS)
