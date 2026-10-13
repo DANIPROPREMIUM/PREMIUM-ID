@@ -3,14 +3,14 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 12</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 13</h1>
 
 
-**⚡️NEW! EN LA VERSIÓN 12 AHORA SOPORTA HIDIVE.COM (SIMILAR A CRUNCHYROLL)**
+**⚡️NEW! EN LA VERSIÓN 13 AHORA SOPORTA DISNEY+**
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="350" height="400" alt="Image" src="https://github.com/user-attachments/assets/3f72e8c9-27a1-4513-bc78-41272643cafd" />
+  <img width="650" height="400" alt="Image" src="https://github.com/user-attachments/assets/570544d2-69bd-4b54-a5e4-82a4a42688db" />
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-12-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-13-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
@@ -68,7 +68,9 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/hbomax.svg" width="20" height="20" style="vertical-align: middle;"> **HBO Max** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg" width="20" height="20" style="vertical-align: middle;"> **Apple TV** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | **HiDive** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black">  |
----
+| <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/disneyplus/default.svg" width="20" height="20" style="vertical-align: middle;"> **Disney+** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
+
+
 
 ## 📱 PREMIUM ID PARA ORION BROWSER (iOS)
 
