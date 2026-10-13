@@ -68,7 +68,7 @@ https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/hbomax.svg" width="20" height="20" style="vertical-align: middle;"> **HBO Max** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg" width="20" height="20" style="vertical-align: middle;"> **Apple TV** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black"> |
 | **HiDive** | <code>PC</code> <code>Android</code> <code>Android TV</code> | ❌ | ✅ <img src="https://img.shields.io/badge/PREMIUM_ID_PRO-FFD700?style=for-the-badge&logo=android&logoColor=black">  |
-| <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/disneyplus/default.svg" width="20" height="20" style="vertical-align: middle;"> **Disney+** | <code>PC</code> | ❌ |  ❌ |
+| <img src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/disneyplus/default.svg" width="20" height="20" style="vertical-align: middle;"> **Disney+** | <code>PC</code> <code>Android</code> | ❌ |  ❌ |
 
 
 
