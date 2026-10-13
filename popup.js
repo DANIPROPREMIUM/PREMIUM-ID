@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup PÚBLICO v12.1
+// PREMIUM ID - Popup PÚBLICO v13.0
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
@@ -61,8 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
         atresplayer: { name: 'AtresPlayer', url: 'https://www.atresplayer.com' },
         hbomax: { name: 'HBO Max', url: 'https://play.hbomax.com' },
         appletv: { name: 'Apple TV', url: 'https://tv.apple.com' },
-        hidive: { name: 'HiDive', url: 'https://www.hidive.com' }
+        hidive: { name: 'HiDive', url: 'https://www.hidive.com' },
+        disney: { name: 'Disney+', url: 'https://www.disneyplus.com/' }
     };
+
+    // Plataformas cuya sesión se inyecta en storage (no por cookies)
+    const storageBased = ['hidive', 'disney'];
 
     // ============================================================
     // UTILIDADES
@@ -209,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response?.success) {
-                if (platform === 'hidive') {
-                    showMessage(`✅ Sesión de HiDive inyectada`, 'success', 2000);
+                if (storageBased.includes(platform)) {
+                    showMessage(`✅ Sesión de ${platformName} inyectada`, 'success', 2000);
                 } else {
                     showMessage(`✅ ${platformName} abierta correctamente`, 'success', 2000);
                 }
@@ -491,8 +495,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (isAndroidDevice()) {
         showMessage('📱 Modo Android: pulsa el logo de la plataforma', 'info', 4000);
-        console.log('🔥 PREMIUM ID v12.1 - MODO ANDROID');
+        console.log('🔥 PREMIUM ID v13.0 - MODO ANDROID');
     } else {
-        console.log('🔥 PREMIUM ID v12.1 - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v13.0 - MODO PC (Detección automática)');
     }
 });

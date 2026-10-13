@@ -1,4 +1,4 @@
-// PREMIUM ID - Background PÚBLICO v12.0
+// PREMIUM ID - Background PÚBLICO v13.1
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -21,9 +21,42 @@ const PLATFORMS = {
     hidive: {
         name: 'HiDive',
         domain: '.hidive.com',
-        url: 'https://www.hidive.com'
+        url: 'https://www.hidive.com',
+        storageBased: true,
+        storageUrl: 'https://www.hidive.com/',
+        hostMatch: ['*://*.hidive.com/*'],
+        preferHost: 'www.hidive.com'
+    },
+    disney: {
+        name: 'Disney+',
+        domain: '.disneyplus.com',
+        url: 'https://www.disneyplus.com/',
+        storageBased: true,
+        storageUrl: 'https://www.disneyplus.com/',
+        hostMatch: ['*://*.disneyplus.com/*'],
+        preferHost: 'www.disneyplus.com'
     }
 };
+
+// ============================================================
+// 🔴 WATCHDOG DISNEY+ — mantiene el puerto abierto para que el
+// content script reciba onDisconnect al desactivar/desinstalar
+// la extensión y pueda cerrar sesión en Disney+
+// ============================================================
+chrome.runtime.onConnect.addListener((port) => {
+    if (port.name === 'disney-watchdog') {
+        // Solo con mantener el puerto vivo, el service worker no se
+        // duerme y el content script recibe onDisconnect en cuanto la
+        // extensión desaparece. No hay que hacer nada más.
+        port.onDisconnect.addListener(() => {});
+    }
+});
+
+// Códigos nuevos vienen en UTF-8; si no lo es (código viejo), atob tal cual
+function atobUtf8(b64) {
+    const raw = atob(b64);
+    try { return decodeURIComponent(escape(raw)); } catch(e) { return raw; }
+}
 
 function getCodeVersion(code) {
     if (!code?.startsWith('premium_id:')) return null;
@@ -31,7 +64,7 @@ function getCodeVersion(code) {
         const parts = code.split(':');
         if (parts.length < 5) return null;
         const encryptedData = parts.slice(4).join(':');
-        const decoded = atob(encryptedData);
+        const decoded = atobUtf8(encryptedData);
         const sessionData = JSON.parse(decoded);
         return sessionData.version || 'V1';
     } catch(e) {
@@ -85,15 +118,17 @@ const HIDIVE_WRITER = (ls, ss) => {
     return applied;
 };
 
-// HiDIVE: abre www.hidive.com, espera a que cargue, le inyecta el
-// localStorage y recarga para que la app de Dice arranque con sesión.
-async function injectHidiveStorage(ls, ss, openTab = true) {
-    const HIDIVE_URL = 'https://www.hidive.com/';
+// Plataformas basadas en storage (HiDive/Disney): abre el host real,
+// espera a que cargue, le inyecta ls+ss y recarga para que la app
+// (Dice/BAM SDK) arranque con la sesión.
+async function injectStorage(platform, ls, ss, openTab = true) {
+    const STORAGE_URL = platform.storageUrl;
+    const prefer = platform.preferHost;
 
-    const tabs = await chrome.tabs.query({ url: ['*://*.hidive.com/*'] });
+    const tabs = await chrome.tabs.query({ url: platform.hostMatch });
     tabs.sort((a, b) => {
-        const aw = (a.url || '').includes('www.hidive.com') ? 0 : 1;
-        const bw = (b.url || '').includes('www.hidive.com') ? 0 : 1;
+        const aw = (a.url || '').includes(prefer) ? 0 : 1;
+        const bw = (b.url || '').includes(prefer) ? 0 : 1;
         return aw - bw;
     });
 
@@ -101,13 +136,13 @@ async function injectHidiveStorage(ls, ss, openTab = true) {
 
     if (tabs.length > 0) {
         tabId = tabs[0].id;
-        await chrome.tabs.update(tabId, { url: HIDIVE_URL, active: true }).catch(() => {});
+        await chrome.tabs.update(tabId, { url: STORAGE_URL, active: true }).catch(() => {});
     } else {
-        const tab = await chrome.tabs.create({ url: HIDIVE_URL, active: true });
+        const tab = await chrome.tabs.create({ url: STORAGE_URL, active: true });
         tabId = tab.id;
     }
 
-    if (tabId === undefined) throw new Error('HiDive: no se pudo abrir la página');
+    if (tabId === undefined) throw new Error(`${platform.name}: no se pudo abrir la página`);
 
     await waitForTab(tabId);
 
@@ -119,12 +154,12 @@ async function injectHidiveStorage(ls, ss, openTab = true) {
             args: [ls, ss]
         });
     } catch (e) {
-        throw new Error('HiDive: sin permiso para escribir en la página');
+        throw new Error(`${platform.name}: sin permiso para escribir en la página`);
     }
 
     const applied = results?.[0]?.result || 0;
 
-    if (applied === 0) throw new Error('HiDive: no se pudo escribir el storage de la página');
+    if (applied === 0) throw new Error(`${platform.name}: no se pudo escribir el storage de la página`);
 
     // Recargamos para que la app lea el token nuevo
     await chrome.tabs.reload(tabId).catch(() => {});
@@ -141,7 +176,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         const platform = PLATFORMS[platformKey];
         if (!platform) throw new Error('Plataforma no soportada');
 
-        const decoded = atob(encryptedData);
+        const decoded = atobUtf8(encryptedData);
         const sessionData = JSON.parse(decoded);
 
         // ============================================================
@@ -203,15 +238,15 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         }
 
         // ============================================================
-        // HIDIVE V6: la sesión puede vivir en localStorage o
-        // sessionStorage. Inyectamos ambos y recargamos la página.
+        // STORAGE V6 (HiDive / Disney): la sesión vive en localStorage
+        // o sessionStorage. Inyectamos ambos y recargamos la página.
         // ============================================================
-        if (platformKey === 'hidive' && sessionData.version === 'V6') {
+        if (platform.storageBased && sessionData.version === 'V6') {
             const storedLs = sessionData.ls || {};
             const storedSs = sessionData.ss || {};
 
             if (Object.keys(storedLs).length === 0 && Object.keys(storedSs).length === 0) {
-                throw new Error('El código no contiene datos de sesión de HiDive');
+                throw new Error(`El código no contiene datos de sesión de ${platform.name}`);
             }
 
             // Cookies (trackers, no harm) por si el sitio las necesita
@@ -233,9 +268,9 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 }
             }
 
-            const injected = await injectHidiveStorage(storedLs, storedSs, openTab);
+            const injected = await injectStorage(platform, storedLs, storedSs, openTab);
 
-            return { success: true, cookiesSet: 0, cookieNames: [], hidive: injected };
+            return { success: true, cookiesSet: 0, cookieNames: [], storage: injected };
         }
 
         if (sessionData.version !== 'V4') {
@@ -611,4 +646,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v12.0 (con HiDive)');
+console.log('🔥 PREMIUM ID - BACKGROUND v13.1 (HiDive + Disney+ + watchdog anti-desactivación)');

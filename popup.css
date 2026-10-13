@@ -24,7 +24,7 @@ body::-webkit-scrollbar {
 }
 
 body {
-    width: 280px;
+    width: 400px;
     background: #06060a;
     font-family: 'Inter', sans-serif;
     color: #e8e8ec;
@@ -35,7 +35,7 @@ body {
    ============================================================ */
 .premium-container {
     position: relative;
-    padding: 16px 10px 10px 10px;
+    padding: 16px 12px 10px 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -165,12 +165,13 @@ body {
 }
 
 /* ============================================================
-   GRID DE PLATAFORMAS — 3x3
+   GRID DE PLATAFORMAS — 5 columnas × 2 filas
    ============================================================ */
 .platforms-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px 12px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 12px 10px;
     width: 100%;
     justify-items: center;
     align-items: center;
@@ -377,6 +378,18 @@ body {
 .platform-card.hidive:hover .hidive-dive {
     color: #00AEEF;
     text-shadow: 0 0 12px rgba(0, 174, 239, 0.9);
+}
+
+/* ===== Disney+ (logo oficial, icons/disney.svg) ===== */
+.platform-card.disney:hover {
+    background: rgba(17, 60, 207, 0.25);
+    border-color: #113ccf;
+}
+
+/* el logo es apaisado: más ancho que los cuadrados para que se lea */
+.platform-card.disney .platform-icon img {
+    width: 46px;
+    height: 46px;
 }
 
 /* ============================================================
