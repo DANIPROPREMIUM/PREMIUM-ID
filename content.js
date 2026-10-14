@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v6.9
-// Netflix | HiDive | Disney+ (bloqueo total + watchdog anti-desactivación)
+// PREMIUM ID - Content Script v7.3
+// Netflix | HiDive | Disney+ (select-profile LIMPIO: sin editar, sin añadir, sin nick)
 
 (function() {
     'use strict';
@@ -45,6 +45,139 @@
     function isHboMax()      { return window.location.hostname.includes('hbomax') || window.location.hostname.includes('max.com'); }
     function isHiDive()      { return window.location.hostname.includes('hidive.com'); }
     function isDisney()      { return window.location.hostname.includes('disneyplus.com'); }
+
+    function isDisneyActivationPage() {
+        if (!isDisney()) return false;
+        const path = window.location.pathname.toLowerCase();
+        return /\/(?:identity\/)?(?:start|begin)\b/.test(path);
+    }
+
+    function blockDisneyActivationPage() {
+        if (!isDisneyActivationPage()) return;
+        window.location.replace('https://www.disneyplus.com/');
+    }
+
+    function isDisneySelectProfile() {
+        return isDisney() && /\/select-profile/i.test(window.location.pathname);
+    }
+
+    // ============================================================
+    //
+    // ============================================================
+    function cleanDisneySelectProfile() {
+        if (!isDisney() || !isDisneySelectProfile()) return;
+
+        // ----- 1) ELIMINAR botones "Editar perfiles" y "Añadir perfil" -----
+        const KILL_TEXTS = [
+            // Español
+            'editar perfiles', 'editar perfil',
+            'añadir perfil', 'añadir perfiles',
+            'agregar perfil', 'agregar perfiles',
+            // Inglés
+            'edit profiles', 'edit profile',
+            'add profile', 'add profiles',
+            // Portugués
+            'editar perfis', 'adicionar perfil',
+            // Francés
+            'modifier les profils', 'ajouter un profil',
+            // Alemán
+            'profile bearbeiten', 'profil hinzufügen',
+            // Italiano
+            'modifica profili', 'aggiungi profilo'
+        ];
+
+        const KILL_TESTIDS = [
+            'add-profile', 'addprofile',
+            'edit-profile', 'editprofile',
+            'manage-profiles', 'manageprofiles'
+        ];
+
+        // Buscar en TODOS los elementos clickeables y también en divs/spans
+        document.querySelectorAll('button, a, [role="button"], [role="link"], div[tabindex], span[tabindex]').forEach(el => {
+            if (!el.isConnected) return;
+
+            const txt = (el.textContent || '').trim().toLowerCase();
+            if (!txt || txt.length > 50) return;
+
+            // Por data-testid
+            const testId = (el.getAttribute('data-testid') || '').toLowerCase();
+            if (KILL_TESTIDS.some(t => testId.includes(t))) {
+                el.remove();  // ELIMINAR del DOM
+                return;
+            }
+
+            // Por texto exacto
+            if (KILL_TEXTS.includes(txt)) {
+                el.remove();  // ELIMINAR del DOM
+                return;
+            }
+
+            // Por texto parcial (por si hay iconos o espacios extra)
+            if (KILL_TEXTS.some(k => txt === k || txt.startsWith(k) || txt.endsWith(k))) {
+                el.remove();
+            }
+        });
+
+        // ----- 2) OCULTAR EL NICK debajo de cada avatar -----
+        // En /select-profile cada avatar tiene un nombre debajo.
+        // Lo que hacemos: buscar imágenes de avatar y ocultar el texto
+        // que esté en el mismo contenedor padre que la imagen.
+
+        document.querySelectorAll('img[alt]').forEach(img => {
+            const alt = (img.getAttribute('alt') || '').trim();
+            // Si el alt parece un nombre de persona (no genérico), lo usamos
+            if (!alt || alt.length < 2 || alt.length > 40) return;
+            if (/^(avatar|profile|perfil|user|usuario|imagen|image|foto|photo|icon|icono|logo|banner|poster|cover|thumbnail|default|placeholder|disney|disney\+|marvel|star|pixar|national geographic|${.*}|\{\{.*\}\})$/i.test(alt)) return;
+
+            // Subir hasta 4 niveles buscando el contenedor del perfil
+            let container = img;
+            for (let i = 0; i < 4 && container; i++) {
+                container = container.parentElement;
+                if (!container) break;
+
+                // Buscar dentro del contenedor cualquier elemento cuyo texto
+                // sea EXACTAMENTE el alt (el nick del perfil)
+                container.querySelectorAll('span, p, div, h1, h2, h3, h4, strong, b').forEach(el => {
+                    if (el === img) return;
+                    if (el.querySelector('img')) return;  // no tocar contenedores de imagen
+                    const txt = (el.textContent || '').trim();
+                    if (txt === alt) {
+                        // ELIMINAR el nodo de texto del nick
+                        el.remove();
+                    }
+                });
+            }
+        });
+
+        // ----- 3) PLAN B para el nick: ocultar CUALQUIER texto que esté en el mismo contenedor que un avatar y no sea un botón -----
+        // Esto cubre casos donde el alt del avatar no coincide con el nick mostrado.
+        document.querySelectorAll('img').forEach(img => {
+            // Subir al contenedor padre más cercano que parezca una card de perfil
+            let card = img.closest('[class*="profile"], [class*="Profile"], [class*="avatar"], [class*="Avatar"]');
+            if (!card) {
+                // Si no hay clase reconocible, subir 2 niveles
+                card = img.parentElement?.parentElement;
+            }
+            if (!card) return;
+
+            // Dentro de la card, eliminar cualquier span/p/div que contenga texto corto (el nick)
+            // pero que NO sea el avatar
+            card.querySelectorAll('span, p, div').forEach(el => {
+                if (el === img) return;
+                if (el.contains(img)) return;  // es ancestro de la imagen, no tocar
+                const txt = (el.textContent || '').trim();
+                // Si es un texto corto y no contiene elementos interactivos, es el nick
+                if (txt.length > 0 && txt.length < 30 && !el.querySelector('button, a, [role="button"]')) {
+                    // Comprobar que el texto no sea el alt del avatar (ya lo habríamos quitado)
+                    const alt = (img.getAttribute('alt') || '').trim();
+                    if (txt !== alt) {
+                        // Es un texto que no es el alt → probablemente el nick o subtítulo
+                        el.remove();
+                    }
+                }
+            });
+        });
+    }
 
     // ============================================================
     // HIDIVE
@@ -127,10 +260,12 @@
     }
 
     // ============================================================
-    // DISNEY+ — CAPA 1: bloquear botón de perfil por posición
+    // DISNEY+ — 
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
+        if (isDisneySelectProfile()) return;
+
         const vw = window.innerWidth;
 
         document.querySelectorAll('button, [role="button"], a, [tabindex]:not([tabindex="-1"])').forEach(el => {
@@ -175,10 +310,11 @@
     }
 
     // ============================================================
-    // DISNEY+ — CAPA 2: ocultar/bloquear items del menú si se abre
+    // DISNEY+ — 
     // ============================================================
     function blockDisneyMenuItems() {
         if (!isDisney()) return;
+        if (isDisneySelectProfile()) return;
 
         const BLOCKED_TEXT = /\b(cerrar sesi[oó]n|log ?out|sign ?out|salir|desconectar|cerrar|cuenta|account|perfil|profile|perfiles|profiles|editar perfil|edit profile|gestionar perfiles|manage profiles|cambiar perfil|switch profile|mi cuenta|my account|suscripci[oó]n|subscription|configuraci[oó]n|settings|ajustes|ayuda|help|privacidad|privacy|dispositivos|devices|idioma|language)\b/i;
 
@@ -217,7 +353,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — CAPA 3: ocultar el nombre del perfil
+    // DISNEY+ — CAPA 3: ocultar el nombre del perfil (global)
     // ============================================================
     function hideDisneyProfileName() {
         if (!isDisney()) return;
@@ -260,7 +396,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — CAPA 4: bloquear "Cerrar sesión" en cualquier parte
+    // DISNEY+ — 
     // ============================================================
     function blockDisneyActions() {
         if (!isDisney()) return;
@@ -346,7 +482,7 @@
     }
 
     // ============================================================
-    // 🔴 WATCHDOG DISNEY+ — CIERRA SESIÓN AL DESACTIVAR LA EXTENSIÓN
+    // 
     // ============================================================
     function installDisneyKillSwitch() {
         if (!isDisney()) return;
@@ -356,9 +492,6 @@
         let killed = false;
 
         function isExtensionDead() {
-            // MV3: cuando la extensión se desactiva/desinstala,
-            // chrome.runtime sigue existiendo pero chrome.runtime.id
-            // pasa a ser undefined.
             try {
                 return !chrome || !chrome.runtime || !chrome.runtime.id;
             } catch (e) {
@@ -367,7 +500,6 @@
         }
 
         function nukeSessionSync() {
-            // Borrado SÍNCRONO: válido para beforeunload
             try {
                 const cookies = document.cookie.split(";");
                 for (let c of cookies) {
@@ -390,7 +522,6 @@
 
             nukeSessionSync();
 
-            // IndexedDB (async, no crítico para el logout)
             try {
                 if (indexedDB.databases) {
                     indexedDB.databases().then(dbs => {
@@ -401,8 +532,6 @@
                 }
             } catch (e) {}
 
-            // Intento adicional: borrar también vía chrome.cookies (por si
-            // la extensión aún responde aunque esté en proceso de morir)
             try {
                 if (chrome?.cookies?.getAll) {
                     chrome.cookies.getAll({ domain: '.disneyplus.com' }, (cks) => {
@@ -418,64 +547,44 @@
                 }
             } catch (e) {}
 
-            // Redirigir a login
             try {
                 window.location.replace('https://www.disneyplus.com/login');
             } catch (e) {}
         }
 
-        // ---------------------------------------------------------
-        // Capa 1: puerto con el background (onDisconnect inmediato)
-        // ---------------------------------------------------------
         try {
             const port = chrome.runtime.connect({ name: 'disney-watchdog' });
             port.onDisconnect.addListener(() => {
-                // Pequeño delay por si es solo un reload del SW
                 setTimeout(() => {
                     if (isExtensionDead()) nukeSession();
                 }, 400);
             });
         } catch (e) {
-            // Si ya no se puede conectar → extensión muerta
             nukeSession();
             return;
         }
 
-        // ---------------------------------------------------------
-        // Capa 2: polling por si el puerto no se cierra bien
-        // ---------------------------------------------------------
         setInterval(() => {
             if (killed) return;
             if (isExtensionDead()) {
                 nukeSession();
                 return;
             }
-            // Ping opcional al SW para mantenerlo vivo / detectar errores
             try {
                 chrome.runtime.sendMessage({ action: 'heartbeat' }, () => {
-                    void chrome.runtime.lastError; // ignorar
+                    void chrome.runtime.lastError;
                 });
             } catch (e) {
                 nukeSession();
             }
         }, 2500);
 
-        // ---------------------------------------------------------
-        // Capa 3: beforeunload (desactivar + recargar rápido)
-        // ---------------------------------------------------------
         window.addEventListener('beforeunload', () => {
-            if (isExtensionDead()) {
-                nukeSessionSync();
-            }
+            if (isExtensionDead()) nukeSessionSync();
         });
 
-        // ---------------------------------------------------------
-        // Capa 4: pagehide (más fiable que beforeunload en móvil/bfcache)
-        // ---------------------------------------------------------
         window.addEventListener('pagehide', () => {
-            if (isExtensionDead()) {
-                nukeSessionSync();
-            }
+            if (isExtensionDead()) nukeSessionSync();
         });
     }
 
@@ -693,6 +802,11 @@
     }
 
     function init() {
+        if (isDisney()) {
+            blockDisneyActivationPage();
+            setInterval(blockDisneyActivationPage, 500);
+        }
+
         addWatermark();
 
         if (isNetflix()) {
@@ -725,18 +839,17 @@
             window.addEventListener('scroll', () => blockHiDiveActions(), { passive: true });
         }
 
-        // Disney+ — 4 capas + watchdog
         if (isDisney()) {
             injectDisneyCSS();
-
-            // 🔴 Instalar watchdog lo ANTES posible
             installDisneyKillSwitch();
 
             const applyDisney = () => {
+                blockDisneyActivationPage();
                 blockDisneyProfileButton();
                 blockDisneyMenuItems();
                 hideDisneyProfileName();
                 blockDisneyActions();
+                cleanDisneySelectProfile();  // 🔥 LIMPIA /select-profile
             };
 
             applyDisney();
@@ -762,6 +875,14 @@
             window.addEventListener('scroll', applyDisney, { passive: true });
             window.addEventListener('focus', applyDisney);
             window.addEventListener('resize', applyDisney);
+
+            let lastPath = window.location.pathname;
+            setInterval(() => {
+                if (window.location.pathname !== lastPath) {
+                    lastPath = window.location.pathname;
+                    applyDisney();
+                }
+            }, 500);
         }
 
         if (!isCrunchyroll() && !isHboMax() && !isHiDive() && !isDisney()) {
@@ -776,5 +897,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v6.9 (Netflix | HiDive | Disney+ + watchdog)');
+    console.log('🔥 PREMIUM ID - CONTENT v7.3 (select-profile LIMPIO)');
 })();
