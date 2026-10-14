@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v7.3
-// Netflix | HiDive | Disney+ (select-profile LIMPIO: sin editar, sin añadir, sin nick)
+// PREMIUM ID - Content Script v7.8
+// Netflix | HiDive | Disney+ (watchdog fiable: solo chrome.runtime.id)
 
 (function() {
     'use strict';
@@ -62,119 +62,126 @@
     }
 
     // ============================================================
-    //
+    // LIMPIAR /select-profile
     // ============================================================
     function cleanDisneySelectProfile() {
         if (!isDisney() || !isDisneySelectProfile()) return;
 
-        // ----- 1) ELIMINAR botones "Editar perfiles" y "Añadir perfil" -----
         const KILL_TEXTS = [
-            // Español
             'editar perfiles', 'editar perfil',
             'añadir perfil', 'añadir perfiles',
             'agregar perfil', 'agregar perfiles',
-            // Inglés
             'edit profiles', 'edit profile',
             'add profile', 'add profiles',
-            // Portugués
             'editar perfis', 'adicionar perfil',
-            // Francés
             'modifier les profils', 'ajouter un profil',
-            // Alemán
             'profile bearbeiten', 'profil hinzufügen',
-            // Italiano
-            'modifica profili', 'aggiungi profilo'
+            'modifica profili', 'aggiungi profilo',
+            'aviso legal', 'aviso de privacidad',
+            'legal notice', 'legal',
+            'privacy notice', 'privacy policy',
+            'términos y condiciones', 'términos de uso',
+            'terms of use', 'terms and conditions',
+            'política de privacidad', 'política de cookies',
+            'cookies policy'
         ];
 
         const KILL_TESTIDS = [
             'add-profile', 'addprofile',
             'edit-profile', 'editprofile',
-            'manage-profiles', 'manageprofiles'
+            'manage-profiles', 'manageprofiles',
+            'legal-notice', 'legalnotice',
+            'aviso-legal', 'avisolegal'
         ];
 
-        // Buscar en TODOS los elementos clickeables y también en divs/spans
-        document.querySelectorAll('button, a, [role="button"], [role="link"], div[tabindex], span[tabindex]').forEach(el => {
+        const KILL_HREFS = /^\/(?:[a-z-]+\/)?(?:legal|terms|privacy|aviso-legal|terminos|privacidad|cookies)(?:[\/?#]|$)/i;
+
+        document.querySelectorAll('button, a, [role="button"], [role="link"], div[tabindex], span[tabindex], p, small, footer').forEach(el => {
             if (!el.isConnected) return;
 
             const txt = (el.textContent || '').trim().toLowerCase();
-            if (!txt || txt.length > 50) return;
+            if (!txt) return;
+            if (txt.length > 120) return;
 
-            // Por data-testid
             const testId = (el.getAttribute('data-testid') || '').toLowerCase();
-            if (KILL_TESTIDS.some(t => testId.includes(t))) {
-                el.remove();  // ELIMINAR del DOM
-                return;
+            const href = el.getAttribute('href') || '';
+
+            if (KILL_TESTIDS.some(t => testId.includes(t))) { el.remove(); return; }
+
+            if (href) {
+                try {
+                    const path = new URL(href, location.origin).pathname;
+                    if (KILL_HREFS.test(path)) { el.remove(); return; }
+                } catch (e) {}
             }
 
-            // Por texto exacto
-            if (KILL_TEXTS.includes(txt)) {
-                el.remove();  // ELIMINAR del DOM
-                return;
-            }
-
-            // Por texto parcial (por si hay iconos o espacios extra)
+            if (KILL_TEXTS.includes(txt)) { el.remove(); return; }
             if (KILL_TEXTS.some(k => txt === k || txt.startsWith(k) || txt.endsWith(k))) {
                 el.remove();
             }
         });
 
-        // ----- 2) OCULTAR EL NICK debajo de cada avatar -----
-        // En /select-profile cada avatar tiene un nombre debajo.
-        // Lo que hacemos: buscar imágenes de avatar y ocultar el texto
-        // que esté en el mismo contenedor padre que la imagen.
+        killDisneyProfileNicks();
 
-        document.querySelectorAll('img[alt]').forEach(img => {
-            const alt = (img.getAttribute('alt') || '').trim();
-            // Si el alt parece un nombre de persona (no genérico), lo usamos
-            if (!alt || alt.length < 2 || alt.length > 40) return;
-            if (/^(avatar|profile|perfil|user|usuario|imagen|image|foto|photo|icon|icono|logo|banner|poster|cover|thumbnail|default|placeholder|disney|disney\+|marvel|star|pixar|national geographic|${.*}|\{\{.*\}\})$/i.test(alt)) return;
+        document.querySelectorAll(
+            '[data-testid*="profile-name" i], [data-testid*="profileName" i], ' +
+            '[data-testid*="profile-nick" i], [data-testid*="profileNick" i], ' +
+            '[data-testid*="avatar-name" i], [data-testid*="avatarName" i], ' +
+            '[data-testid*="display-name" i], [data-testid*="displayName" i], ' +
+            '[data-testid*="user-name" i], [data-testid*="userName" i], ' +
+            '[data-testid*="account-name" i], [data-testid*="accountName" i]'
+        ).forEach(el => { if (el.isConnected) el.remove(); });
+    }
 
-            // Subir hasta 4 niveles buscando el contenedor del perfil
-            let container = img;
-            for (let i = 0; i < 4 && container; i++) {
-                container = container.parentElement;
-                if (!container) break;
+    function killDisneyProfileNicks() {
+        if (!isDisney() || !isDisneySelectProfile()) return;
 
-                // Buscar dentro del contenedor cualquier elemento cuyo texto
-                // sea EXACTAMENTE el alt (el nick del perfil)
-                container.querySelectorAll('span, p, div, h1, h2, h3, h4, strong, b').forEach(el => {
-                    if (el === img) return;
-                    if (el.querySelector('img')) return;  // no tocar contenedores de imagen
-                    const txt = (el.textContent || '').trim();
-                    if (txt === alt) {
-                        // ELIMINAR el nodo de texto del nick
-                        el.remove();
-                    }
+        const UI_TEXT = /^(añadir|add|editar|edit|perfil|profile|perfiles|profiles|disney|marvel|star|pixar|national geographic|manage|gestionar|select|elegir|escoger|qui[eé]n|who|iniciar|start|cancelar|cancel|continuar|continue|guardar|save|aceptar|accept|ok|cerrar|close|buscar|search|inicio|home|atr[aá]s|back|siguiente|next|salir|exit|ver|watch|reproducir|play|más|more|menos|less|ver todo|see all|configuraci[oó]n|settings|cuenta|account|ayuda|help|t[eé]rminos|terms|privacidad|privacy|pol[ií]tica|policy|cookies|aviso|legal)/i;
+
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.isConnected) return;
+            const rect = img.getBoundingClientRect();
+            if (rect.width < 20 || rect.width > 300) return;
+            if (rect.height < 20 || rect.height > 300) return;
+
+            let node = img.parentElement;
+            let level = 0;
+
+            while (node && level < 5) {
+                Array.from(node.children).forEach(child => {
+                    if (!child.isConnected) return;
+                    if (child === img) return;
+                    if (child.contains(img)) return;
+                    if (child.querySelector('img')) return;
+                    if (child.querySelector('button, a, input, select, textarea, [role="button"], [role="link"]')) return;
+                    if (child.querySelector('svg')) return;
+                    const txt = (child.textContent || '').trim();
+                    if (txt.length === 0) return;
+                    if (txt.length > 40) return;
+                    if (UI_TEXT.test(txt)) return;
+                    child.remove();
                 });
+                node = node.parentElement;
+                level++;
             }
         });
 
-        // ----- 3) PLAN B para el nick: ocultar CUALQUIER texto que esté en el mismo contenedor que un avatar y no sea un botón -----
-        // Esto cubre casos donde el alt del avatar no coincide con el nick mostrado.
-        document.querySelectorAll('img').forEach(img => {
-            // Subir al contenedor padre más cercano que parezca una card de perfil
-            let card = img.closest('[class*="profile"], [class*="Profile"], [class*="avatar"], [class*="Avatar"]');
-            if (!card) {
-                // Si no hay clase reconocible, subir 2 niveles
-                card = img.parentElement?.parentElement;
-            }
-            if (!card) return;
+        document.querySelectorAll('[class*="profile" i], [class*="Profile" i], [class*="avatar" i], [class*="Avatar" i]').forEach(card => {
+            if (!card.isConnected) return;
+            if (card.querySelectorAll('img').length !== 1) return;
+            const img = card.querySelector('img');
 
-            // Dentro de la card, eliminar cualquier span/p/div que contenga texto corto (el nick)
-            // pero que NO sea el avatar
-            card.querySelectorAll('span, p, div').forEach(el => {
+            Array.from(card.querySelectorAll('span, p, div, strong, b, h1, h2, h3, h4')).forEach(el => {
+                if (!el.isConnected) return;
                 if (el === img) return;
-                if (el.contains(img)) return;  // es ancestro de la imagen, no tocar
+                if (el.contains(img)) return;
+                if (el.querySelector('img')) return;
+                if (el.querySelector('button, a, input, select, textarea, [role="button"], [role="link"]')) return;
+                if (el.querySelector('svg')) return;
                 const txt = (el.textContent || '').trim();
-                // Si es un texto corto y no contiene elementos interactivos, es el nick
-                if (txt.length > 0 && txt.length < 30 && !el.querySelector('button, a, [role="button"]')) {
-                    // Comprobar que el texto no sea el alt del avatar (ya lo habríamos quitado)
-                    const alt = (img.getAttribute('alt') || '').trim();
-                    if (txt !== alt) {
-                        // Es un texto que no es el alt → probablemente el nick o subtítulo
-                        el.remove();
-                    }
-                }
+                if (txt.length === 0 || txt.length > 40) return;
+                if (UI_TEXT.test(txt)) return;
+                el.remove();
             });
         });
     }
@@ -260,7 +267,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — 
+    // DISNEY+ — bloquear botón de perfil por posición
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
@@ -310,13 +317,13 @@
     }
 
     // ============================================================
-    // DISNEY+ — 
+    // DISNEY+ — ocultar/bloquear items del menú
     // ============================================================
     function blockDisneyMenuItems() {
         if (!isDisney()) return;
         if (isDisneySelectProfile()) return;
 
-        const BLOCKED_TEXT = /\b(cerrar sesi[oó]n|log ?out|sign ?out|salir|desconectar|cerrar|cuenta|account|perfil|profile|perfiles|profiles|editar perfil|edit profile|gestionar perfiles|manage profiles|cambiar perfil|switch profile|mi cuenta|my account|suscripci[oó]n|subscription|configuraci[oó]n|settings|ajustes|ayuda|help|privacidad|privacy|dispositivos|devices|idioma|language)\b/i;
+        const BLOCKED_TEXT = /\b(cerrar sesi[oó]n|log ?out|sign ?out|salir|desconectar|cerrar|cuenta|account|perfil|profile|perfiles|profiles|editar perfil|edit profile|gestionar perfiles|manage profiles|cambiar perfil|switch profile|mi cuenta|my account|suscripci[oó]n|subscription|configuraci[oó]n|settings|ajustes|ayuda|help|privacidad|privacy|dispositivos|devices|idioma|language|aviso legal|legal notice|t[eé]rminos|terms)\b/i;
 
         const menuItems = document.querySelectorAll(
             '[role="menuitem"], [role="menu"] a, [role="menu"] button, [role="menu"] [role="menuitem"], ' +
@@ -353,7 +360,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — CAPA 3: ocultar el nombre del perfil (global)
+    // DISNEY+ — ocultar el nombre del perfil (global)
     // ============================================================
     function hideDisneyProfileName() {
         if (!isDisney()) return;
@@ -396,7 +403,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — 
+    // DISNEY+ — bloquear "Cerrar sesión"
     // ============================================================
     function blockDisneyActions() {
         if (!isDisney()) return;
@@ -482,7 +489,7 @@
     }
 
     // ============================================================
-    // 
+    // 🔴 WATCHDOG DISNEY+ v5 — solo chrome.runtime.id (fiable, sin bfcache warning)
     // ============================================================
     function installDisneyKillSwitch() {
         if (!isDisney()) return;
@@ -490,8 +497,11 @@
         window.__premiumIdDisneyKillSwitch = true;
 
         let killed = false;
+        let pollInterval = null;
 
         function isExtensionDead() {
+            // Única señal 100% fiable: chrome.runtime.id desaparece
+            // cuando la extensión se desactiva/desinstala/recarga.
             try {
                 return !chrome || !chrome.runtime || !chrome.runtime.id;
             } catch (e) {
@@ -552,39 +562,40 @@
             } catch (e) {}
         }
 
-        try {
-            const port = chrome.runtime.connect({ name: 'disney-watchdog' });
-            port.onDisconnect.addListener(() => {
-                setTimeout(() => {
-                    if (isExtensionDead()) nukeSession();
-                }, 400);
-            });
-        } catch (e) {
-            nukeSession();
-            return;
+        // Polling: SOLO comprueba chrome.runtime.id. Sin sendMessage,
+        // sin lastError, sin falsos positivos.
+        function startPolling() {
+            if (pollInterval) return;
+            pollInterval = setInterval(() => {
+                if (killed) return;
+                if (isExtensionDead()) {
+                    nukeSession();
+                }
+            }, 800);
         }
 
-        setInterval(() => {
-            if (killed) return;
-            if (isExtensionDead()) {
-                nukeSession();
-                return;
-            }
-            try {
-                chrome.runtime.sendMessage({ action: 'heartbeat' }, () => {
-                    void chrome.runtime.lastError;
-                });
-            } catch (e) {
-                nukeSession();
-            }
-        }, 2500);
+        startPolling();
 
+        // Chequeo inmediato al recuperar el foco
+        window.addEventListener('focus', () => {
+            if (isExtensionDead()) nukeSession();
+        });
+
+        // Chequeo antes de salir de la página
         window.addEventListener('beforeunload', () => {
             if (isExtensionDead()) nukeSessionSync();
         });
 
-        window.addEventListener('pagehide', () => {
+        window.addEventListener('pagehide', (e) => {
+            // En bfcache no hacemos nada especial (no hay puerto que
+            // cerrar, no hay warning). Solo comprobamos muerte real.
             if (isExtensionDead()) nukeSessionSync();
+        });
+
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) {
+                startPolling();
+            }
         });
     }
 
@@ -849,7 +860,7 @@
                 blockDisneyMenuItems();
                 hideDisneyProfileName();
                 blockDisneyActions();
-                cleanDisneySelectProfile();  // 🔥 LIMPIA /select-profile
+                cleanDisneySelectProfile();
             };
 
             applyDisney();
@@ -897,5 +908,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v7.3 (select-profile LIMPIO)');
+    console.log('🔥 PREMIUM ID - CONTENT v7.8 (watchdog fiable: solo chrome.runtime.id)');
 })();
