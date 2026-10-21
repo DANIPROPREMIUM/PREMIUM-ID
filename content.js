@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v8.0
-// Netflix | HiDive | Disney+ (single-profile lock: oculta avatar y mata menú de cuenta)
+// PREMIUM ID - Content Script v8.2
+// Netflix | HiDive | Disney+ (single-profile lock + redirect rutas de perfiles)
 
 (function() {
     'use strict';
@@ -65,6 +65,43 @@
         if (!isDisneyActivationPage()) return;
         window.location.replace('https://www.disneyplus.com/');
     }
+
+    // ============================================================
+    // DISNEY+ — Redirigir rutas de gestión de perfiles/avatares
+    // Cubre: /add-profile, /select-avatar, /edit-profile,
+    //        /manage-profiles, /profile/add, /profile/edit, etc.
+    // ============================================================
+    function isDisneyForbiddenProfilePath() {
+        if (!isDisney()) return false;
+        const path = window.location.pathname.toLowerCase();
+        return /^\/(?:identity\/)?(?:add-profile|select-avatar|edit-profile|manage-profiles|profile\/(?:add|edit|new|avatar)|profiles?\/(?:add|edit|new))\/?$/i.test(path);
+    }
+
+    function redirectDisneyForbiddenPaths() {
+        if (!isDisneyForbiddenProfilePath()) return;
+        // replace() para no dejar rastro en el historial
+        window.location.replace('https://www.disneyplus.com/');
+    }
+
+    // Ejecutar la redirección lo antes posible (document_start)
+    redirectDisneyForbiddenPaths();
+
+    // También interceptar navegación por history (SPA)
+    try {
+        const _pushState = history.pushState;
+        const _replaceState = history.replaceState;
+        history.pushState = function () {
+            const r = _pushState.apply(this, arguments);
+            redirectDisneyForbiddenPaths();
+            return r;
+        };
+        history.replaceState = function () {
+            const r = _replaceState.apply(this, arguments);
+            redirectDisneyForbiddenPaths();
+            return r;
+        };
+        window.addEventListener('popstate', redirectDisneyForbiddenPaths);
+    } catch (e) {}
 
     // ============================================================
     // DISNEY+ — LIMPIAR /select-profile (solo enlaces legales)
@@ -174,7 +211,6 @@
 
     // ============================================================
     // DISNEY+ — Ocultar por completo el avatar/botón de cuenta
-    // (NO se ejecuta en la página de selección de perfil)
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
@@ -189,7 +225,6 @@
             if (rect.width === 0 || rect.height === 0) return;
             if (rect.width > 160 || rect.height > 160) return;
 
-            // Esquina superior derecha con margen amplio (Quetta PC / responsive)
             const inTopRight = (rect.right > vw - 400) && (rect.top < 200);
             if (!inTopRight) return;
 
@@ -213,12 +248,10 @@
             el.setAttribute('data-disney-profile-blocked', 'true');
             el.setAttribute('aria-hidden', 'true');
 
-            // Ocultar sin romper layout
             el.style.setProperty('visibility', 'hidden', 'important');
             el.style.setProperty('opacity', '0', 'important');
             el.style.setProperty('pointer-events', 'none', 'important');
 
-            // Y por si acaso, también matar cualquier evento
             const kill = (ev) => {
                 ev.preventDefault();
                 ev.stopPropagation();
@@ -252,10 +285,9 @@
 
         document.querySelectorAll(MENU_SELECTORS.join(',')).forEach(el => {
             if (el.hasAttribute('data-disney-menu-nuked')) return;
-            if (el.querySelector('video')) return; // No tocar reproductor
+            if (el.querySelector('video')) return;
 
             const txt = (el.textContent || '').toLowerCase();
-            // Solo destruir si es un menú de cuenta/perfil/settings
             const isAccountMenu = /switch profile|cambiar perfil|edit profile|editar perfil|manage profiles|gestionar perfiles|log ?out|cerrar sesi[oó]n|^account$|^cuenta$|^settings$|^ajustes$/im.test(txt);
 
             if (!isAccountMenu) return;
@@ -276,10 +308,8 @@
         if (!isDisney()) return;
         if (isDisneySelectProfile()) return;
 
-        // 1) Nuke menús completos
         nukeAccountMenu();
 
-        // 2) Bloquear botones específicos de cambio de perfil / edición
         document.querySelectorAll('button, a, [role="menuitem"], [role="button"], [role="link"]').forEach(el => {
             if (el.hasAttribute('data-disney-menu-blocked')) return;
 
@@ -310,7 +340,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — ocultar el nombre del perfil (solo fuera de select-profile)
+    // DISNEY+ — ocultar el nombre del perfil
     // ============================================================
     function hideDisneyProfileName() {
         if (!isDisney()) return;
@@ -444,7 +474,7 @@
     }
 
     // ============================================================
-    // 🔴 WATCHDOG DISNEY+ v5 — solo chrome.runtime.id
+    // 🔴 WATCHDOG DISNEY+ v5
     // ============================================================
     function installDisneyKillSwitch() {
         if (!isDisney()) return;
@@ -762,6 +792,7 @@
     function init() {
         if (isDisney()) {
             blockDisneyActivationPage();
+            redirectDisneyForbiddenPaths();
             setInterval(blockDisneyActivationPage, 500);
         }
 
@@ -803,6 +834,7 @@
 
             const applyDisney = () => {
                 blockDisneyActivationPage();
+                redirectDisneyForbiddenPaths();
                 cleanDisneySelectProfile();
                 blockDisneyActions();
 
@@ -816,18 +848,14 @@
 
             applyDisney();
 
-            // Ráfaga inicial (250ms x 40 = 10s)
             let ticks = 0;
             const quick = setInterval(() => {
                 applyDisney();
                 if (++ticks > 40) clearInterval(quick);
             }, 250);
 
-            // Intervalo de fondo
             setInterval(applyDisney, 800);
 
-            // 🔥 Nuke agresivo del menú de cuenta (200ms)
-            // Evita que el menú se muestre aunque se abra por hover/teclado
             if (!isDisneySelectProfile()) {
                 setInterval(nukeAccountMenu, 200);
             }
@@ -870,5 +898,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v8.0 (single-profile lock Disney+: avatar oculto + menú de cuenta destruido)');
+    console.log('🔥 PREMIUM ID - CONTENT v8.2 (redirect add-profile + select-avatar + profile lock)');
 })();
