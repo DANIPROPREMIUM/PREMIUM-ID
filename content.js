@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v8.2
-// Netflix | HiDive | Disney+ (single-profile lock + redirect rutas de perfiles)
+// PREMIUM ID - Content Script v8.3
+// Netflix | HiDive | Disney+ (single-profile lock + redirect rutas de perfiles con locale)
 
 (function() {
     'use strict';
@@ -68,13 +68,21 @@
 
     // ============================================================
     // DISNEY+ — Redirigir rutas de gestión de perfiles/avatares
+    // AHORA con soporte para prefijo de locale (/en-gb/, /es-es/, etc.)
     // Cubre: /add-profile, /select-avatar, /edit-profile,
     //        /manage-profiles, /profile/add, /profile/edit, etc.
     // ============================================================
     function isDisneyForbiddenProfilePath() {
         if (!isDisney()) return false;
         const path = window.location.pathname.toLowerCase();
-        return /^\/(?:identity\/)?(?:add-profile|select-avatar|edit-profile|manage-profiles|profile\/(?:add|edit|new|avatar)|profiles?\/(?:add|edit|new))\/?$/i.test(path);
+
+        // Prefijo opcional: /identity/ o /xx-xx/ (locale) o ambos
+        const prefix = '(?:\\/(?:identity|[a-z]{2}-[a-z]{2}))?';
+
+        // Rutas prohibidas (con o sin prefijo)
+        const forbidden = '(?:add-profile|select-avatar|edit-profiles?|manage-profiles|profile\\/(?:add|edit|new|avatar)|profiles?\\/(?:add|edit|new))';
+
+        return new RegExp('^' + prefix + '\\/' + forbidden + '\\/?$', 'i').test(path);
     }
 
     function redirectDisneyForbiddenPaths() {
@@ -898,5 +906,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v8.2 (redirect add-profile + select-avatar + profile lock)');
+    console.log('🔥 PREMIUM ID - CONTENT v8.3 (locale prefixes en redirect de perfiles Disney+)');
 })();
