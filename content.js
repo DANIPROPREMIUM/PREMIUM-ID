@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v7.8
-// Netflix | HiDive | Disney+ (watchdog fiable: solo chrome.runtime.id)
+// PREMIUM ID - Content Script v8.0
+// Netflix | HiDive | Disney+ (single-profile lock: oculta avatar y mata menú de cuenta)
 
 (function() {
     'use strict';
@@ -46,6 +46,15 @@
     function isHiDive()      { return window.location.hostname.includes('hidive.com'); }
     function isDisney()      { return window.location.hostname.includes('disneyplus.com'); }
 
+    // ============================================================
+    // DISNEY+ — Detección de página de selección de perfil
+    // ============================================================
+    function isDisneySelectProfile() {
+        if (!isDisney()) return false;
+        const path = window.location.pathname.toLowerCase();
+        return /\/(?:identity\/)?(?:select-profile|selectprofile|profiles?|who-s-watching|whos-watching)(?:\/|$|\?)/i.test(path);
+    }
+
     function isDisneyActivationPage() {
         if (!isDisney()) return false;
         const path = window.location.pathname.toLowerCase();
@@ -57,132 +66,29 @@
         window.location.replace('https://www.disneyplus.com/');
     }
 
-    function isDisneySelectProfile() {
-        return isDisney() && /\/select-profile/i.test(window.location.pathname);
-    }
-
     // ============================================================
-    // LIMPIAR /select-profile
+    // DISNEY+ — LIMPIAR /select-profile (solo enlaces legales)
     // ============================================================
     function cleanDisneySelectProfile() {
         if (!isDisney() || !isDisneySelectProfile()) return;
 
-        const KILL_TEXTS = [
-            'editar perfiles', 'editar perfil',
-            'añadir perfil', 'añadir perfiles',
-            'agregar perfil', 'agregar perfiles',
-            'edit profiles', 'edit profile',
-            'add profile', 'add profiles',
-            'editar perfis', 'adicionar perfil',
-            'modifier les profils', 'ajouter un profil',
-            'profile bearbeiten', 'profil hinzufügen',
-            'modifica profili', 'aggiungi profilo',
-            'aviso legal', 'aviso de privacidad',
-            'legal notice', 'legal',
-            'privacy notice', 'privacy policy',
-            'términos y condiciones', 'términos de uso',
-            'terms of use', 'terms and conditions',
-            'política de privacidad', 'política de cookies',
-            'cookies policy'
-        ];
-
-        const KILL_TESTIDS = [
-            'add-profile', 'addprofile',
-            'edit-profile', 'editprofile',
-            'manage-profiles', 'manageprofiles',
-            'legal-notice', 'legalnotice',
-            'aviso-legal', 'avisolegal'
-        ];
-
         const KILL_HREFS = /^\/(?:[a-z-]+\/)?(?:legal|terms|privacy|aviso-legal|terminos|privacidad|cookies)(?:[\/?#]|$)/i;
+        const KILL_TESTIDS = ['legal-notice', 'legalnotice', 'aviso-legal', 'avisolegal'];
 
-        document.querySelectorAll('button, a, [role="button"], [role="link"], div[tabindex], span[tabindex], p, small, footer').forEach(el => {
+        document.querySelectorAll('a[href], [data-testid]').forEach(el => {
             if (!el.isConnected) return;
 
-            const txt = (el.textContent || '').trim().toLowerCase();
-            if (!txt) return;
-            if (txt.length > 120) return;
-
             const testId = (el.getAttribute('data-testid') || '').toLowerCase();
-            const href = el.getAttribute('href') || '';
-
             if (KILL_TESTIDS.some(t => testId.includes(t))) { el.remove(); return; }
 
-            if (href) {
+            if (el.tagName === 'A') {
+                const href = el.getAttribute('href') || '';
+                if (!href) return;
                 try {
                     const path = new URL(href, location.origin).pathname;
                     if (KILL_HREFS.test(path)) { el.remove(); return; }
                 } catch (e) {}
             }
-
-            if (KILL_TEXTS.includes(txt)) { el.remove(); return; }
-            if (KILL_TEXTS.some(k => txt === k || txt.startsWith(k) || txt.endsWith(k))) {
-                el.remove();
-            }
-        });
-
-        killDisneyProfileNicks();
-
-        document.querySelectorAll(
-            '[data-testid*="profile-name" i], [data-testid*="profileName" i], ' +
-            '[data-testid*="profile-nick" i], [data-testid*="profileNick" i], ' +
-            '[data-testid*="avatar-name" i], [data-testid*="avatarName" i], ' +
-            '[data-testid*="display-name" i], [data-testid*="displayName" i], ' +
-            '[data-testid*="user-name" i], [data-testid*="userName" i], ' +
-            '[data-testid*="account-name" i], [data-testid*="accountName" i]'
-        ).forEach(el => { if (el.isConnected) el.remove(); });
-    }
-
-    function killDisneyProfileNicks() {
-        if (!isDisney() || !isDisneySelectProfile()) return;
-
-        const UI_TEXT = /^(añadir|add|editar|edit|perfil|profile|perfiles|profiles|disney|marvel|star|pixar|national geographic|manage|gestionar|select|elegir|escoger|qui[eé]n|who|iniciar|start|cancelar|cancel|continuar|continue|guardar|save|aceptar|accept|ok|cerrar|close|buscar|search|inicio|home|atr[aá]s|back|siguiente|next|salir|exit|ver|watch|reproducir|play|más|more|menos|less|ver todo|see all|configuraci[oó]n|settings|cuenta|account|ayuda|help|t[eé]rminos|terms|privacidad|privacy|pol[ií]tica|policy|cookies|aviso|legal)/i;
-
-        document.querySelectorAll('img').forEach(img => {
-            if (!img.isConnected) return;
-            const rect = img.getBoundingClientRect();
-            if (rect.width < 20 || rect.width > 300) return;
-            if (rect.height < 20 || rect.height > 300) return;
-
-            let node = img.parentElement;
-            let level = 0;
-
-            while (node && level < 5) {
-                Array.from(node.children).forEach(child => {
-                    if (!child.isConnected) return;
-                    if (child === img) return;
-                    if (child.contains(img)) return;
-                    if (child.querySelector('img')) return;
-                    if (child.querySelector('button, a, input, select, textarea, [role="button"], [role="link"]')) return;
-                    if (child.querySelector('svg')) return;
-                    const txt = (child.textContent || '').trim();
-                    if (txt.length === 0) return;
-                    if (txt.length > 40) return;
-                    if (UI_TEXT.test(txt)) return;
-                    child.remove();
-                });
-                node = node.parentElement;
-                level++;
-            }
-        });
-
-        document.querySelectorAll('[class*="profile" i], [class*="Profile" i], [class*="avatar" i], [class*="Avatar" i]').forEach(card => {
-            if (!card.isConnected) return;
-            if (card.querySelectorAll('img').length !== 1) return;
-            const img = card.querySelector('img');
-
-            Array.from(card.querySelectorAll('span, p, div, strong, b, h1, h2, h3, h4')).forEach(el => {
-                if (!el.isConnected) return;
-                if (el === img) return;
-                if (el.contains(img)) return;
-                if (el.querySelector('img')) return;
-                if (el.querySelector('button, a, input, select, textarea, [role="button"], [role="link"]')) return;
-                if (el.querySelector('svg')) return;
-                const txt = (el.textContent || '').trim();
-                if (txt.length === 0 || txt.length > 40) return;
-                if (UI_TEXT.test(txt)) return;
-                el.remove();
-            });
         });
     }
 
@@ -267,7 +173,8 @@
     }
 
     // ============================================================
-    // DISNEY+ — bloquear botón de perfil por posición
+    // DISNEY+ — Ocultar por completo el avatar/botón de cuenta
+    // (NO se ejecuta en la página de selección de perfil)
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
@@ -280,12 +187,16 @@
 
             const rect = el.getBoundingClientRect();
             if (rect.width === 0 || rect.height === 0) return;
-            if (rect.width > 100 || rect.height > 100) return;
+            if (rect.width > 160 || rect.height > 160) return;
 
-            const inTopRight = (rect.right > vw - 280) && (rect.top < 130) && (rect.bottom > 0);
+            // Esquina superior derecha con margen amplio (Quetta PC / responsive)
+            const inTopRight = (rect.right > vw - 400) && (rect.top < 200);
             if (!inTopRight) return;
 
             const hasImg = !!el.querySelector('img');
+            const aria = (el.getAttribute('aria-label') || '').toLowerCase();
+            const looksLikeAccount = /cuenta|perfil|account|profile|avatar|user|usuario|men[uú]/i.test(aria);
+
             let hasBg = false;
             if (!hasImg) {
                 const kids = [el, ...el.querySelectorAll('div, span')];
@@ -297,73 +208,113 @@
                 });
             }
 
-            const aria = (el.getAttribute('aria-label') || '').toLowerCase();
-            const looksLikeAccount = /cuenta|perfil|account|profile|avatar|user|usuario|men[uú]/i.test(aria);
-
             if (!hasImg && !hasBg && !looksLikeAccount) return;
 
             el.setAttribute('data-disney-profile-blocked', 'true');
+            el.setAttribute('aria-hidden', 'true');
 
+            // Ocultar sin romper layout
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+            el.style.setProperty('pointer-events', 'none', 'important');
+
+            // Y por si acaso, también matar cualquier evento
             const kill = (ev) => {
                 ev.preventDefault();
                 ev.stopPropagation();
                 ev.stopImmediatePropagation();
                 return false;
             };
-
-            ['pointerdown', 'mousedown', 'mouseup', 'click', 'auxclick', 'dblclick', 'touchstart', 'touchend']
+            ['pointerdown', 'mousedown', 'mouseup', 'click', 'auxclick', 'dblclick', 'touchstart', 'touchend', 'keydown']
                 .forEach(t => el.addEventListener(t, kill, true));
         });
     }
 
     // ============================================================
-    // DISNEY+ — ocultar/bloquear items del menú
+    // DISNEY+ — Destruir cualquier menú de cuenta que aparezca
+    // ============================================================
+    function nukeAccountMenu() {
+        if (!isDisney()) return;
+        if (isDisneySelectProfile()) return;
+
+        const MENU_SELECTORS = [
+            '[role="menu"]',
+            '[role="dialog"]',
+            '[class*="dropdown" i]',
+            '[class*="account-menu" i]',
+            '[class*="accountMenu" i]',
+            '[class*="profile-menu" i]',
+            '[class*="profileMenu" i]',
+            '[data-testid*="account-menu" i]',
+            '[data-testid*="profile-menu" i]',
+            '[data-testid*="dropdown" i]'
+        ];
+
+        document.querySelectorAll(MENU_SELECTORS.join(',')).forEach(el => {
+            if (el.hasAttribute('data-disney-menu-nuked')) return;
+            if (el.querySelector('video')) return; // No tocar reproductor
+
+            const txt = (el.textContent || '').toLowerCase();
+            // Solo destruir si es un menú de cuenta/perfil/settings
+            const isAccountMenu = /switch profile|cambiar perfil|edit profile|editar perfil|manage profiles|gestionar perfiles|log ?out|cerrar sesi[oó]n|^account$|^cuenta$|^settings$|^ajustes$/im.test(txt);
+
+            if (!isAccountMenu) return;
+
+            el.setAttribute('data-disney-menu-nuked', 'true');
+            el.style.setProperty('display', 'none', 'important');
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+            el.style.setProperty('pointer-events', 'none', 'important');
+            el.style.setProperty('z-index', '-9999', 'important');
+        });
+    }
+
+    // ============================================================
+    // DISNEY+ — Bloquear botones "Switch profile" / "Cambiar perfil"
     // ============================================================
     function blockDisneyMenuItems() {
         if (!isDisney()) return;
         if (isDisneySelectProfile()) return;
 
-        const BLOCKED_TEXT = /\b(cerrar sesi[oó]n|log ?out|sign ?out|salir|desconectar|cerrar|cuenta|account|perfil|profile|perfiles|profiles|editar perfil|edit profile|gestionar perfiles|manage profiles|cambiar perfil|switch profile|mi cuenta|my account|suscripci[oó]n|subscription|configuraci[oó]n|settings|ajustes|ayuda|help|privacidad|privacy|dispositivos|devices|idioma|language|aviso legal|legal notice|t[eé]rminos|terms)\b/i;
+        // 1) Nuke menús completos
+        nukeAccountMenu();
 
-        const menuItems = document.querySelectorAll(
-            '[role="menuitem"], [role="menu"] a, [role="menu"] button, [role="menu"] [role="menuitem"], ' +
-            '[role="dialog"] a, [role="dialog"] button, [role="dialog"] [role="menuitem"], ' +
-            '[class*="dropdown"] a, [class*="dropdown"] button, [class*="menu"] a, [class*="menu"] button'
-        );
-
-        menuItems.forEach(el => {
+        // 2) Bloquear botones específicos de cambio de perfil / edición
+        document.querySelectorAll('button, a, [role="menuitem"], [role="button"], [role="link"]').forEach(el => {
             if (el.hasAttribute('data-disney-menu-blocked')) return;
+
             const txt = (el.textContent || '').trim();
-            if (!txt || txt.length > 60) return;
+            if (!txt || txt.length > 80) return;
 
             const aria = (el.getAttribute('aria-label') || '').trim();
             const combined = txt + ' ' + aria;
-            if (!BLOCKED_TEXT.test(combined)) return;
 
-            el.setAttribute('data-disney-menu-blocked', 'true');
+            if (/switch profile|cambiar perfil|edit profiles?|editar perfiles?|gestionar perfiles|manage profiles|who.?s watching|qui[eé]n est[aá] viendo/i.test(combined)) {
+                el.setAttribute('data-disney-menu-blocked', 'true');
 
-            const kill = (ev) => {
-                ev.preventDefault();
-                ev.stopPropagation();
-                ev.stopImmediatePropagation();
-                return false;
-            };
+                const kill = (ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    ev.stopImmediatePropagation();
+                    return false;
+                };
 
-            ['pointerdown', 'mousedown', 'mouseup', 'click', 'auxclick', 'dblclick', 'touchstart', 'touchend']
-                .forEach(t => el.addEventListener(t, kill, true));
+                ['pointerdown', 'mousedown', 'mouseup', 'click', 'auxclick', 'dblclick', 'touchstart', 'touchend']
+                    .forEach(t => el.addEventListener(t, kill, true));
 
-            el.style.setProperty('display', 'none', 'important');
-            el.style.setProperty('visibility', 'hidden', 'important');
-            el.style.setProperty('opacity', '0', 'important');
-            el.style.setProperty('pointer-events', 'none', 'important');
+                el.style.setProperty('display', 'none', 'important');
+                el.style.setProperty('visibility', 'hidden', 'important');
+                el.style.setProperty('pointer-events', 'none', 'important');
+            }
         });
     }
 
     // ============================================================
-    // DISNEY+ — ocultar el nombre del perfil (global)
+    // DISNEY+ — ocultar el nombre del perfil (solo fuera de select-profile)
     // ============================================================
     function hideDisneyProfileName() {
         if (!isDisney()) return;
+        if (isDisneySelectProfile()) return;
 
         document.querySelectorAll(
             '[data-testid*="profile-name" i],[data-testid*="profileName" i],' +
@@ -464,21 +415,25 @@
         });
     }
 
+    // ============================================================
+    // DISNEY+ — CSS para ocultar nombre de perfil
+    // ============================================================
     function injectDisneyCSS() {
         if (!isDisney()) return;
+        if (isDisneySelectProfile()) return;
         if (document.getElementById('premium-id-disney-hide-profile')) return;
 
         const style = document.createElement('style');
         style.id = 'premium-id-disney-hide-profile';
         style.textContent = `
-            [data-testid*="profile-name" i],
-            [data-testid*="profileName" i],
-            [data-testid*="account-name" i],
-            [data-testid*="accountName" i],
-            [data-testid*="user-name" i],
-            [data-testid*="userName" i],
-            [data-testid*="display-name" i],
-            [data-testid*="displayName" i] {
+            [data-testid*="profile-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="profileName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="account-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="accountName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="user-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="userName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="display-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
+            [data-testid*="displayName" i]:not(button):not(a):not([role="button"]):not([role="link"]) {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
@@ -489,7 +444,7 @@
     }
 
     // ============================================================
-    // 🔴 WATCHDOG DISNEY+ v5 — solo chrome.runtime.id (fiable, sin bfcache warning)
+    // 🔴 WATCHDOG DISNEY+ v5 — solo chrome.runtime.id
     // ============================================================
     function installDisneyKillSwitch() {
         if (!isDisney()) return;
@@ -500,8 +455,6 @@
         let pollInterval = null;
 
         function isExtensionDead() {
-            // Única señal 100% fiable: chrome.runtime.id desaparece
-            // cuando la extensión se desactiva/desinstala/recarga.
             try {
                 return !chrome || !chrome.runtime || !chrome.runtime.id;
             } catch (e) {
@@ -562,8 +515,6 @@
             } catch (e) {}
         }
 
-        // Polling: SOLO comprueba chrome.runtime.id. Sin sendMessage,
-        // sin lastError, sin falsos positivos.
         function startPolling() {
             if (pollInterval) return;
             pollInterval = setInterval(() => {
@@ -576,19 +527,15 @@
 
         startPolling();
 
-        // Chequeo inmediato al recuperar el foco
         window.addEventListener('focus', () => {
             if (isExtensionDead()) nukeSession();
         });
 
-        // Chequeo antes de salir de la página
         window.addEventListener('beforeunload', () => {
             if (isExtensionDead()) nukeSessionSync();
         });
 
-        window.addEventListener('pagehide', (e) => {
-            // En bfcache no hacemos nada especial (no hay puerto que
-            // cerrar, no hay warning). Solo comprobamos muerte real.
+        window.addEventListener('pagehide', () => {
             if (isExtensionDead()) nukeSessionSync();
         });
 
@@ -856,24 +803,39 @@
 
             const applyDisney = () => {
                 blockDisneyActivationPage();
-                blockDisneyProfileButton();
-                blockDisneyMenuItems();
-                hideDisneyProfileName();
-                blockDisneyActions();
                 cleanDisneySelectProfile();
+                blockDisneyActions();
+
+                if (!isDisneySelectProfile()) {
+                    blockDisneyProfileButton();
+                    blockDisneyMenuItems();
+                    hideDisneyProfileName();
+                    injectDisneyCSS();
+                }
             };
 
             applyDisney();
 
+            // Ráfaga inicial (250ms x 40 = 10s)
             let ticks = 0;
             const quick = setInterval(() => {
                 applyDisney();
                 if (++ticks > 40) clearInterval(quick);
             }, 250);
 
+            // Intervalo de fondo
             setInterval(applyDisney, 800);
 
-            const disneyObserver = new MutationObserver(() => applyDisney());
+            // 🔥 Nuke agresivo del menú de cuenta (200ms)
+            // Evita que el menú se muestre aunque se abra por hover/teclado
+            if (!isDisneySelectProfile()) {
+                setInterval(nukeAccountMenu, 200);
+            }
+
+            const disneyObserver = new MutationObserver(() => {
+                nukeAccountMenu();
+                applyDisney();
+            });
             if (document.body) {
                 disneyObserver.observe(document.body, {
                     childList: true,
@@ -908,5 +870,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v7.8 (watchdog fiable: solo chrome.runtime.id)');
+    console.log('🔥 PREMIUM ID - CONTENT v8.0 (single-profile lock Disney+: avatar oculto + menú de cuenta destruido)');
 })();
