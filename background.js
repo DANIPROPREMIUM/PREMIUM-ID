@@ -1,4 +1,4 @@
-// PREMIUM ID - Background PÚBLICO v13.1
+// PREMIUM ID - Background PÚBLICO v13.2 + Disney Desktop UA
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -39,15 +39,90 @@ const PLATFORMS = {
 };
 
 // ============================================================
-// 🔴 WATCHDOG DISNEY+ — mantiene el puerto abierto para que el
-// content script reciba onDisconnect al desactivar/desinstalar
-// la extensión y pueda cerrar sesión en Disney+
+// 🌐 REGLA GLOBAL: Disney+ como ESCRITORIO
+// Fuerza User-Agent + client hints de Windows/Chrome
+// para evitar el bucle /get-app en modo escritorio móvil
+// ============================================================
+const DISNEY_UA_RULE_ID = 3;
+const DISNEY_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                          "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                          "Chrome/131.0.0.0 Safari/537.36";
+
+async function enableDisneyDesktopUA() {
+    try {
+        await chrome.declarativeNetRequest.updateSessionRules({
+            removeRuleIds: [DISNEY_UA_RULE_ID],
+            addRules: [{
+                id: DISNEY_UA_RULE_ID,
+                priority: 2,
+                action: {
+                    type: "modifyHeaders",
+                    requestHeaders: [
+                        { header: "user-agent", operation: "set", value: DISNEY_UA_DESKTOP },
+                        { header: "sec-ch-ua", operation: "set",
+                          value: '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"' },
+                        { header: "sec-ch-ua-mobile", operation: "set", value: "?0" },
+                        { header: "sec-ch-ua-platform", operation: "set", value: '"Windows"' }
+                    ]
+                },
+                condition: {
+                    requestDomains: ["disneyplus.com"],
+                    resourceTypes: ["main_frame", "sub_frame", "xmlhttprequest"]
+                }
+            }]
+        });
+        console.log('✅ Disney+ Desktop UA activo');
+    } catch (e) {
+        console.warn('Disney UA rule error:', e);
+    }
+}
+
+enableDisneyDesktopUA();
+
+// ============================================================
+// PRIME VIDEO: SPOOF COMPLETO DE ESCRITORIO
+// ============================================================
+const PRIME_RULE_ID = 2;
+const PRIME_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                         "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                         "Chrome/131.0.0.0 Safari/537.36";
+
+async function enablePrimeSpoof() {
+    try {
+        await chrome.declarativeNetRequest.updateSessionRules({
+            removeRuleIds: [PRIME_RULE_ID],
+            addRules: [{
+                id: PRIME_RULE_ID,
+                priority: 2,
+                action: {
+                    type: "modifyHeaders",
+                    requestHeaders: [
+                        { header: "user-agent", operation: "set", value: PRIME_UA_DESKTOP },
+                        { header: "sec-ch-ua", operation: "set",
+                          value: '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"' },
+                        { header: "sec-ch-ua-mobile", operation: "set", value: "?0" },
+                        { header: "sec-ch-ua-platform", operation: "set", value: '"Windows"' }
+                    ]
+                },
+                condition: {
+                    requestDomains: ["primevideo.com", "amazon.com"],
+                    resourceTypes: ["main_frame", "sub_frame", "xmlhttprequest"]
+                }
+            }]
+        });
+        console.log('✅ Prime Video desktop spoof activo');
+    } catch (e) {
+        console.warn('Prime spoof error:', e);
+    }
+}
+
+enablePrimeSpoof();
+
+// ============================================================
+// 🔴 WATCHDOG DISNEY+
 // ============================================================
 chrome.runtime.onConnect.addListener((port) => {
     if (port.name === 'disney-watchdog') {
-        // Solo con mantener el puerto vivo, el service worker no se
-        // duerme y el content script recibe onDisconnect en cuanto la
-        // extensión desaparece. No hay que hacer nada más.
         port.onDisconnect.addListener(() => {});
     }
 });
@@ -103,7 +178,6 @@ const HIDIVE_WRITER = (ls, ss) => {
     const dump = (store, data) => {
         if (!data) return;
         for (const key in data) {
-            // device-id queda como el del navegador destino
             if (key === 'device-id') continue;
             try {
                 store.setItem(key, data[key]);
@@ -118,9 +192,6 @@ const HIDIVE_WRITER = (ls, ss) => {
     return applied;
 };
 
-// Plataformas basadas en storage (HiDive/Disney): abre el host real,
-// espera a que cargue, le inyecta ls+ss y recarga para que la app
-// (Dice/BAM SDK) arranque con la sesión.
 async function injectStorage(platform, ls, ss, openTab = true) {
     const STORAGE_URL = platform.storageUrl;
     const prefer = platform.preferHost;
@@ -161,7 +232,6 @@ async function injectStorage(platform, ls, ss, openTab = true) {
 
     if (applied === 0) throw new Error(`${platform.name}: no se pudo escribir el storage de la página`);
 
-    // Recargamos para que la app lea el token nuevo
     await chrome.tabs.reload(tabId).catch(() => {});
 
     if (openTab) {
@@ -179,9 +249,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         const decoded = atobUtf8(encryptedData);
         const sessionData = JSON.parse(decoded);
 
-        // ============================================================
         // HBO MAX V5: cookies COMPLETAS
-        // ============================================================
         if (platformKey === 'hbomax' && sessionData.version === 'V5' && Array.isArray(sessionData.cookiesFull)) {
             let cookiesSet = 0;
             let cookieNames = [];
@@ -237,10 +305,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             return { success: true, cookiesSet, cookieNames };
         }
 
-        // ============================================================
-        // STORAGE V6 (HiDive / Disney): la sesión vive en localStorage
-        // o sessionStorage. Inyectamos ambos y recargamos la página.
-        // ============================================================
+        // STORAGE V6 (HiDive / Disney)
         if (platform.storageBased && sessionData.version === 'V6') {
             const storedLs = sessionData.ls || {};
             const storedSs = sessionData.ss || {};
@@ -249,7 +314,6 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 throw new Error(`El código no contiene datos de sesión de ${platform.name}`);
             }
 
-            // Cookies (trackers, no harm) por si el sitio las necesita
             if (sessionData.cookies) {
                 for (let pair of sessionData.cookies.split('; ')) {
                     const eq = pair.indexOf('=');
@@ -391,7 +455,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 continue;
             }
 
-            // RESTANTES (incluye HiDive)
+            // RESTANTES
             await chrome.cookies.set({
                 url: platform.url,
                 name: name,
@@ -646,4 +710,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v13.1 (HiDive + Disney+ + watchdog anti-desactivación)');
+console.log('🔥 PREMIUM ID - BACKGROUND v13.2 (Disney Desktop UA + Prime Spoof)');

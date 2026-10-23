@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v8.3
-// Netflix | HiDive | Disney+ (single-profile lock + redirect rutas de perfiles con locale)
+// PREMIUM ID - Content Script v9.1
+// Netflix | HiDive | Disney+ (banner bloqueante + anti-bucle 1 intento + /commerce/account)
 
 (function() {
     'use strict';
@@ -47,7 +47,7 @@
     function isDisney()      { return window.location.hostname.includes('disneyplus.com'); }
 
     // ============================================================
-    // DISNEY+ — Detección de página de selección de perfil
+    // DISNEY+ — Selección de perfil
     // ============================================================
     function isDisneySelectProfile() {
         if (!isDisney()) return false;
@@ -67,49 +67,251 @@
     }
 
     // ============================================================
-    // DISNEY+ — Redirigir rutas de gestión de perfiles/avatares
-    // AHORA con soporte para prefijo de locale (/en-gb/, /es-es/, etc.)
-    // Cubre: /add-profile, /select-avatar, /edit-profile,
-    //        /manage-profiles, /profile/add, /profile/edit, etc.
+    // DISNEY+ — Rutas de gestión de perfiles
     // ============================================================
     function isDisneyForbiddenProfilePath() {
         if (!isDisney()) return false;
         const path = window.location.pathname.toLowerCase();
-
-        // Prefijo opcional: /identity/ o /xx-xx/ (locale) o ambos
         const prefix = '(?:\\/(?:identity|[a-z]{2}-[a-z]{2}))?';
-
-        // Rutas prohibidas (con o sin prefijo)
         const forbidden = '(?:add-profile|select-avatar|edit-profiles?|manage-profiles|profile\\/(?:add|edit|new|avatar)|profiles?\\/(?:add|edit|new))';
-
         return new RegExp('^' + prefix + '\\/' + forbidden + '\\/?$', 'i').test(path);
     }
 
     function redirectDisneyForbiddenPaths() {
         if (!isDisneyForbiddenProfilePath()) return;
-        // replace() para no dejar rastro en el historial
         window.location.replace('https://www.disneyplus.com/');
     }
 
-    // Ejecutar la redirección lo antes posible (document_start)
-    redirectDisneyForbiddenPaths();
+    // ============================================================
+    // 🆕 v9.1: /get-app con banner bloqueante + anti-bucle 1 intento
+    // ============================================================
+    const GETAPP_MAX_REDIRECTS = 1;   // 🔧 ahora solo 1 intento
+    const GETAPP_RESET_MS = 5000;
+    let getAppHandledThisLoad = false;
 
-    // También interceptar navegación por history (SPA)
-    try {
-        const _pushState = history.pushState;
-        const _replaceState = history.replaceState;
-        history.pushState = function () {
-            const r = _pushState.apply(this, arguments);
-            redirectDisneyForbiddenPaths();
-            return r;
+    function isDisneyGetAppPage() {
+        if (!isDisney()) return false;
+        const path = window.location.pathname.toLowerCase();
+        return /^\/(?:[a-z]{2}-[a-z0-9]{2,4}\/)?get-app(?:\/|$)/i.test(path);
+    }
+
+    function getGetAppState() {
+        try {
+            const raw = sessionStorage.getItem('premiumIdGetAppState');
+            if (!raw) return { count: 0, ts: 0 };
+            return JSON.parse(raw);
+        } catch (e) { return { count: 0, ts: 0 }; }
+    }
+
+    function setGetAppState(state) {
+        try { sessionStorage.setItem('premiumIdGetAppState', JSON.stringify(state)); } catch (e) {}
+    }
+
+    function incGetAppCount() {
+        const now = Date.now();
+        const s = getGetAppState();
+        if (now - s.ts > GETAPP_RESET_MS) s.count = 0;
+        s.count++;
+        s.ts = now;
+        setGetAppState(s);
+        return s.count;
+    }
+
+    function isDesktopUA() {
+        return !/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent || '');
+    }
+
+    function buildBlocker() {
+        if (document.getElementById('premium-id-getapp-blocker')) return;
+
+        // 1) Backdrop que tapa TODA la pantalla y bloquea clics/touch/scroll
+        const backdrop = document.createElement('div');
+        backdrop.id = 'premium-id-getapp-blocker';
+        backdrop.style.cssText = `
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.72) !important;
+            z-index: 2147483646 !important;
+            pointer-events: auto !important;
+            touch-action: none !important;
+            cursor: not-allowed !important;
+        `;
+
+        // Bloquear eventos en el backdrop
+        const kill = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
         };
-        history.replaceState = function () {
-            const r = _replaceState.apply(this, arguments);
-            redirectDisneyForbiddenPaths();
-            return r;
-        };
-        window.addEventListener('popstate', redirectDisneyForbiddenPaths);
-    } catch (e) {}
+        ['pointerdown','mousedown','mouseup','click','auxclick','dblclick',
+         'touchstart','touchend','touchmove','contextmenu'].forEach(t => {
+            backdrop.addEventListener(t, kill, { capture: true, passive: false });
+        });
+        backdrop.addEventListener('wheel', (e) => { e.preventDefault(); }, { capture: true, passive: false });
+
+        // 2) Banner encima del backdrop (también captura eventos)
+        const banner = document.createElement('div');
+        banner.id = 'premium-id-getapp-banner';
+        banner.innerHTML = `
+            <div style="font-size:38px;margin-bottom:14px;">📱 ➜ 💻</div>
+            <div style="font-size:17px;font-weight:800;margin-bottom:12px;letter-spacing:0.4px;">ACTIVA EL MODO ESCRITORIO</div>
+            <div style="font-size:13px;line-height:1.55;opacity:0.95;">
+                Abre el menú de Quetta <strong>(⋮)</strong><br>
+                y pulsa<br>
+                <strong style="background:rgba(255,255,255,0.25);padding:4px 10px;border-radius:8px;display:inline-block;margin-top:10px;font-size:13px;word-break:break-word;">Sitio de escritorio</strong>
+            </div>
+        `;
+        banner.style.cssText = `
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 2147483647 !important;
+            background: rgba(17, 60, 207, 0.97) !important;
+            color: #fff !important;
+            padding: 30px 36px !important;
+            border-radius: 22px !important;
+            text-align: center !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6) !important;
+            border: 2px solid #fff !important;
+            width: 300px !important;
+            max-width: 85vw !important;
+            pointer-events: auto !important;
+            touch-action: none !important;
+            animation: premiumIdPulse 1.6s ease-in-out infinite !important;
+        `;
+        ['pointerdown','mousedown','mouseup','click','auxclick','dblclick',
+         'touchstart','touchend','touchmove','contextmenu'].forEach(t => {
+            banner.addEventListener(t, kill, { capture: true, passive: false });
+        });
+
+        // Animación
+        if (!document.getElementById('premium-id-getapp-style')) {
+            const style = document.createElement('style');
+            style.id = 'premium-id-getapp-style';
+            style.textContent = `
+                @keyframes premiumIdPulse {
+                    0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+                    50% { box-shadow: 0 20px 80px rgba(17,60,207,0.85); }
+                }
+            `;
+            (document.head || document.documentElement).appendChild(style);
+        }
+
+        document.body.appendChild(backdrop);
+        document.body.appendChild(banner);
+
+        try { document.title = '⚠️ Activa modo escritorio en Quetta'; } catch (e) {}
+
+        // Bloquear scroll de la página
+        try {
+            document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+            document.body.style.setProperty('overflow', 'hidden', 'important');
+        } catch (e) {}
+
+        // Mantener vivo si Disney re-renderiza
+        if (!window.__premiumIdGetAppKeeper) {
+            window.__premiumIdGetAppKeeper = setInterval(() => {
+                if (!isDisneyGetAppPage() || isDesktopUA()) return;
+                if (document.body && !document.getElementById('premium-id-getapp-blocker')) {
+                    buildBlocker();
+                }
+            }, 500);
+        }
+    }
+
+    function showGetAppBanner() {
+        if (!isDisneyGetAppPage()) return;
+        if (isDesktopUA()) return;
+        if (!document.body) { setTimeout(showGetAppBanner, 150); return; }
+        buildBlocker();
+    }
+
+    function redirectGetAppPage() {
+        if (!isDisneyGetAppPage()) return;
+
+        showGetAppBanner();
+
+        if (getAppHandledThisLoad) return;
+        getAppHandledThisLoad = true;
+
+        // Desktop UA: redirigir y no contar
+        if (isDesktopUA()) {
+            console.log('[Premium ID] Desktop UA en /get-app → redirect a /');
+            window.location.replace('https://www.disneyplus.com/');
+            return;
+        }
+
+        const count = incGetAppCount();
+
+        // 🆕 MAX=1: primer intento redirige, segundo en adelante NO
+        if (count > GETAPP_MAX_REDIRECTS) {
+            console.log('[Premium ID] Bucle detenido tras ' + count + ' intentos. Esperando modo escritorio.');
+            return;
+        }
+
+        console.log('[Premium ID] Redirect /get-app → / (intento ' + count + ')');
+        window.location.replace('https://www.disneyplus.com/');
+    }
+
+    // ============================================================
+    // 🆕 v9.1: /account y /commerce/account (con locale, incl. es-419) → /
+    // ============================================================
+    function isDisneyAccountPage() {
+        if (!isDisney()) return false;
+        const path = window.location.pathname.toLowerCase();
+        // Cubre: /account, /account/x, /es-es/account, /identity/account,
+        //        /commerce/account, /es-419/commerce/account, etc.
+        return /(?:^|\/)(?:account|commerce\/account)(?:\/|$)/i.test(path);
+    }
+
+    function redirectAwayFromAccount() {
+        if (!isDisneyAccountPage()) return;
+        if (document.querySelector('input[type="password"]')) return;
+        console.log('[Premium ID] Redirect account → / (' + window.location.pathname + ')');
+        window.location.replace('https://www.disneyplus.com/');
+    }
+
+    // ============================================================
+    // 🔥 Ejecución temprana
+    // ============================================================
+    if (isDisney()) {
+        redirectGetAppPage();
+        redirectAwayFromAccount();
+        redirectDisneyForbiddenPaths();
+
+        try {
+            const _pushState = history.pushState;
+            const _replaceState = history.replaceState;
+            history.pushState = function () {
+                const r = _pushState.apply(this, arguments);
+                redirectGetAppPage();
+                redirectAwayFromAccount();
+                redirectDisneyForbiddenPaths();
+                return r;
+            };
+            history.replaceState = function () {
+                const r = _replaceState.apply(this, arguments);
+                redirectGetAppPage();
+                redirectAwayFromAccount();
+                redirectDisneyForbiddenPaths();
+                return r;
+            };
+            window.addEventListener('popstate', () => {
+                redirectGetAppPage();
+                redirectAwayFromAccount();
+                redirectDisneyForbiddenPaths();
+            });
+        } catch (e) {}
+    }
 
     // ============================================================
     // DISNEY+ — LIMPIAR /select-profile (solo enlaces legales)
@@ -218,7 +420,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — Ocultar por completo el avatar/botón de cuenta
+    // DISNEY+ — Ocultar avatar/botón de cuenta
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
@@ -272,7 +474,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — Destruir cualquier menú de cuenta que aparezca
+    // DISNEY+ — Destruir menú de cuenta
     // ============================================================
     function nukeAccountMenu() {
         if (!isDisney()) return;
@@ -310,7 +512,7 @@
     }
 
     // ============================================================
-    // DISNEY+ — Bloquear botones "Switch profile" / "Cambiar perfil"
+    // DISNEY+ — Bloquear "Switch profile"
     // ============================================================
     function blockDisneyMenuItems() {
         if (!isDisney()) return;
@@ -800,6 +1002,8 @@
     function init() {
         if (isDisney()) {
             blockDisneyActivationPage();
+            redirectGetAppPage();
+            redirectAwayFromAccount();
             redirectDisneyForbiddenPaths();
             setInterval(blockDisneyActivationPage, 500);
         }
@@ -842,6 +1046,8 @@
 
             const applyDisney = () => {
                 blockDisneyActivationPage();
+                redirectGetAppPage();
+                redirectAwayFromAccount();
                 redirectDisneyForbiddenPaths();
                 cleanDisneySelectProfile();
                 blockDisneyActions();
@@ -906,5 +1112,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v8.3 (locale prefixes en redirect de perfiles Disney+)');
+    console.log('🔥 PREMIUM ID - CONTENT v9.1 (anti-bucle 1 intento + backdrop bloqueante + /commerce/account)');
 })();

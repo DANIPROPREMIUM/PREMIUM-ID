@@ -10,7 +10,8 @@
     "storage",
     "windows",
     "clipboardRead",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "tabs"
   ],
   "host_permissions": [
     "*://*.netflix.com/*",
@@ -26,7 +27,7 @@
     "*://*.apple.com/*",
     "*://*.tv.apple.com/*",
     "*://*.hidive.com/*",
-        "*://*.disneyplus.com/*",
+    "*://*.disneyplus.com/*",
     "https://ios.prod.ftl.netflix.com/*"
   ],
   "background": {
@@ -66,7 +67,7 @@
       "js": [
         "content.js"
       ],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     },
     {
       "matches": [
@@ -76,6 +77,18 @@
         "bypass-core.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://*.primevideo.com/*",
+        "*://*.amazon.com/*"
+      ],
+      "js": [
+        "prime-eme-spoof.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true
     }
   ]
 }
