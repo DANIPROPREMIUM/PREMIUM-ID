@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "14",
+  "version": "13",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -77,18 +77,6 @@
         "bypass-core.js"
       ],
       "run_at": "document_idle"
-    },
-    {
-      "matches": [
-        "*://*.primevideo.com/*",
-        "*://*.amazon.com/*"
-      ],
-      "js": [
-        "prime-eme-spoof.js"
-      ],
-      "run_at": "document_start",
-      "world": "MAIN",
-      "all_frames": true
     }
   ]
 }
