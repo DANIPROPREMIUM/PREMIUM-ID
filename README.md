@@ -3,10 +3,12 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 13</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 14</h1>
 
 
-**⚡️NEW! EN LA VERSIÓN 13 AHORA SOPORTA DISNEY+**
+**⚡️NEW! EN LA VERSIÓN 14 HAY MEJORAS IMPORTANTES EN DISNEY+ EN QUETTA BROWSER DE ANDROID**
+-Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).
+-Accede igual que en PC de forma directa.
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
@@ -36,7 +38,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-13-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-14-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
