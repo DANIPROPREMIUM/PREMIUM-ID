@@ -7,8 +7,9 @@
 
 
 **⚡️NEW! EN LA VERSIÓN 14 HAY MEJORAS IMPORTANTES EN DISNEY+ EN QUETTA BROWSER DE ANDROID**
--Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).
--Accede igual que en PC de forma directa.
+
+*Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).*
+*Accede igual que en PC de forma directa.*
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
