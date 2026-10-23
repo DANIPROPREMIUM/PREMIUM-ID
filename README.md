@@ -6,7 +6,7 @@
 <h1 align="center">PREMIUM ID  VERSIÓN 14</h1>
 
 
-**⚡️NEW! EN LA VERSIÓN 14 HAY MEJORAS IMPORTANTES EN DISNEY+ PARA LA VERSIÓN QUETTA BROWSER DE ANDROID**
+**⚡️NEW! VERSIÓN 14: MEJORAS IMPORTANTES EN DISNEY+ PARA QUETTA BROWSER DE ANDROID**
 
 *Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).*
 *Accede igual que en PC de forma directa.*
