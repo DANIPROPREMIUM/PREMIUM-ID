@@ -1,5 +1,5 @@
-// PREMIUM ID - Content Script v9.1
-// Netflix | HiDive | Disney+ (banner bloqueante + anti-bucle 1 intento + /commerce/account)
+// PREMIUM ID - Content Script v9.1-fix
+// Netflix | HiDive | Disney+ (v9.1 + fix: no ocultar pestañas Hulu/Series)
 
 (function() {
     'use strict';
@@ -83,9 +83,9 @@
     }
 
     // ============================================================
-    // 🆕 v9.1: /get-app con banner bloqueante + anti-bucle 1 intento
+    // /get-app con banner bloqueante + anti-bucle 1 intento
     // ============================================================
-    const GETAPP_MAX_REDIRECTS = 1;   // 🔧 ahora solo 1 intento
+    const GETAPP_MAX_REDIRECTS = 1;
     const GETAPP_RESET_MS = 5000;
     let getAppHandledThisLoad = false;
 
@@ -143,7 +143,6 @@
             cursor: not-allowed !important;
         `;
 
-        // Bloquear eventos en el backdrop
         const kill = (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -193,7 +192,6 @@
             banner.addEventListener(t, kill, { capture: true, passive: false });
         });
 
-        // Animación
         if (!document.getElementById('premium-id-getapp-style')) {
             const style = document.createElement('style');
             style.id = 'premium-id-getapp-style';
@@ -211,13 +209,11 @@
 
         try { document.title = '⚠️ Activa modo escritorio en Quetta'; } catch (e) {}
 
-        // Bloquear scroll de la página
         try {
             document.documentElement.style.setProperty('overflow', 'hidden', 'important');
             document.body.style.setProperty('overflow', 'hidden', 'important');
         } catch (e) {}
 
-        // Mantener vivo si Disney re-renderiza
         if (!window.__premiumIdGetAppKeeper) {
             window.__premiumIdGetAppKeeper = setInterval(() => {
                 if (!isDisneyGetAppPage() || isDesktopUA()) return;
@@ -243,7 +239,6 @@
         if (getAppHandledThisLoad) return;
         getAppHandledThisLoad = true;
 
-        // Desktop UA: redirigir y no contar
         if (isDesktopUA()) {
             console.log('[Premium ID] Desktop UA en /get-app → redirect a /');
             window.location.replace('https://www.disneyplus.com/');
@@ -252,7 +247,6 @@
 
         const count = incGetAppCount();
 
-        // 🆕 MAX=1: primer intento redirige, segundo en adelante NO
         if (count > GETAPP_MAX_REDIRECTS) {
             console.log('[Premium ID] Bucle detenido tras ' + count + ' intentos. Esperando modo escritorio.');
             return;
@@ -263,13 +257,11 @@
     }
 
     // ============================================================
-    // 🆕 v9.1: /account y /commerce/account (con locale, incl. es-419) → /
+    // /account y /commerce/account (con locale, incl. es-419) → /
     // ============================================================
     function isDisneyAccountPage() {
         if (!isDisney()) return false;
         const path = window.location.pathname.toLowerCase();
-        // Cubre: /account, /account/x, /es-es/account, /identity/account,
-        //        /commerce/account, /es-419/commerce/account, etc.
         return /(?:^|\/)(?:account|commerce\/account)(?:\/|$)/i.test(path);
     }
 
@@ -421,6 +413,8 @@
 
     // ============================================================
     // DISNEY+ — Ocultar avatar/botón de cuenta
+    // 🔧 v9.1-fix: NO ocultar la barra de navegación ni sus pestañas
+    // (Hulu, Series y Originales, etc.)
     // ============================================================
     function blockDisneyProfileButton() {
         if (!isDisney()) return;
@@ -431,29 +425,34 @@
         document.querySelectorAll('button, [role="button"], a, [tabindex]:not([tabindex="-1"])').forEach(el => {
             if (el.hasAttribute('data-disney-profile-blocked')) return;
 
+            // 🆕 FIX 1: no tocar la barra de navegación ni sus pestañas
+            if (el.closest('nav, [role="navigation"], [role="tablist"], [role="tab"], [class*="nav" i], [class*="tabs" i], [class*="tablist" i], [class*="menu-bar" i], [class*="topbar" i], [class*="top-bar" i]')) return;
+
+            // 🆕 FIX 2: no tocar enlaces a secciones (/browse/hulu, /browse/series, etc.)
+            const href = el.getAttribute('href') || '';
+            if (/\/browse\//i.test(href)) return;
+
             const rect = el.getBoundingClientRect();
             if (rect.width === 0 || rect.height === 0) return;
-            if (rect.width > 160 || rect.height > 160) return;
 
-            const inTopRight = (rect.right > vw - 400) && (rect.top < 200);
+            // 🆕 FIX 3: umbral de tamaño mucho más estricto (160 → 100)
+            if (rect.width > 100 || rect.height > 100) return;
+
+            // 🆕 FIX 4: zona mucho más pequeña (antes: 400px de ancho, 200px de alto)
+            const inTopRight = (rect.right > vw - 200) && (rect.top < 120);
             if (!inTopRight) return;
 
-            const hasImg = !!el.querySelector('img');
+            // 🆕 FIX 5: identificar CLARAMENTE el avatar de cuenta
             const aria = (el.getAttribute('aria-label') || '').toLowerCase();
-            const looksLikeAccount = /cuenta|perfil|account|profile|avatar|user|usuario|men[uú]/i.test(aria);
+            const title = (el.getAttribute('title') || '').toLowerCase();
+            const testId = (el.getAttribute('data-testid') || '').toLowerCase();
+            const img = el.querySelector('img');
+            const imgAlt = (img?.getAttribute('alt') || '').toLowerCase();
+            const combined = `${aria} ${title} ${testId} ${imgAlt}`;
 
-            let hasBg = false;
-            if (!hasImg) {
-                const kids = [el, ...el.querySelectorAll('div, span')];
-                hasBg = kids.some(d => {
-                    try {
-                        const bg = getComputedStyle(d).backgroundImage;
-                        return bg && bg !== 'none' && bg.includes('url(');
-                    } catch (e) { return false; }
-                });
-            }
-
-            if (!hasImg && !hasBg && !looksLikeAccount) return;
+            // Solo bloquear si tiene pinta clara de avatar/cuenta/perfil
+            const looksLikeAccount = /cuenta|perfil|\baccount\b|\bprofile\b|avatar|usuario\b|\buser\b/i.test(combined);
+            if (!looksLikeAccount) return;
 
             el.setAttribute('data-disney-profile-blocked', 'true');
             el.setAttribute('aria-hidden', 'true');
@@ -523,6 +522,10 @@
         document.querySelectorAll('button, a, [role="menuitem"], [role="button"], [role="link"]').forEach(el => {
             if (el.hasAttribute('data-disney-menu-blocked')) return;
 
+            // No tocar enlaces a secciones de contenido
+            const href = el.getAttribute('href') || '';
+            if (/\/browse\//i.test(href)) return;
+
             const txt = (el.textContent || '').trim();
             if (!txt || txt.length > 80) return;
 
@@ -569,6 +572,9 @@
             const alt = (img.getAttribute('alt') || '').trim();
             if (!alt || alt.length < 2 || alt.length > 50) return;
             if (GENERIC_ALT.test(alt)) return;
+
+            // No tocar imágenes de la barra de navegación (iconos de Hulu, Series, etc.)
+            if (img.closest('nav, [role="navigation"], [role="tablist"], [class*="nav" i], [class*="tabs" i], [class*="topbar" i], [class*="top-bar" i]')) return;
 
             let node = img;
             let level = 0;
@@ -657,6 +663,7 @@
 
     // ============================================================
     // DISNEY+ — CSS para ocultar nombre de perfil
+    // (excluye nav/tablist para no afectar pestañas de Hulu/Series)
     // ============================================================
     function injectDisneyCSS() {
         if (!isDisney()) return;
@@ -666,14 +673,35 @@
         const style = document.createElement('style');
         style.id = 'premium-id-disney-hide-profile';
         style.textContent = `
-            [data-testid*="profile-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="profileName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="account-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="accountName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="user-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="userName" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="display-name" i]:not(button):not(a):not([role="button"]):not([role="link"]),
-            [data-testid*="displayName" i]:not(button):not(a):not([role="button"]):not([role="link"]) {
+            nav [data-testid*="profile-name" i],
+            nav [data-testid*="profileName" i],
+            nav [data-testid*="account-name" i],
+            nav [data-testid*="accountName" i],
+            nav [data-testid*="user-name" i],
+            nav [data-testid*="userName" i],
+            nav [data-testid*="display-name" i],
+            nav [data-testid*="displayName" i],
+            [role="navigation"] [data-testid*="profile-name" i],
+            [role="navigation"] [data-testid*="profileName" i],
+            [role="navigation"] [data-testid*="account-name" i],
+            [role="navigation"] [data-testid*="accountName" i],
+            [role="navigation"] [data-testid*="user-name" i],
+            [role="navigation"] [data-testid*="userName" i],
+            [role="navigation"] [data-testid*="display-name" i],
+            [role="navigation"] [data-testid*="displayName" i] {
+                display: revert !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            [data-testid*="profile-name" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="profileName" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="account-name" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="accountName" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="user-name" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="userName" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="display-name" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *),
+            [data-testid*="displayName" i]:not(button):not(a):not([role="button"]):not([role="link"]):not(nav *):not([role="navigation"] *) {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
@@ -1112,5 +1140,5 @@
         init();
     }
 
-    console.log('🔥 PREMIUM ID - CONTENT v9.1 (anti-bucle 1 intento + backdrop bloqueante + /commerce/account)');
+    console.log('🔥 PREMIUM ID - CONTENT v9.1-fix (no oculta pestañas Hulu/Series de Disney+)');
 })();
