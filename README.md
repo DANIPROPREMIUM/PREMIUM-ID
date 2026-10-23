@@ -13,7 +13,7 @@
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="550" height="400" alt="Image" src="https://github.com/user-attachments/assets/570544d2-69bd-4b54-a5e4-82a4a42688db" />
+  <img width="550" height="400" alt="Image" src="https://github.com/user-attachments/assets/d0c746dd-c39a-409a-9614-4d96560ab8c9" />
 </p>
 
 <p align="center">
