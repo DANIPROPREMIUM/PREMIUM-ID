@@ -8,8 +8,6 @@
 
 **⚡️NEW! VERSIÓN 15: MEJORAS IMPORTANTES EN HBO, AHORA HBO ACCEDE DIRECTO**
 
-*Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).*
-*Accede igual que en PC de forma directa.*
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
