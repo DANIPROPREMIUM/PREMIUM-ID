@@ -1,4 +1,4 @@
-// PREMIUM ID - Popup PÚBLICO v13.0
+// PREMIUM ID - Popup PÚBLICO v13.1 (HBO auto-clean + Prime auto)
 
 document.addEventListener('DOMContentLoaded', function() {
     const statusDiv = document.getElementById('status-message');
@@ -109,13 +109,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================
-    // LIMPIAR COOKIES HBO MAX
+    // LIMPIAR COOKIES HBO MAX (AUTO o MANUAL)
     // ============================================================
-    async function clearHboMaxCookies() {
+    async function clearHboMaxCookies(auto = false) {
         if (!cleanBtn) return;
 
-        cleanBtn.classList.add('cleaning');
-        cleanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Limpiando...';
+        if (!auto) {
+            cleanBtn.classList.add('cleaning');
+            cleanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Limpiando...';
+        }
 
         try {
             const domains = ['hbomax.com', 'max.com', 'play.hbomax.com'];
@@ -149,12 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const allCookies = await chrome.cookies.getAll({});
                 for (let cookie of allCookies) {
                     if (!cookie.domain || cookie.domain === '') {
-                        const isHBO = cookie.name?.toLowerCase().includes('session') ||
-                                      cookie.name?.toLowerCase().includes('token') ||
-                                      cookie.name?.toLowerCase().includes('auth') ||
-                                      cookie.name?.toLowerCase().includes('access') ||
-                                      cookie.name?.toLowerCase().includes('user') ||
-                                      cookie.name?.toLowerCase().includes('hbomax');
+                        const isHBO =
+                            cookie.name?.toLowerCase().includes('session') ||
+                            cookie.name?.toLowerCase().includes('token') ||
+                            cookie.name?.toLowerCase().includes('auth') ||
+                            cookie.name?.toLowerCase().includes('access') ||
+                            cookie.name?.toLowerCase().includes('user') ||
+                            cookie.name?.toLowerCase().includes('hbomax');
+
                         if (isHBO) {
                             await chrome.cookies.remove({
                                 url: 'https://www.hbomax.com',
@@ -166,31 +170,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch(e) {}
 
-            cleanBtn.classList.remove('cleaning');
-            cleanBtn.classList.add('done');
-            cleanBtn.innerHTML = `<i class="fas fa-check"></i> ${deleted} cookies eliminadas`;
-
-            showMessage(`✅ ${deleted} cookies eliminadas. Restaurando...`, 'success', 2000);
-
-            if (pendingRestore) {
-                setTimeout(async () => {
-                    await restoreSession(
-                        pendingRestore.platform,
-                        pendingRestore.encryptedData,
-                        pendingRestore.platformName
-                    );
-                    pendingRestore = null;
-                }, 1000);
+            if (!auto) {
+                cleanBtn.classList.remove('cleaning');
+                cleanBtn.classList.add('done');
+                cleanBtn.innerHTML = `<i class="fas fa-check"></i> ${deleted} cookies eliminadas`;
             }
 
-            setTimeout(() => {
-                cleanBtn.classList.remove('done');
-                cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
-            }, 5000);
+            showMessage(`✅ ${deleted} cookies HBO eliminadas. Restaurando...`, 'success', 1800);
+
+            if (pendingRestore) {
+                const restoreData = pendingRestore;
+                pendingRestore = null;
+
+                setTimeout(async () => {
+                    await restoreSession(
+                        restoreData.platform,
+                        restoreData.encryptedData,
+                        restoreData.platformName
+                    );
+                }, 900);
+            }
+
+            if (!auto) {
+                setTimeout(() => {
+                    cleanBtn.classList.remove('done');
+                    cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
+                }, 5000);
+            }
 
         } catch(e) {
-            cleanBtn.classList.remove('cleaning');
-            cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
+            if (!auto) {
+                cleanBtn.classList.remove('cleaning');
+                cleanBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Limpiar cookies de HBO Max';
+            }
             showMessage(`❌ Error: ${e.message}`, 'error', 3000);
         }
     }
@@ -351,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================
-    // DETECCIÓN AUTOMÁTICA
+    // DETECCIÓN AUTOMÁTICA DEL PORTAPAPELES
     // ============================================================
     async function checkAndProcessClipboard() {
         if (isRestoring) return;
@@ -377,15 +389,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
+                // ✅ HBO MAX: limpieza + restauración automática
                 if (platform === 'hbomax') {
                     pendingRestore = {
                         platform: platform,
                         encryptedData: encryptedData,
                         platformName: platformName
                     };
-
-                    hbomaxCleaner.classList.add('show');
-                    showMessage(`📋 Código de ${platformName} detectado`, 'info', 5000);
+                    hbomaxCleaner.classList.remove('show');
+                    showMessage(`🧹 Código HBO detectado. Limpiando cookies y restaurando...`, 'info', 2500);
+                    await clearHboMaxCookies(true);
                     return;
                 }
 
@@ -433,14 +446,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // ✅ HBO MAX: limpieza + restauración automática al pulsar el logo
             if (platform === 'hbomax') {
                 pendingRestore = {
                     platform: platform,
                     encryptedData: encryptedData,
                     platformName: platformName
                 };
-                hbomaxCleaner.classList.add('show');
-                showMessage(`📋 Código de ${platformName} detectado`, 'info', 3000);
+                hbomaxCleaner.classList.remove('show');
+                showMessage(`🧹 Limpiando cookies de HBO Max y restaurando...`, 'info', 2500);
+                await clearHboMaxCookies(true);
                 return;
             }
 
@@ -453,7 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // EVENTOS
     // ============================================================
     if (cleanBtn) {
-        cleanBtn.addEventListener('click', clearHboMaxCookies);
+        // El botón queda como respaldo manual por si se quisiera usar,
+        // pero ya no se muestra automáticamente.
+        cleanBtn.addEventListener('click', () => clearHboMaxCookies(false));
     }
 
     if (nfIngresarBtn) {
@@ -495,8 +512,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (isAndroidDevice()) {
         showMessage('📱 Modo Android: pulsa el logo de la plataforma', 'info', 4000);
-        console.log('🔥 PREMIUM ID v13.0 - MODO ANDROID');
+        console.log('🔥 PREMIUM ID v13.1 - MODO ANDROID');
     } else {
-        console.log('🔥 PREMIUM ID v13.0 - MODO PC (Detección automática)');
+        console.log('🔥 PREMIUM ID v13.1 - MODO PC (HBO auto-clean + Prime auto)');
     }
 });
