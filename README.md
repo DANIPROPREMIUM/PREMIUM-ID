@@ -3,17 +3,17 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 14</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 15</h1>
 
 
-**⚡️NEW! VERSIÓN 14: MEJORAS IMPORTANTES EN DISNEY+ PARA QUETTA BROWSER DE ANDROID**
+**⚡️NEW! VERSIÓN 15: MEJORAS IMPORTANTES EN HBO, AHORA HBO ACCEDE DIRECTO**
 
 *Aparecen los contenidos y las pensañas Hulu, series y originales, (igual que en PC).*
 *Accede igual que en PC de forma directa.*
 
 <!-- Imagen Principal (Screenshot o Logo) -->
 <p align="center">
-  <img width="550" height="400" alt="Image" src="https://github.com/user-attachments/assets/d0c746dd-c39a-409a-9614-4d96560ab8c9" />
+  <img width="550" height="400" alt="Image" src="https://github.com/user-attachments/assets/2936cf15-2990-4f4c-bf59-ee1e864c7400" />
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-14-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-15-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
