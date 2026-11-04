@@ -29,6 +29,11 @@
   <img src="https://badgen.net/badge/PARA%20QUETTA%20BROWSER/ANDROID?icon=android&color=3DDC84&scale=2" alt="PARA ANDROID">
 </p>
 
+<!-- Insignia para Android -->
+<p align="center">
+  <img src="https://badgen.net/badge/PARA%20TITANIUM%20BROWSER/ANDROID?icon=android&color=3DDC84&scale=2" alt="PARA ANDROID">
+</p>
+
 <br>
 
 
