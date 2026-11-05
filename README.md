@@ -6,7 +6,7 @@
 <h1 align="center">PREMIUM ID  VERSIÓN 15.1</h1>
 
 
-**⚡️NEW! VERSIÓN 15.1: Incluye una renovación automática del token de Disney, así que hay posibilidad de que la sesión dure más.**
+**⚡️NEW! VERSIÓN 15.1: En Disney la sesión dura más.**
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
