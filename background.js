@@ -1,5 +1,5 @@
 // ============================================================
-// PREMIUM ID 
+// PREMIUM ID - BACKGROUND v16.0 (Disney token refresh v2 - estructura 2026)
 // ============================================================
 
 const PLATFORMS = {
@@ -41,7 +41,7 @@ const PLATFORMS = {
 };
 
 // ============================================================
-// 🌐 Disney+ Desktop UA (sin cambios)
+// 🌐 Disney+ Desktop UA
 // ============================================================
 const DISNEY_UA_RULE_ID = 3;
 const DISNEY_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -79,7 +79,7 @@ async function enableDisneyDesktopUA() {
 enableDisneyDesktopUA();
 
 // ============================================================
-// PRIME VIDEO: SPOOF COMPLETO DE ESCRITORIO 
+// PRIME VIDEO: SPOOF COMPLETO DE ESCRITORIO
 // ============================================================
 const PRIME_RULE_ID = 2;
 const PRIME_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -117,7 +117,7 @@ async function enablePrimeSpoof() {
 enablePrimeSpoof();
 
 // ============================================================
-// 🔴 WATCHDOG DISNEY+ 
+// 🔴 WATCHDOG DISNEY+
 // ============================================================
 chrome.runtime.onConnect.addListener((port) => {
     if (port.name === 'disney-watchdog') {
@@ -145,7 +145,12 @@ function getCodeVersion(code) {
 }
 
 // ============================================================
-// 🆕 DISNEY+ TOKEN REFRESH
+// 🆕 DISNEY+ TOKEN REFRESH — v2 (estructura 2026)
+// Claves reales:
+//   DTCI-DISNEYPLUS.WEB-PROD.token     → p.refresh_token (principal, ~5128 chars)
+//   DTCI-DISNEYPLUS.WEB-PROD.dtoken    → p.refresh_token (legacy, ~2859 chars)
+//   __bam_sdk_access--*                → p.context.refreshToken / p.context.token
+//   __bam_sdk_refresh--*               → (ya no existe, fallback por si vuelve)
 // ============================================================
 const DISNEY_TOKEN_URL = 'https://global.edge.bamgrid.com/token';
 const DISNEY_API_KEY = 'ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84';
@@ -184,21 +189,54 @@ async function refreshDisneyToken(refreshToken) {
     }
 }
 
-// Extrae refresh_token del localStorage inyectado
+// Extrae refresh_token del localStorage (nueva estructura 2026)
 function extractDisneyRefreshToken(ls) {
     if (!ls) return null;
-    const key = Object.keys(ls).find(k => k.startsWith('__bam_sdk_refresh'));
-    if (!key) return null;
-    try {
-        const parsed = JSON.parse(ls[key]);
-        return parsed?.token?.refresh_token || parsed?.refresh_token || null;
-    } catch (e) {
-        return null;
+
+    // 1) DTCI-DISNEYPLUS.WEB-PROD.token → p.refresh_token (principal, el más largo)
+    const dtciToken = Object.keys(ls).find(k => /^DTCI-DISNEYPLUS\..*\.token$/.test(k));
+    if (dtciToken) {
+        try {
+            const p = JSON.parse(ls[dtciToken]);
+            if (p?.refresh_token) return p.refresh_token;
+        } catch (e) {}
     }
+
+    // 2) DTCI-DISNEYPLUS.WEB-PROD.dtoken → p.refresh_token (legacy)
+    const dtciDtoken = Object.keys(ls).find(k => /^DTCI-DISNEYPLUS\..*\.dtoken$/.test(k));
+    if (dtciDtoken) {
+        try {
+            const p = JSON.parse(ls[dtciDtoken]);
+            if (p?.refresh_token) return p.refresh_token;
+        } catch (e) {}
+    }
+
+    // 3) __bam_sdk_access--* → p.context.refreshToken (SDK BAM)
+    const bamAccess = Object.keys(ls).find(k => k.startsWith('__bam_sdk_access'));
+    if (bamAccess) {
+        try {
+            const p = JSON.parse(ls[bamAccess]);
+            if (p?.context?.refreshToken) return p.context.refreshToken;
+            if (p?.token?.refresh_token) return p.token.refresh_token;
+            if (p?.refresh_token) return p.refresh_token;
+        } catch (e) {}
+    }
+
+    // 4) Fallback: __bam_sdk_refresh--*
+    const bamRefresh = Object.keys(ls).find(k => k.startsWith('__bam_sdk_refresh'));
+    if (bamRefresh) {
+        try {
+            const p = JSON.parse(ls[bamRefresh]);
+            if (p?.token?.refresh_token) return p.token.refresh_token;
+            if (p?.refresh_token) return p.refresh_token;
+        } catch (e) {}
+    }
+
+    return null;
 }
 
 // ============================================================
-// RESTAURAR SESIÓN (con Disney refresh integrado)
+// RESTAURAR SESIÓN
 // ============================================================
 function waitForTab(tabId, timeout = 20000) {
     return new Promise(resolve => {
@@ -237,6 +275,56 @@ const HIDIVE_WRITER = (ls, ss) => {
     dump(localStorage, ls);
     dump(sessionStorage, ss);
     return applied;
+};
+
+// Escritura del token renovado de Disney+ (nueva estructura 2026)
+// Se usa tanto al restaurar como en el refresco periódico.
+const DISNEY_TOKEN_WRITER = (newAccess, newRefresh) => {
+    try {
+        // 1) DTCI-DISNEYPLUS.WEB-PROD.token
+        const dtciToken = Object.keys(localStorage).find(k => /^DTCI-DISNEYPLUS\..*\.token$/.test(k));
+        if (dtciToken) {
+            const p = JSON.parse(localStorage.getItem(dtciToken));
+            if (p) {
+                p.access_token = newAccess;
+                if (newRefresh) p.refresh_token = newRefresh;
+                localStorage.setItem(dtciToken, JSON.stringify(p));
+            }
+        }
+        // 2) DTCI-DISNEYPLUS.WEB-PROD.dtoken
+        const dtciDtoken = Object.keys(localStorage).find(k => /^DTCI-DISNEYPLUS\..*\.dtoken$/.test(k));
+        if (dtciDtoken) {
+            const p = JSON.parse(localStorage.getItem(dtciDtoken));
+            if (p) {
+                p.access_token = newAccess;
+                if (newRefresh) p.refresh_token = newRefresh;
+                localStorage.setItem(dtciDtoken, JSON.stringify(p));
+            }
+        }
+        // 3) __bam_sdk_access--* → context.token + context.refreshToken
+        const bamAccess = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
+        if (bamAccess) {
+            const p = JSON.parse(localStorage.getItem(bamAccess));
+            if (p?.context) {
+                p.context.token = newAccess;
+                if (newRefresh) p.context.refreshToken = newRefresh;
+                localStorage.setItem(bamAccess, JSON.stringify(p));
+            }
+        }
+        // 4) __bam_sdk_refresh--* (legacy)
+        const bamRefresh = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
+        if (bamRefresh) {
+            const p = JSON.parse(localStorage.getItem(bamRefresh));
+            if (p?.token) {
+                p.token.access_token = newAccess;
+                if (newRefresh) p.token.refresh_token = newRefresh;
+            } else if (p) {
+                p.access_token = newAccess;
+                if (newRefresh) p.refresh_token = newRefresh;
+            }
+            localStorage.setItem(bamRefresh, JSON.stringify(p));
+        }
+    } catch (e) {}
 };
 
 async function injectStorage(platform, ls, ss, openTab = true) {
@@ -381,28 +469,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     if (result?.access_token) {
                         await chrome.scripting.executeScript({
                             target: { tabId: injected.tabId },
-                            func: (newToken, newRefresh) => {
-                                try {
-                                    // Actualizar access
-                                    const accessKey = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
-                                    if (accessKey) {
-                                        const parsed = JSON.parse(localStorage.getItem(accessKey));
-                                        if (parsed?.token) parsed.token.access_token = newToken;
-                                        else if (parsed) parsed.access_token = newToken;
-                                        localStorage.setItem(accessKey, JSON.stringify(parsed));
-                                    }
-                                    // Actualizar refresh (si rotó)
-                                    if (newRefresh) {
-                                        const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
-                                        if (rk) {
-                                            const p = JSON.parse(localStorage.getItem(rk));
-                                            if (p?.token) p.token.refresh_token = newRefresh;
-                                            else if (p) p.refresh_token = newRefresh;
-                                            localStorage.setItem(rk, JSON.stringify(p));
-                                        }
-                                    }
-                                } catch (e) {}
-                            },
+                            func: DISNEY_TOKEN_WRITER,
                             args: [result.access_token, result.refresh_token]
                         });
 
@@ -423,7 +490,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             throw new Error('Código incompatible');
         }
 
-        // ... (resto de V4 igual que antes, sin cambios)
+        // V4 (resto de plataformas por cookies)
         const cookiePairs = sessionData.cookies.split('; ');
         let cookiesSet = 0;
         let cookieNames = [];
@@ -516,7 +583,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
 }
 
 // ============================================================
-// DETECTAR CÓDIGO EN PORTAPAPELES (sin cambios)
+// DETECTAR CÓDIGO EN PORTAPAPELES
 // ============================================================
 let lastProcessedCode = null;
 let isProcessing = false;
@@ -548,7 +615,7 @@ async function checkClipboardAndNotify() {
 }
 
 // ============================================================
-// GENERADOR DE TOKENS NETFLIX 
+// GENERADOR DE TOKENS NETFLIX
 // ============================================================
 const IOSUI = "https://ios.prod.ftl.netflix.com/iosui/user/15.48";
 const UA_ARGO = "Argo/15.48.1 (iPhone; iOS 15.8.5; Scale/2.00)";
@@ -739,15 +806,35 @@ setInterval(async () => {
         for (const tab of tabs) {
             if (!tab.id) continue;
             try {
+                // Leer refresh_token del storage de la pestaña
                 const res = await chrome.scripting.executeScript({
                     target: { tabId: tab.id },
                     func: () => {
-                        const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
-                        if (!rk) return null;
-                        try {
-                            const p = JSON.parse(localStorage.getItem(rk));
-                            return p?.token?.refresh_token || p?.refresh_token || null;
-                        } catch (e) { return null; }
+                        // 1) DTCI-DISNEYPLUS.WEB-PROD.token
+                        const dtciToken = Object.keys(localStorage).find(k => /^DTCI-DISNEYPLUS\..*\.token$/.test(k));
+                        if (dtciToken) {
+                            try {
+                                const p = JSON.parse(localStorage.getItem(dtciToken));
+                                if (p?.refresh_token) return p.refresh_token;
+                            } catch (e) {}
+                        }
+                        // 2) DTCI-DISNEYPLUS.WEB-PROD.dtoken
+                        const dtciDtoken = Object.keys(localStorage).find(k => /^DTCI-DISNEYPLUS\..*\.dtoken$/.test(k));
+                        if (dtciDtoken) {
+                            try {
+                                const p = JSON.parse(localStorage.getItem(dtciDtoken));
+                                if (p?.refresh_token) return p.refresh_token;
+                            } catch (e) {}
+                        }
+                        // 3) __bam_sdk_access--*
+                        const bamAccess = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
+                        if (bamAccess) {
+                            try {
+                                const p = JSON.parse(localStorage.getItem(bamAccess));
+                                if (p?.context?.refreshToken) return p.context.refreshToken;
+                            } catch (e) {}
+                        }
+                        return null;
                     }
                 });
                 const refreshToken = res?.[0]?.result;
@@ -757,26 +844,7 @@ setInterval(async () => {
                 if (result?.access_token) {
                     await chrome.scripting.executeScript({
                         target: { tabId: tab.id },
-                        func: (newToken, newRefresh) => {
-                            try {
-                                const ak = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
-                                if (ak) {
-                                    const p = JSON.parse(localStorage.getItem(ak));
-                                    if (p?.token) p.token.access_token = newToken;
-                                    else if (p) p.access_token = newToken;
-                                    localStorage.setItem(ak, JSON.stringify(p));
-                                }
-                                if (newRefresh) {
-                                    const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
-                                    if (rk) {
-                                        const p = JSON.parse(localStorage.getItem(rk));
-                                        if (p?.token) p.token.refresh_token = newRefresh;
-                                        else if (p) p.refresh_token = newRefresh;
-                                        localStorage.setItem(rk, JSON.stringify(p));
-                                    }
-                                }
-                            } catch (e) {}
-                        },
+                        func: DISNEY_TOKEN_WRITER,
                         args: [result.access_token, result.refresh_token]
                     });
                     console.log('[Disney Periodic] ✅ Token renovado en pestaña', tab.id);
@@ -791,4 +859,4 @@ setInterval(async () => {
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v13.3 (Disney Token Refresh + Prime Spoof)');
+console.log('🔥 PREMIUM ID - BACKGROUND v16.0 (Disney Token Refresh v2 - estructura 2026)');
