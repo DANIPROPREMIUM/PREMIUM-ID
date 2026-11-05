@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PREMIUM ID",
-  "version": "15",
+  "version": "15.1",
   "description": "Acceso gratuito a cuentas premium",
   "permissions": [
     "cookies",
@@ -28,7 +28,8 @@
     "*://*.tv.apple.com/*",
     "*://*.hidive.com/*",
     "*://*.disneyplus.com/*",
-    "https://ios.prod.ftl.netflix.com/*"
+    "https://ios.prod.ftl.netflix.com/*",
+    "https://global.edge.bamgrid.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -64,18 +65,12 @@
         "*://*.hidive.com/*",
         "*://*.disneyplus.com/*"
       ],
-      "js": [
-        "content.js"
-      ],
+      "js": ["content.js"],
       "run_at": "document_start"
     },
     {
-      "matches": [
-        "*://*.netflix.com/*"
-      ],
-      "js": [
-        "bypass-core.js"
-      ],
+      "matches": ["*://*.netflix.com/*"],
+      "js": ["bypass-core.js"],
       "run_at": "document_idle"
     }
   ]

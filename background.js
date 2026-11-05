@@ -1,4 +1,6 @@
-// PREMIUM ID - Background PÚBLICO v13.2 + Disney Desktop UA
+// ============================================================
+// PREMIUM ID 
+// ============================================================
 
 const PLATFORMS = {
     netflix: { name: 'Netflix', domain: '.netflix.com', url: 'https://www.netflix.com/browse' },
@@ -39,9 +41,7 @@ const PLATFORMS = {
 };
 
 // ============================================================
-// 🌐 REGLA GLOBAL: Disney+ como ESCRITORIO
-// Fuerza User-Agent + client hints de Windows/Chrome
-// para evitar el bucle /get-app en modo escritorio móvil
+// 🌐 Disney+ Desktop UA (sin cambios)
 // ============================================================
 const DISNEY_UA_RULE_ID = 3;
 const DISNEY_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -76,11 +76,10 @@ async function enableDisneyDesktopUA() {
         console.warn('Disney UA rule error:', e);
     }
 }
-
 enableDisneyDesktopUA();
 
 // ============================================================
-// PRIME VIDEO: SPOOF COMPLETO DE ESCRITORIO
+// PRIME VIDEO: SPOOF COMPLETO DE ESCRITORIO 
 // ============================================================
 const PRIME_RULE_ID = 2;
 const PRIME_UA_DESKTOP = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -115,11 +114,10 @@ async function enablePrimeSpoof() {
         console.warn('Prime spoof error:', e);
     }
 }
-
 enablePrimeSpoof();
 
 // ============================================================
-// 🔴 WATCHDOG DISNEY+
+// 🔴 WATCHDOG DISNEY+ 
 // ============================================================
 chrome.runtime.onConnect.addListener((port) => {
     if (port.name === 'disney-watchdog') {
@@ -127,7 +125,6 @@ chrome.runtime.onConnect.addListener((port) => {
     }
 });
 
-// Códigos nuevos vienen en UTF-8; si no lo es (código viejo), atob tal cual
 function atobUtf8(b64) {
     const raw = atob(b64);
     try { return decodeURIComponent(escape(raw)); } catch(e) { return raw; }
@@ -148,7 +145,60 @@ function getCodeVersion(code) {
 }
 
 // ============================================================
-// RESTAURAR SESIÓN
+// 🆕 DISNEY+ TOKEN REFRESH
+// ============================================================
+const DISNEY_TOKEN_URL = 'https://global.edge.bamgrid.com/token';
+const DISNEY_API_KEY = 'ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84';
+
+async function refreshDisneyToken(refreshToken) {
+    if (!refreshToken) return null;
+    try {
+        const res = await fetch(DISNEY_TOKEN_URL, {
+            method: 'POST',
+            headers: {
+                'authorization': 'Bearer ' + DISNEY_API_KEY,
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                grant_type: 'refresh_token',
+                refresh_token: refreshToken
+            })
+        });
+
+        if (!res.ok) {
+            console.warn('[Disney Refresh] HTTP', res.status);
+            return null;
+        }
+
+        const data = await res.json();
+        if (!data.access_token) return null;
+
+        return {
+            access_token: data.access_token,
+            refresh_token: data.refresh_token || refreshToken,
+            expires_in: data.expires_in || 3600
+        };
+    } catch (e) {
+        console.warn('[Disney Refresh] Error:', e.message);
+        return null;
+    }
+}
+
+// Extrae refresh_token del localStorage inyectado
+function extractDisneyRefreshToken(ls) {
+    if (!ls) return null;
+    const key = Object.keys(ls).find(k => k.startsWith('__bam_sdk_refresh'));
+    if (!key) return null;
+    try {
+        const parsed = JSON.parse(ls[key]);
+        return parsed?.token?.refresh_token || parsed?.refresh_token || null;
+    } catch (e) {
+        return null;
+    }
+}
+
+// ============================================================
+// RESTAURAR SESIÓN (con Disney refresh integrado)
 // ============================================================
 function waitForTab(tabId, timeout = 20000) {
     return new Promise(resolve => {
@@ -174,7 +224,6 @@ function waitForTab(tabId, timeout = 20000) {
 
 const HIDIVE_WRITER = (ls, ss) => {
     let applied = 0;
-
     const dump = (store, data) => {
         if (!data) return;
         for (const key in data) {
@@ -185,10 +234,8 @@ const HIDIVE_WRITER = (ls, ss) => {
             } catch (e) {}
         }
     };
-
     dump(localStorage, ls);
     dump(sessionStorage, ss);
-
     return applied;
 };
 
@@ -249,14 +296,13 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         const decoded = atobUtf8(encryptedData);
         const sessionData = JSON.parse(decoded);
 
-        // HBO MAX V5: cookies COMPLETAS
+        // HBO MAX V5
         if (platformKey === 'hbomax' && sessionData.version === 'V5' && Array.isArray(sessionData.cookiesFull)) {
             let cookiesSet = 0;
             let cookieNames = [];
 
             for (let c of sessionData.cookiesFull) {
                 if (!c.name) continue;
-
                 const bareHost = (c.domain || '').replace(/^\./, '');
                 if (!bareHost) continue;
                 const path = c.path || '/';
@@ -272,17 +318,9 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                     sameSite: c.sameSite || 'unspecified'
                 };
 
-                if (!c.hostOnly && c.domain) {
-                    details.domain = c.domain;
-                }
-
-                if (details.sameSite === 'no_restriction') {
-                    details.secure = true;
-                }
-
-                if (!c.session && c.expirationDate) {
-                    details.expirationDate = c.expirationDate;
-                }
+                if (!c.hostOnly && c.domain) details.domain = c.domain;
+                if (details.sameSite === 'no_restriction') details.secure = true;
+                if (!c.session && c.expirationDate) details.expirationDate = c.expirationDate;
 
                 try {
                     await chrome.cookies.set(details);
@@ -293,9 +331,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 }
             }
 
-            if (cookiesSet === 0) {
-                throw new Error('No se pudieron restaurar las cookies');
-            }
+            if (cookiesSet === 0) throw new Error('No se pudieron restaurar las cookies');
 
             if (openTab) {
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -334,6 +370,52 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
 
             const injected = await injectStorage(platform, storedLs, storedSs, openTab);
 
+            // 🆕 DISNEY: renovar token automáticamente
+            if (platformKey === 'disney' && injected.tabId) {
+                const refreshToken = extractDisneyRefreshToken(storedLs);
+
+                if (refreshToken) {
+                    console.log('[Disney] Renovando token...');
+                    const result = await refreshDisneyToken(refreshToken);
+
+                    if (result?.access_token) {
+                        await chrome.scripting.executeScript({
+                            target: { tabId: injected.tabId },
+                            func: (newToken, newRefresh) => {
+                                try {
+                                    // Actualizar access
+                                    const accessKey = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
+                                    if (accessKey) {
+                                        const parsed = JSON.parse(localStorage.getItem(accessKey));
+                                        if (parsed?.token) parsed.token.access_token = newToken;
+                                        else if (parsed) parsed.access_token = newToken;
+                                        localStorage.setItem(accessKey, JSON.stringify(parsed));
+                                    }
+                                    // Actualizar refresh (si rotó)
+                                    if (newRefresh) {
+                                        const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
+                                        if (rk) {
+                                            const p = JSON.parse(localStorage.getItem(rk));
+                                            if (p?.token) p.token.refresh_token = newRefresh;
+                                            else if (p) p.refresh_token = newRefresh;
+                                            localStorage.setItem(rk, JSON.stringify(p));
+                                        }
+                                    }
+                                } catch (e) {}
+                            },
+                            args: [result.access_token, result.refresh_token]
+                        });
+
+                        await chrome.tabs.reload(injected.tabId).catch(() => {});
+                        console.log('[Disney] ✅ Token renovado y página recargada');
+                    } else {
+                        console.warn('[Disney] ⚠️ No se pudo renovar, usando token original');
+                    }
+                } else {
+                    console.warn('[Disney] ⚠️ No se encontró refresh_token en el storage');
+                }
+            }
+
             return { success: true, cookiesSet: 0, cookieNames: [], storage: injected };
         }
 
@@ -341,6 +423,7 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
             throw new Error('Código incompatible');
         }
 
+        // ... (resto de V4 igual que antes, sin cambios)
         const cookiePairs = sessionData.cookies.split('; ');
         let cookiesSet = 0;
         let cookieNames = [];
@@ -348,34 +431,21 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
         for (let cookiePair of cookiePairs) {
             const equalIndex = cookiePair.indexOf('=');
             if (equalIndex === -1) continue;
-
             const name = cookiePair.substring(0, equalIndex);
             const value = cookiePair.substring(equalIndex + 1);
-
             if (!name || !value) continue;
-
             cookieNames.push(name);
 
-            // PRIME VIDEO
             if (platformKey === 'prime') {
                 await chrome.cookies.set({
-                    url: 'https://www.amazon.com',
-                    name: name,
-                    value: value,
-                    domain: '.amazon.com',
-                    path: '/',
-                    secure: true,
+                    url: 'https://www.amazon.com', name, value,
+                    domain: '.amazon.com', path: '/', secure: true,
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
-
                 await chrome.cookies.set({
-                    url: 'https://www.primevideo.com',
-                    name: name,
-                    value: value,
-                    domain: '.primevideo.com',
-                    path: '/',
-                    secure: true,
+                    url: 'https://www.primevideo.com', name, value,
+                    domain: '.primevideo.com', path: '/', secure: true,
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
@@ -383,71 +453,39 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 continue;
             }
 
-            // HBO MAX
             if (platformKey === 'hbomax') {
                 for (let domain of platform.domains) {
                     try {
                         await chrome.cookies.set({
                             url: `https://${domain.replace('.', '')}`,
-                            name: name,
-                            value: value,
-                            domain: domain,
-                            path: '/',
-                            secure: true,
+                            name, value, domain, path: '/', secure: true,
                             sameSite: 'no_restriction',
                             expirationDate: Date.now() / 1000 + 2592000
                         });
                     } catch(e) {
                         try {
                             await chrome.cookies.set({
-                                url: 'https://www.hbomax.com',
-                                name: name,
-                                value: value,
-                                path: '/',
-                                secure: true,
-                                sameSite: 'no_restriction',
+                                url: 'https://www.hbomax.com', name, value,
+                                path: '/', secure: true, sameSite: 'no_restriction',
                                 expirationDate: Date.now() / 1000 + 2592000
                             });
                         } catch(e2) {}
                     }
                 }
-
-                try {
-                    await chrome.cookies.set({
-                        url: 'https://www.hbomax.com',
-                        name: name,
-                        value: value,
-                        path: '/',
-                        secure: true,
-                        sameSite: 'no_restriction',
-                        expirationDate: Date.now() / 1000 + 2592000
-                    });
-                } catch(e) {}
-
                 cookiesSet++;
                 continue;
             }
 
-            // APPLE TV
             if (platformKey === 'appletv') {
                 await chrome.cookies.set({
-                    url: 'https://www.apple.com',
-                    name: name,
-                    value: value,
-                    domain: '.apple.com',
-                    path: '/',
-                    secure: true,
+                    url: 'https://www.apple.com', name, value,
+                    domain: '.apple.com', path: '/', secure: true,
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
-
                 await chrome.cookies.set({
-                    url: 'https://tv.apple.com',
-                    name: name,
-                    value: value,
-                    domain: '.tv.apple.com',
-                    path: '/',
-                    secure: true,
+                    url: 'https://tv.apple.com', name, value,
+                    domain: '.tv.apple.com', path: '/', secure: true,
                     sameSite: 'no_restriction',
                     expirationDate: Date.now() / 1000 + 2592000
                 });
@@ -455,22 +493,15 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
                 continue;
             }
 
-            // RESTANTES
             await chrome.cookies.set({
-                url: platform.url,
-                name: name,
-                value: value,
-                domain: platform.domain,
-                path: '/',
-                secure: true,
+                url: platform.url, name, value,
+                domain: platform.domain, path: '/', secure: true,
                 expirationDate: Date.now() / 1000 + 2592000
             });
             cookiesSet++;
         }
 
-        if (cookiesSet === 0) {
-            throw new Error('No se pudieron restaurar las cookies');
-        }
+        if (cookiesSet === 0) throw new Error('No se pudieron restaurar las cookies');
 
         if (openTab) {
             await new Promise(resolve => setTimeout(resolve, 500));
@@ -485,28 +516,23 @@ async function restoreSession(platformKey, encryptedData, openTab = true) {
 }
 
 // ============================================================
-// DETECTAR CÓDIGO EN PORTAPAPELES
+// DETECTAR CÓDIGO EN PORTAPAPELES (sin cambios)
 // ============================================================
 let lastProcessedCode = null;
 let isProcessing = false;
 
 async function checkClipboardAndNotify() {
     if (isProcessing) return;
-
     try {
         const text = await navigator.clipboard.readText();
-
         if (text === lastProcessedCode) return;
-
         if (text?.startsWith('premium_id:')) {
             lastProcessedCode = text;
             isProcessing = true;
-
             const version = getCodeVersion(text);
             const parts = text.split(':');
             const platform = parts[1];
             const platformName = PLATFORMS[platform]?.name || platform;
-
             if (version === 'V4' || version === 'V5' || version === 'V6') {
                 chrome.notifications?.create({
                     type: 'basic',
@@ -516,14 +542,13 @@ async function checkClipboardAndNotify() {
                     priority: 2
                 });
             }
-
             isProcessing = false;
         }
     } catch(e) {}
 }
 
 // ============================================================
-// GENERADOR DE TOKENS NETFLIX
+// GENERADOR DE TOKENS NETFLIX 
 // ============================================================
 const IOSUI = "https://ios.prod.ftl.netflix.com/iosui/user/15.48";
 const UA_ARGO = "Argo/15.48.1 (iPhone; iOS 15.8.5; Scale/2.00)";
@@ -706,8 +731,64 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // ============================================================
+// 🆕 RENOVACIÓN PERIÓDICA (cada 50 min) en pestañas Disney abiertas
+// ============================================================
+setInterval(async () => {
+    try {
+        const tabs = await chrome.tabs.query({ url: '*://*.disneyplus.com/*' });
+        for (const tab of tabs) {
+            if (!tab.id) continue;
+            try {
+                const res = await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    func: () => {
+                        const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
+                        if (!rk) return null;
+                        try {
+                            const p = JSON.parse(localStorage.getItem(rk));
+                            return p?.token?.refresh_token || p?.refresh_token || null;
+                        } catch (e) { return null; }
+                    }
+                });
+                const refreshToken = res?.[0]?.result;
+                if (!refreshToken) continue;
+
+                const result = await refreshDisneyToken(refreshToken);
+                if (result?.access_token) {
+                    await chrome.scripting.executeScript({
+                        target: { tabId: tab.id },
+                        func: (newToken, newRefresh) => {
+                            try {
+                                const ak = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_access'));
+                                if (ak) {
+                                    const p = JSON.parse(localStorage.getItem(ak));
+                                    if (p?.token) p.token.access_token = newToken;
+                                    else if (p) p.access_token = newToken;
+                                    localStorage.setItem(ak, JSON.stringify(p));
+                                }
+                                if (newRefresh) {
+                                    const rk = Object.keys(localStorage).find(k => k.startsWith('__bam_sdk_refresh'));
+                                    if (rk) {
+                                        const p = JSON.parse(localStorage.getItem(rk));
+                                        if (p?.token) p.token.refresh_token = newRefresh;
+                                        else if (p) p.refresh_token = newRefresh;
+                                        localStorage.setItem(rk, JSON.stringify(p));
+                                    }
+                                }
+                            } catch (e) {}
+                        },
+                        args: [result.access_token, result.refresh_token]
+                    });
+                    console.log('[Disney Periodic] ✅ Token renovado en pestaña', tab.id);
+                }
+            } catch (e) {}
+        }
+    } catch (e) {}
+}, 50 * 60 * 1000);
+
+// ============================================================
 // INICIALIZACIÓN
 // ============================================================
 setInterval(checkClipboardAndNotify, 2000);
 
-console.log('🔥 PREMIUM ID - BACKGROUND v13.2 (Disney Desktop UA + Prime Spoof)');
+console.log('🔥 PREMIUM ID - BACKGROUND v13.3 (Disney Token Refresh + Prime Spoof)');
