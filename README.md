@@ -3,10 +3,10 @@
 <!-- ======================================= -->
 
 <!-- Título Principal -->
-<h1 align="center">PREMIUM ID  VERSIÓN 15</h1>
+<h1 align="center">PREMIUM ID  VERSIÓN 15.1</h1>
 
 
-**⚡️NEW! VERSIÓN 15: MEJORAS IMPORTANTES EN HBO, AHORA HBO ACCEDE DIRECTO**
+**⚡️NEW! VERSIÓN 15.1: Incluye una renovación automática del token de Disney, así que hay posibilidad de que la sesión dure más.**
 
 
 <!-- Imagen Principal (Screenshot o Logo) -->
@@ -42,7 +42,7 @@
   <img src="https://img.shields.io/badge/PARA%20QUETTA%20BROWSER-ANDROID?style=for-the-badge&logo=android&logoColor=white&color=3DDC84" alt="PARA QUETTA BROWSER EN ANDROID">
   <img src="https://img.shields.io/badge/PARA%20NAVEGADORES%20CHROMIUM-CHROMIUM?style=for-the-badge&logo=google-chrome&logoColor=white&color=4285F4" alt="PARA NAVEGADORES CHROMIUM">
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/version-15-blue.svg?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/version-15.1-blue.svg?style=for-the-badge" alt="Version">
 <p align="center">
   <img src="https://img.shields.io/badge/PARA%20VINCULAR%20APP%20OFICIAL%20NETFLIX-E50914?style=for-the-badge&logo=netflix&logoColor=white" alt="VINCULAR APP NETFLIX">
 </p>
