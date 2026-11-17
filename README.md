@@ -52,7 +52,7 @@
 🧞 **Con ID EXTRACTOR: Obtén IDs automáticamente y accede a tus sesiones favoritas de PREMIUM ID con un solo clic.** 👑
 https://github.com/DANIPROPREMIUM/ID-EXTRACTOR
 
-**NOTA:** En Android no se abre en automático la sesión, hay que pulsar sobre el logo de la plataforma.
+**NOTA:** En Android no se abre en automático la sesión, hay que pulsar sobre el logo de la plataforma, a excepción si utilizas Titanium Browser.
 
 ---
  ## 👇 **Únete a nuestro grupo de Telegram y consigue tú código ID de acceso.**
